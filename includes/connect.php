@@ -5,6 +5,11 @@
     $db = 'churrascaria';
 
     $connect = mysqli_connect($server, $user, $pass, $db);
-    if(!$connect){
-        die("Connection failed: " . mysqli_connect_error());
+
+    try {
+    $pdo = new PDO("mysql:host=$server;dbname=$db", $user, $pass);
+
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Erro na conexão com o banco de dados: " . $e->getMessage());
 }
