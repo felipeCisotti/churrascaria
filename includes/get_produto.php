@@ -7,21 +7,29 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION
     exit;
 }
 
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    
-    $sql = "SELECT * FROM produtos WHERE id = ?";
+header('Content-Type: application/json; charset=utf-8');
+
+$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+if ($id <= 0) {
+    echo json_encode(['error' => 'ID inválido']);
+    exit;
+}
+
+try {
+    $sql = "SELECT id, nome, descricao, preco, categoria, imagem, ativo FROM produtos WHERE id = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
-    $produto = $stmt->fetch();
-    
-    if ($produto) {
-        header('Content-Type: application/json');
-        echo json_encode($produto);
-    } else {
-        http_response_code(404);
+    $produto = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$produto) {
+        echo json_encode(['error' => 'Produto não encontrado']);
+        exit;
     }
-} else {
-    http_response_code(400);
+
+    echo json_encode($produto);
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Erro no servidor']);
+    error_log("get_produto error: " . $e->getMessage());
 }
 ?>

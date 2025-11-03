@@ -93,21 +93,20 @@ if ($filtro_status !== 'todos') {
         <i class="fas fa-bars"></i>
     </button>
 
-    <aside class="sidebar" id="sidebar">
+<aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <img src="https://ui-avatars.com/api/?name=Admin+Chefe&background=3498db&color=fff" alt="Logo">
-            <h2>Bem vindo <?php echo $userName; ?></h2>
+            <img src="../assets/Faustino.png" alt="Logo">
         </div>
 
         <nav class="sidebar-menu">
             <div class="menu-label">Main</div>
-            <a href="../dashboard.php" class="menu-item">
+            <a href="../dashboard.php" class="menu-item ">
                 <i class="fas fa-home"></i>
                 <span>Dashboard</span>
             </a>
 
             <div class="menu-label">Actions</div>
-            <a href="#" class="menu-item active">
+            <a href="pedidos_dash.php" class="menu-item active">
                 <i class="fa-solid fa-clipboard"></i>
                 <span>Pedidos</span>
             </a>
@@ -123,9 +122,9 @@ if ($filtro_status !== 'todos') {
                 <i class="fa-solid fa-dollar-sign"></i>
                 <span>Financeiro</span>
             </a>
-            <a href="avaliacoes.php" class="menu-item">
-                <i class="fa-solid fa-star"></i>
-                <span>Avaliações</span>
+            <a href="relatorios.php" class="menu-item">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Relatórios</span>
             </a>
 
             <div class="menu-label">Logout</div>

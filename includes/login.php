@@ -1,36 +1,40 @@
 <?php
-
 session_start();
 include("connect.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST["email"];
-    $senha = $_POST["senha"];
+    $email = trim($_POST["email"] ?? '');
+    $senha = $_POST["senha"] ?? '';
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL) || $senha === '') {
+        echo "Email ou senha inválidos.";
+        exit;
+    }
 
     $sql = "SELECT id, nome, email, senha, tipo FROM usuarios WHERE email = ?";
 
     if ($stmt = $connect->prepare($sql)) {
-        $stmt->bind_param("s", $param_email);
-
-        $param_email = $email;
+        $stmt->bind_param("s", $email);
 
         if ($stmt->execute()) {
             $stmt->store_result();
 
             if ($stmt->num_rows == 1) {
-                $stmt->bind_result($id, $nome, $email, $hashed_password, $tipo);
+                $stmt->bind_result($id, $nome, $db_email, $hashed_password, $tipo);
                 if ($stmt->fetch()) {
                     if (password_verify($senha, $hashed_password)) {
+                        session_regenerate_id(true);
                         $_SESSION["loggedin"] = true;
                         $_SESSION["id"] = $id;
                         $_SESSION["nome"] = $nome;
-                        $_SESSION["email"] = $email;
+                        $_SESSION["email"] = $db_email;
                         $_SESSION["tipo"] = $tipo;
-                        // Redirect user based on their type
-                        if ($_SESSION["tipo"] == "admin") {
-                            header("location: ../dashboard.php");
+                        if ($tipo === "admin") {
+                            header("Location: ../dashboard.php");
+                            exit;
                         } else {
-                            header("location: ../index.php");
+                            header("Location: ../index.php");
+                            exit;
                         }
                     } else {
                         echo "A senha que você digitou não é válida.";
@@ -40,10 +44,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "Nenhuma conta encontrada com esse email.";
             }
         } else {
+            error_log("Login execute error: " . $stmt->error);
             echo "Oops! Algo deu errado. Por favor, tente novamente mais tarde.";
         }
 
         $stmt->close();
+    } else {
+        error_log("Login prepare error: " . $connect->error);
+        echo "Erro no servidor.";
     }
 }
 

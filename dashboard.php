@@ -79,8 +79,7 @@ $totalAvaliacoes = $stmtTotalAval->fetchColumn();
 
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <img src="https://ui-avatars.com/api/?name=Admin+Chefe&background=3498db&color=fff" alt="Logo">
-            <h2>Bem vindo <?php echo $userName; ?></h2>
+            <img src="assets/Faustino.png" alt="Logo">
         </div>
 
         <nav class="sidebar-menu">
@@ -95,29 +94,25 @@ $totalAvaliacoes = $stmtTotalAval->fetchColumn();
                 <i class="fa-solid fa-clipboard"></i>
                 <span>Pedidos</span>
             </a>
-            <a href="useradd.php" class="menu-item">
+            <a href="includes/cardapio_dash.php" class="menu-item">
                 <i class="fa-solid fa-utensils"></i>
                 <span>Cardápio</span>
             </a>
-            <a href="useradd.php" class="menu-item">
+            <a href="includes/clientes.php" class="menu-item">
                 <i class="fas fa-users"></i>
                 <span>Clientes</span>
             </a>
-            <a href="financeiro.php" class="menu-item">
+            <a href="includes/financeiro.php" class="menu-item">
                 <i class="fa-solid fa-dollar-sign"></i>
                 <span>Financeiro</span>
             </a>
-            <a href="avaliacoes.php" class="menu-item">
-                <i class="fa-solid fa-star"></i>
-                <span>Avaliações</span>
-            </a>
-            <a href="useradd.php" class="menu-item">
+            <a href="includes/relatorios.php" class="menu-item">
                 <i class="fa-solid fa-chart-line"></i>
                 <span>Relatórios</span>
             </a>
 
             <div class="menu-label">Logout</div>
-            <a href="logout.php" class="menu-item">
+            <a href="includes/logout.php" class="menu-item">
                 <i class="fas fa-sign-out-alt"></i>
                 <span>Logout</span>
             </a>
@@ -128,7 +123,7 @@ $totalAvaliacoes = $stmtTotalAval->fetchColumn();
         <div class="topbar">
             <div class="search-bar" id="search-bar">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search...">
+                <input type="text">
             </div>
 
             <div class="button-store" id="button">

@@ -14,7 +14,7 @@
 
         .sidebar {
             width: 200px;
-            background: linear-gradient(135deg, #2c3e50, #1a2530);
+            background:     #bb1600;
             color: white;
             transition: all 0.3s ease;
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
@@ -31,22 +31,13 @@
 
 
         .sidebar-header {
-            padding: 20px;
             text-align: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .sidebar-header h2 {
-            font-size: 1.5rem;
-            margin-top: 10px;
-        }
-
         .sidebar-header img {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid rgba(255, 255, 255, 0.2);
+            width: 200px;
+            height: 200px;
         }
 
         .sidebar-menu {
