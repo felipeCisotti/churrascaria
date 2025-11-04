@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-    header("location: views/login.html");
+    header("location: views/login.php");
     exit;
 }
 ?>
