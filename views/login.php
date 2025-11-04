@@ -19,8 +19,13 @@
                         <form action="../includes/loginn.php" method="post">
 
                             <div class="form-group">
-                                <label for="nome">Login ou E-mail</label>
+                                <label for="nome">Login</label>
                                 <input type="text" id="nome" name="nome" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">E-mail</label>
+                                <input type="email" id="email" name="email" required>
                             </div>
                     
                             <div class="form-group">

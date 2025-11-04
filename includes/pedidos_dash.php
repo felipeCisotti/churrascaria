@@ -95,7 +95,7 @@ if ($filtro_status !== 'todos') {
 
 <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <img src="../assets/Faustino.png" alt="Logo">
+            <img src="../assets/img/3.png" alt="Logo">
         </div>
 
         <nav class="sidebar-menu">

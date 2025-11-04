@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $param_telefone = $telefone;
 
         if ($stmt->execute()) {
-            header("location: ../views/login.html");
+            header("location: ../views/login.php");
             exit;
         } else {
             echo "Algo deu errado. Por favor, tente novamente mais tarde.";
