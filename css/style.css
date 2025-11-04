@@ -381,7 +381,10 @@ footer{
 }
 
 .form-group input[type="text"],
-.form-group input[type="password"] {
+.form-group input[type="password"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group select {
     width: 100%;
     padding: 12px;
     border: 2px solid #ddd;
@@ -391,9 +394,17 @@ footer{
 }
 
 .form-group input[type="text"]:focus,
-.form-group input[type="password"]:focus {
+.form-group input[type="password"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="tel"]:focus,
+.form-group select:focus {
     outline: none;
     border-color: var(--amarelo);
+}
+
+.form-group select option {
+    padding: 10px;
+    
 }
 
 .form-group input[type="submit"] {
@@ -461,3 +472,14 @@ footer{
     letter-spacing: 2px;
     font-size: xx-large;
 }
+
+  option {
+    background-color: white;
+    color: var(--vermelho);
+    font-weight: 500;
+  }
+
+  option:hover, option:checked, option:focus {
+    background-color: var(--vermelho);
+    color: #fff;
+  }

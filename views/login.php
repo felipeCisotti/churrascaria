@@ -11,7 +11,6 @@
 </head>
 <body>
 
-    <div class="topo"><h4>Faça Seu Login</h4></div>
 
     <div class="container-log">
 
@@ -38,13 +37,13 @@
                             </div>
                     
                             <div class="register-link">
-                                Não possui login? <a href="register.html">Cadastre-se</a>
+                                Não possui login? <a href="register.php">Cadastre-se</a>
                             </div>
                         </form>
                     </div>
 
             <div class="img-log">
-               <img src="https://www.famintas.com.br/wp-content/uploads/2019/07/fotos-blog-agencia-famintas.png" alt="">
+               <img src="../assets/img/log.png" alt="">
             </div>
 
     </div>
