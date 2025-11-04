@@ -103,7 +103,7 @@ $media_venda = $total_pedidos ? $total_vendas / $total_pedidos : 0;
             <div class="menu-label">Main</div>
             <a href="../dashboard.php" class="menu-item ">
                 <i class="fas fa-home"></i>
-                <span>Dashboard</span>
+                 <span>Dashboard</span>
             </a>
 
             <div class="menu-label">Actions</div>
@@ -117,9 +117,14 @@ $media_venda = $total_pedidos ? $total_vendas / $total_pedidos : 0;
             </a>
             <a href="clientes.php" class="menu-item">
                 <i class="fas fa-users"></i>
-                <span>Clientes</span>
+                <span>Usuarios</span>
             </a>
-            <a href="financeiro.php" class="menu-item">
+            <a href="restaurantes.php" class="menu-item">
+            <i class="fa-solid fa-location-dot"></i>
+                <span>Restaurantes</span>
+            </a>
+            
+                <a href="financeiro.php" class="menu-item">
                 <i class="fa-solid fa-dollar-sign"></i>
                 <span>Financeiro</span>
             </a>

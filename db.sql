@@ -1,7 +1,7 @@
 create database churrascaria;
 use churrascaria;
 
-c   reate table usuarios(
+create table usuarios(
 	id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
@@ -10,6 +10,8 @@ c   reate table usuarios(
     telefone VARCHAR(20),
     data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
+    
+    insert into usuarios (nome, email, senha, tipo) values ('adm','adm@adm','adm123','admin');
     
 CREATE TABLE produtos (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -51,4 +53,39 @@ CREATE TABLE reservas (
     status ENUM('pendente', 'confirmada', 'cancelada') DEFAULT 'pendente',
     observacoes TEXT,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
+-- Tabela para avaliações dos produtos
+CREATE TABLE avaliacoes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    produto_id INT NOT NULL,
+    usuario_id INT NOT NULL,
+    nota INT NOT NULL,
+    comentario TEXT,
+    data_avaliacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (produto_id) REFERENCES produtos(id),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);
+
+-- Tabela para faturamento
+CREATE TABLE faturamento (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    data DATE NOT NULL,
+    total_vendas DECIMAL(10,2) DEFAULT 0,
+    total_pedidos INT DEFAULT 0
+);
+
+-- Adicionar coluna de avaliação média nos produtos
+ALTER TABLE produtos ADD COLUMN avaliacao_media DECIMAL(3,2) DEFAULT 0; 
+select * from faturamento;	
+
+select * from usuarios;				
+delete from usuarios;
+use churrascaria;
+
+CREATE TABLE restaurantes (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(100) NOT NULL,
+  estado VARCHAR(2) NOT NULL,
+  cidade VARCHAR(100) NOT NULL
 );

@@ -116,7 +116,11 @@ if ($filtro_status !== 'todos') {
             </a>
             <a href="clientes.php" class="menu-item">
                 <i class="fas fa-users"></i>
-                <span>Clientes</span>
+                <span>Usuarios</span>
+            </a>
+            <a href="restaurantes.php" class="menu-item">
+                <i class="fa-solid fa-location-dot"></i>
+                <span>Restaurantes</span>
             </a>
             <a href="financeiro.php" class="menu-item">
                 <i class="fa-solid fa-dollar-sign"></i>
