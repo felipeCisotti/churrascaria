@@ -1,18 +1,18 @@
 <?php
-include 'includes/header.php';
+include '../includes/header.php';
 ?>
 
 
 <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="img/b1.png" class="d-block w-100" alt="...">
+      <img src="../assets/img/b1.png" class="d-block w-100" alt="...">
     </div>
     <div class="carousel-item">
-      <img src="img/b2.png" class="d-block w-100" alt="...">
+      <img src="../assets/img/b2.png" class="d-block w-100" alt="...">
     </div>
     <div class="carousel-item">
-      <img src="img/b3.png" class="d-block w-100" alt="...">
+      <img src="../assets/img/b3.png" class="d-block w-100" alt="...">
     </div>
   </div>
 </div>
@@ -22,12 +22,12 @@ include 'includes/header.php';
 <h2>Cardápio</h2>
 
 <div class="cardapio-imgs">
-  <a class="img-card" href=""><img src="img/cardapio/pratos.png" alt=""></a>
-  <a class="img-card" href=""><img src="img/cardapio/espetinhos.png" alt=""></a>
-  <a class="img-card" href=""><img src="img/cardapio/porcoes.png" alt=""></a>
-  <a class="img-card" href=""><img src="img/cardapio/drinks.png" alt=""></a>
-  <a class="img-card" href=""><img src="img/cardapio/sobremesas.png" alt=""></a>
-  <a class="img-card" href=""><img src="img/cardapio/rodizio.png" alt=""></a>
+  <a class="img-card" href=""><img src="../assets/img/cardapio/pratos.png" alt=""></a>
+  <a class="img-card" href=""><img src="../assets/img/cardapio/espetinhos.png" alt=""></a>
+  <a class="img-card" href=""><img src="../assets/img/cardapio/porcoes.png" alt=""></a>
+  <a class="img-card" href=""><img src="../assets/img/cardapio/drinks.png" alt=""></a>
+  <a class="img-card" href=""><img src="../assets/img/cardapio/sobremesas.png" alt=""></a>
+  <a class="img-card" href=""><img src="../assets/img/cardapio/rodizio.png" alt=""></a>
 </div>
 <div class="cardapio-tit">
   <h3>Pratos</h3>
@@ -43,11 +43,11 @@ include 'includes/header.php';
 <div class="car">
 <div class="carousel">
 <div class="slides" id="slides">
-<div class="slide"><img src="img/c1.png" alt=""></div>
-<div class="slide"><img src="img/c2.png" alt=""></div>
-<div class="slide"><img src="img/c3.png" alt=""></div>
-<div class="slide"><img src="img/c4.png" alt=""></div>
-<div class="slide"><img src="img/c5.png" alt=""></div>
+<div class="slide"><img src="../assets/img/c1.png" alt=""></div>
+<div class="slide"><img src="../assets/img/c2.png" alt=""></div>
+<div class="slide"><img src="../assets/img/c3.png" alt=""></div>
+<div class="slide"><img src="../assets/img/c4.png" alt=""></div>
+<div class="slide"><img src="../assets/img/c5.png" alt=""></div>
 </div>
 <button class="control prev" id="prev">❮</button>
 <button class="control next" id="next">❯</button>
@@ -154,5 +154,5 @@ moveTo(index);
 </script>
 
 <?php
-include 'includes/footer.php';
+include '../includes/footer.php';
 ?>
