@@ -55,7 +55,7 @@ include '../includes/header.php';
 <div class="dots" id="dots"></div>
 </div>
 
-<div class="valores-container">
+<div class="valores-container" id="valores">
   <div class="valores">
     <div class="nume" >1</div>
     <div class="texto-valores">

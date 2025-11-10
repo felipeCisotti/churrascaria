@@ -1,15 +1,55 @@
-<?php
-    include("../includes/header.php");
-?>
+<?php include '../includes/header.php'; ?>
 
-<div class="restaurantes-banner">
-    <div class="banner-wrt">
-        <h1>CONHEÇA <br> NOSSAS <br> LOCALIZAÇÕES</h1>
-        <button>ENCONTRE O MAIS PERTO DE VOCÊ <i class="fa-solid fa-location-dot"></i></button>
-    </div>
-    <div class="banner-background">
-    </div>
-    <div class="banner-img">
-        <img src="img/restaurantes/bannerrest.png" alt="">
+<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="../assets/img/restaurantes/bannerrest.png" class="d-block w-100" alt="...">
     </div>
 </div>
+</div>
+
+
+    <div class="container-log">
+
+                    <div class="login-form">
+
+                        <form action="../includes/loginn.php" method="post">
+
+                            <div class="form-group">
+                                <label for="nome">Login</label>
+                                <input type="text" id="nome" name="nome" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">E-mail</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                    
+                            <div class="form-group">
+                                <label for="senha">Senha</label>
+                                <input type="password" id="senha" name="senha" required>
+                            </div>
+                    
+                            <div class="forgot-password">
+                                <a href="#">Esqueceu a Senha?</a>
+                            </div>
+                    
+                            <div class="form-group">
+                                <input type="submit" value="ENTRAR">
+                            </div>
+                    
+                            <div class="register-link">
+                                Não possui login? <a href="register.php">Cadastre-se</a>
+                            </div>
+                        </form>
+                    </div>
+
+            <div class="img-log">
+               <img src="../assets/img/restaurantes/restaurantesbanner.png" alt="">
+            </div>
+
+    </div>
+</body>
+</html>
+
+<?php include'../includes/footer.php'; ?>

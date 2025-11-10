@@ -571,9 +571,6 @@ border-radius: 999px;
   height: auto;
 }
 
-.cardapio-content{
-}
-
 .cardapio-content h2{
   font-size: 36px;
   color: var(--marrom);
@@ -601,6 +598,12 @@ border-radius: 999px;
   width: 100%;
   margin-bottom: 5px;
 
+}
+
+.produtos-container{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 100px;
 }
 
 .produtos{

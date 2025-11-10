@@ -102,7 +102,7 @@ $totalAvaliacoes = $stmtTotalAval->fetchColumn();
                 <i class="fas fa-users"></i>
                 <span>Usuarios</span>
             </a>
-            <a href="includes/clientes.php" class="menu-item">
+            <a href="includes/restaurantes_dash.php" class="menu-item">
             <i class="fa-solid fa-location-dot"></i>
                 <span>Restaurantes</span>
             </a>

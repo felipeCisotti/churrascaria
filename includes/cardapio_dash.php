@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cadastrar_produto']))
     // Processar upload de imagem
     $imagem = null;
     if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === 0) {
-        $uploadDir = 'uploads/produtos/';
+        $uploadDir = '../assets/img/cardapio/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cadastrar_produto']))
         $caminhoImagem = $uploadDir . $nomeImagem;
         
         if (move_uploaded_file($_FILES['imagem']['tmp_name'], $caminhoImagem)) {
-            $imagem = $caminhoImagem;
+            $imagem = $nomeImagem;
         }
     }
     
@@ -477,7 +477,8 @@ $counters = $stmtCounters->fetch();
                         <div class="col-md-3 mb-4 produto-item"> <!-- Diminuindo a largura do card -->
                             <div class="card produto-card h-100" style="height: 250px;"> <!-- Diminuindo a altura do card -->
                                 <?php if ($produto['imagem']): ?>
-                                    <img src="<?php echo $produto['imagem']; ?>" class="card-img-top produto-imagem" alt="<?php echo htmlspecialchars($produto['nome']); ?>" style="height: 150px; object-fit: cover;"> <!-- Diminuindo a altura da imagem -->
+                                    <img src="../assets/img/cardapio/<?php echo htmlspecialchars($produto['imagem']); ?>" 
+     alt="<?php echo htmlspecialchars($produto['nome']); ?>" style="height: 150px; object-fit: cover; border-radius: 10px;"> <!-- Diminuindo a altura da imagem -->
                                 <?php else: ?>
                                     <div class="card-img-top produto-imagem bg-light d-flex align-items-center justify-content-center" style="height: 150px;">
                                         <i class="fas fa-utensils fa-3x text-muted"></i>
