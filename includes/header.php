@@ -33,7 +33,7 @@
       <a href="cardapio.php "><i class="fa fa-book"></i> Cardápio</a>
       <a href="reserva.php"><i class="fa fa-map-marker-alt"></i> Restaurantes</a>
       <a href="#valores"><i class="fa fa-info-circle"></i> Sobre Nós</a>
-      <a href="login.php"><i class="fa fa-user"></i> Perfil</a>
+      <a href="perfil.php"><i class="fa fa-user"></i> Perfil</a>
       <a href="#"><i class="fa fa-shopping-cart"></i> Carrinho</a>
     </nav>
   </div>

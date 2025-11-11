@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             header("Location: ../dashboard.php");
                             exit;
                         } else {
-                            header("Location: ../index.php");
+                            header("Location: ../views/cadastrado.php");
                             exit;
                         }
                     } else {

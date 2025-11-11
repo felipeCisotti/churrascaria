@@ -16,7 +16,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 }
 
 if (!isset($_SESSION["tipo"]) || $_SESSION["tipo"] !== "admin") {
-    header("location: index.php");
+    header("location: views/login.html");
     exit;
 }
 

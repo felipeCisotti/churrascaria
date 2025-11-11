@@ -1,12 +1,7 @@
 <?php
 include '../includes/header.php';
-
-session_start();
-if (isset($_SESSION['id'])) {
-  header("Location: cadastrado.php");
-  exit;
-}
 ?>
+
 
 <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
