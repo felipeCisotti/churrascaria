@@ -373,6 +373,10 @@ $counters = $stmtCounters->fetch();
                 <i class="fa-solid fa-location-dot"></i>
                 <span>Restaurantes</span>
             </a>
+            <a href="reservas.php" class="menu-item">
+                <i class="fa-solid fa-pen"></i>
+                <span>Reservas</span>
+            </a>
             <a href="financeiro.php" class="menu-item">
                 <i class="fa-solid fa-dollar-sign"></i>
                 <span>Financeiro</span>
