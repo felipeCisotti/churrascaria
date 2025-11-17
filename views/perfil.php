@@ -440,6 +440,7 @@ $pedidos = $stmtPedidos->fetchAll(PDO::FETCH_ASSOC);
                     <li><a href="#">Endereços</a></li>
                     <li><a href="#">Cartões</a></li>
                     <li><a href="#">Cupons</a></li>
+                    <li><a href="../includes/logout.php">Logout</a></li>
                 </ul>
 
                 <form action="../includes/logout.php" method="POST">
@@ -544,10 +545,7 @@ $pedidos = $stmtPedidos->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Modais e JS -->
-    <?php include("modals.php"); ?>
+    </div>  
     <script src="perfil.js"></script>
 </body>
 

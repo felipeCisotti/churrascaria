@@ -1,4 +1,36 @@
 <?php
+include '../includes/connect.php';
+session_start();
+
+if (!isset($_SESSION['id'])) {
+    header("Location: login.php");
+    exit;
+}
+
+$id = $_SESSION['id'];
+
+$sql = "SELECT tipo FROM usuarios WHERE id = ?";
+$stmt = $connect->prepare($sql);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $usuario = $result->fetch_assoc();
+    $tipo = $usuario['tipo'];
+
+    // SE FOR ADMIN → manda para dashboard
+    if ($tipo === 'admin') {
+        header("Location: dashboard.php");
+        exit;
+    }
+
+    // SE NÃO FOR ADMIN → CONTINUA E MOSTRA O HTML NORMAL
+} else {
+    header("Location: login.php");
+    exit;
+}
+
 include '../includes/header.php';
 ?>
 
