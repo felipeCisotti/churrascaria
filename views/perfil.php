@@ -2,7 +2,7 @@
 include("../includes/connect.php");
 session_start();
 
-// Se não estiver logado, redireciona
+// Verifica login
 if (!isset($_SESSION['id'])) {
     header("Location: login.php");
     exit;
@@ -11,542 +11,1020 @@ if (!isset($_SESSION['id'])) {
 $usuario_id = $_SESSION['id'];
 
 // Buscar informações do usuário
-$sqlUser = "SELECT nome, email FROM usuarios WHERE id = ?";
+$sqlUser = "SELECT nome, email, foto FROM usuarios WHERE id = ?";
 $stmtUser = $pdo->prepare($sqlUser);
 $stmtUser->execute([$usuario_id]);
-$p = $stmtUser->fetch(PDO::FETCH_ASSOC);
+$usuario = $stmtUser->fetch(PDO::FETCH_ASSOC);
 
-// Buscar o pedido mais recente
-$sqlUltimoPedido = "SELECT * FROM pedidos WHERE usuario_id = ? ORDER BY data_pedido DESC LIMIT 1";
-$stmtUltimo = $pdo->prepare($sqlUltimoPedido);
-$stmtUltimo->execute([$usuario_id]);
-$ultimoPedido = $stmtUltimo->fetch(PDO::FETCH_ASSOC);
-
-// Buscar histórico completo
+// Buscar pedidos
 $sqlPedidos = "SELECT * FROM pedidos WHERE usuario_id = ? ORDER BY data_pedido DESC";
 $stmtPedidos = $pdo->prepare($sqlPedidos);
 $stmtPedidos->execute([$usuario_id]);
 $pedidos = $stmtPedidos->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Perfil</title>
-    <style>
-        <style> :root {
-            --primary-color: #4a6fa5;
-            --secondary-color: #6b8cbc;
-            --accent-color: #ff6b6b;
-            --light-color: #f8f9fa;
-            --dark-color: #343a40;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+<meta charset="UTF-8">
+<title>Meu Perfil</title>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+<style>
+    :root {
+    --marrom: #802B01;
+    --escuro: #421700;
+    --claro: #B85F1B;
+    --vermelho: #BD1600;
+    --amarelo: #DC7700;
 
-        body {
-            background-color: #f5f7fa;
-            color: var(--dark-color);
-            line-height: 1.6;
-        }
+        --border-radius: 10px;
+        --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+    }
 
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        color: var(--dark-color);
+        line-height: 1.6;
+    }
+
+    .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 20px;
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    .sidebar {
+        width: 100%;
+        max-width: 320px;
+        background: #fff;
+        border-radius: var(--border-radius);
+        padding: 30px 25px;
+        text-align: center;
+        box-shadow: var(--box-shadow);
+        transition: var(--transition);
+    }
+
+    .sidebar:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .user-avatar {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+
+    .sidebar img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 4px solid var(--vermelho);
+        object-fit: cover;
+        transition: var(--transition);
+    }
+
+    .user-avatar:hover img {
+        border-color: var(--vermelho);
+        transform: scale(1.05);
+    }
+
+    .user-avatar::after {
+        content: 'Alterar';
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background: var(--amarelo);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 20px;
+        font-size: 0.8em;
+        opacity: 0;
+        transition: var(--transition);
+    }
+
+    .user-avatar:hover::after {
+        opacity: 1;
+    }
+
+    .sidebar h3 {
+        margin: 15px 0 5px 0;
+        color: var(--vermelho);
+        font-size: 1.4em;
+        font-weight: bold;
+    }
+
+    .sidebar p {
+        color: gray;
+        margin-bottom: 25px;
+        font-size: 0.95em;
+    }
+
+    .menu {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .menu a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 14px 20px;
+        border-radius: var(--border-radius);
+        text-decoration: none;
+        color: black;
+        font-weight: 500;
+        transition: var(--transition);
+        border: 2px solid transparent;
+    }
+
+    .menu a i {
+        font-size: 1.1em;
+    }
+
+    .menu a:hover {
+        color: white;
+        background: var(--vermelho);
+        transform: translateX(5px);
+    }
+
+    .menu a.active {
+        background: var(--vermelho);
+        color: #fff;
+        border-color: var(--primary-color);
+    }
+
+    .menu a.logout {
+        font-weight: bold;
+        color: var(--vermelho);
+        margin-top: 10px;
+    }
+
+    .menu a.logout:hover {
+        background: var(--vermelho);
+        color: white;
+        transform: translateX(5px);
+    }
+
+    /* CONTEÚDO */
+    .content {
+        flex: 1;
+        min-width: 300px;
+        background: #fff;
+        padding: 30px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        transition: var(--transition);
+    }
+
+    .content:hover {
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .tab {
+        display: none;
+        animation: fadeIn 0.5s ease-in;
+    }
+
+    .tab.active {
+        display: block;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+        color: var(--dark-color);
+        margin-bottom: 25px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--light-color);
+        font-size: 1.8em;
+    }
+
+    /* PEDIDOS */
+    .order {
+        border: 1px solid var(--vermelho);
+        padding: 20px;
+        border-radius: var(--border-radius);
+        margin-bottom: 15px;
+        transition: var(--transition);
+    }
+
+    .order:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .order-header {
+        display: flex;
+        justify-content: between;
+        align-items: center;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .order-id {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+
+    .order-date {
+        color: var(--gray-color);
+        font-size: 0.9em;
+    }
+
+    .order-total {
+        font-size: 1.1em;
+        font-weight: bold;
+        color: var(--dark-color);
+        margin-top: 10px;
+    }
+
+    .status {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.85em;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .status-entregue {
+        background: #d4edda;
+        color: var(--success-color);
+    }
+
+    .status-pendente {
+        background: #fff3cd;
+        color: var(--warning-color);
+    }
+
+    .status-cancelado {
+        background: #f8d7da;
+        color: var(--danger-color);
+    }
+
+    /* FORMULÁRIOS */
+    .form-group {
+        margin-bottom: 20px;
+        padding: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 15px;
+        font-weight: 600;
+        color: var(--vermelho);
+    }
+
+    input, button {
+        padding: 12px 15px;
+        width: 100%;
+        margin-top: 5px;
+        border-radius: var(--border-radius);
+        border: 2px solid #e9ecef;
+        font-size: 1em;
+        transition: var(--transition);
+    }
+
+    input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
+    }
+
+    button {
+        background: var(--vermelho);
+        color: #fff;
+        cursor: pointer;
+        border: none;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* RESPONSIVIDADE */
+    @media (max-width: 768px) {
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .profile-page {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 30px;
-        }
-
-        .profile-sidebar {
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 25px;
-            height: fit-content;
-        }
-
-        .profile-picture {
-            position: relative;
-            width: 150px;
-            height: 150px;
-            margin: 0 auto 20px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid var(--primary-color);
-        }
-
-        .profile-picture img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .change-photo-btn {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            text-align: center;
-            padding: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s;
-        }
-
-        .change-photo-btn:hover {
-            background-color: rgba(0, 0, 0, 0.9);
-        }
-
-        .user-details {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .user-name {
-            font-size: 22px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .user-email {
-            color: #6c757d;
-            font-size: 14px;
-        }
-
-        .sidebar-menu {
-            list-style: none;
-        }
-
-        .sidebar-menu li {
-            margin-bottom: 10px;
-        }
-
-        .sidebar-menu a {
-            display: block;
-            padding: 12px 15px;
-            border-radius: var(--border-radius);
-            color: var(--dark-color);
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .sidebar-menu a:hover {
-            background-color: #e9ecef;
-        }
-
-        .sidebar-menu a.active {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .logout-btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 20px;
-            transition: background-color 0.3s;
-        }
-
-        .logout-btn:hover {
-            background-color: #e05555;
-        }
-
-        .profile-content {
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 25px;
-        }
-
-        .section-title {
-            font-size: 24px;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .orders-list {
-            display: grid;
+            flex-direction: column;
             gap: 20px;
         }
-
-        .order-card {
-            border: 1px solid #e9ecef;
-            border-radius: var(--border-radius);
+        
+        .sidebar {
+            max-width: 100%;
+        }
+        
+        .content {
             padding: 20px;
-            transition: box-shadow 0.3s;
         }
-
-        .order-card:hover {
-            box-shadow: var(--box-shadow);
+        
+        .sidebar img {
+            width: 120px;
+            height: 120px;
         }
-
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
+        
+        .menu a {
+            padding: 12px 15px;
         }
+    }
 
-        .order-id {
-            font-weight: 600;
-            color: var(--primary-color);
+    @media (max-width: 480px) {
+        .container {
+            width: 95%;
+            margin: 15px auto;
+            padding: 10px;
         }
-
-        .order-date {
-            color: #6c757d;
-            font-size: 14px;
+        
+        .sidebar, .content {
+            padding: 20px 15px;
         }
-
-        .order-status {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
+        
+        h2 {
+            font-size: 1.5em;
         }
-
-        .status-delivered {
-            background-color: #d4edda;
-            color: #155724;
+        
+        .order {
+            padding: 15px;
         }
+    }
 
-        .status-pending {
-            background-color: #fff3cd;
-            color: #856404;
-        }
+    .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--gray-color);
+    }
 
-        .status-cancelled {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
+    .empty-state i {
+        font-size: 3em;
+        margin-bottom: 15px;
+        opacity: 0.5;
+    }
 
-        .order-items {
-            margin-bottom: 15px;
-        }
+    .enderecos-container {
+    max-width: 800px;
+}
 
-        .order-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #f1f1f1;
-        }
+.enderecos-lista {
+    display: grid;
+    gap: 20px;
+    margin-bottom: 30px;
+}
 
-        .order-total {
-            display: flex;
-            justify-content: space-between;
-            font-weight: 600;
-            font-size: 18px;
-        }
+.endereco-card {
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
 
-        .order-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
+.endereco-card.endereco-principal {
+    border-color: var(--vermelho);
+    background: #f8fff9;
+}
 
-        .btn {
-            padding: 8px 15px;
-            border: none;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
+.endereco-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
 
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-        }
+.endereco-header h4 {
+    margin: 0;
+    color: #333;
+    font-size: 1.2rem;
+}
 
-        .btn-primary:hover {
-            background-color: var(--secondary-color);
-        }
+.badge-principal {
+    background: var(--vermelho);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
 
-        .btn-outline {
-            background-color: transparent;
-            border: 1px solid var(--primary-color);
-            color: var(--primary-color);
-        }
+.endereco-info p {
+    margin: 5px 0;
+    color: #666;
+    line-height: 1.4;
+}
 
-        .btn-outline:hover {
-            background-color: #f8f9fa;
-        }
+.endereco-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
 
-        .recent-order-section {
-            background-color: #f8f9fa;
-            border-radius: var(--border-radius);
-            padding: 20px;
-            margin-bottom: 30px;
-        }
+.endereco-actions button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
 
-        .reorder-btn {
-            background-color: var(--accent-color);
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 15px;
-            transition: background-color 0.3s;
-        }
+.btn-definir-principal {
+    background: #007bff;
+    color: white;
+}
 
-        .reorder-btn:hover {
-            background-color: #e05555;
-        }
+.btn-editar-endereco {
+    background: var(--amarelo);
+    color: white;
+}
 
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
+.btn-excluir-endereco {
+    background: var(--vermelho);
+    color: white;
+}
 
-        .modal-content {
-            background-color: white;
-            border-radius: var(--border-radius);
-            padding: 30px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
+.btn-adicionar-endereco {
+    background: var(--vermelho);
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
 
-        .modal-title {
-            font-size: 20px;
-            margin-bottom: 20px;
-        }
+.btn-adicionar-endereco:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
 
-        .modal-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
-        }
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
 
-        .btn-cancel {
-            background-color: #6c757d;
-            color: white;
-        }
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 0;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
 
-        .btn-cancel:hover {
-            background-color: #5a6268;
-        }
+.modal-header {
+    padding: 20px;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        .photo-options {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 20px;
-        }
+.modal-header h3 {
+    margin: 0;
+    color: #333;
+}
 
-        .photo-option {
-            padding: 12px;
-            border: 1px solid #e9ecef;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            text-align: center;
-            transition: background-color 0.3s;
-        }
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-        .photo-option:hover {
-            background-color: #f8f9fa;
-        }
+.close:hover {
+    color: #000;
+}
 
-        #fileInput {
-            display: none;
-        }
+#formEndereco {
+    padding: 20px;
+}
 
-        @media (max-width: 768px) {
-            .profile-page {
-                grid-template-columns: 1fr;
-            }
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
 
-            .profile-sidebar {
-                margin-bottom: 20px;
-            }
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
-            .header-content {
-                flex-direction: column;
-                gap: 15px;
-            }
-        }
-    </style>
-    </style>
+.checkbox-group input[type="checkbox"] {
+    width: auto;
+}
+
+.form-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    margin-top: 25px;
+}
+
+.btn-cancelar, .btn-salvar {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-cancelar {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-salvar {
+    background: var(--vermelho);
+    color: white;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .endereco-actions {
+        flex-direction: column;
+    }
+    
+    .endereco-actions button {
+        width: 100%;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
+}
+
+.form-dados {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.form-dados input[type="text"],
+.form-dados input[type="email"],
+.form-dados input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.form-dados input:focus {
+    outline: none;
+    border-color: var(--vermelho);
+}
+
+.form-dados button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background: var(--vermelho);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+
+</style>
 </head>
 
 <body>
-    <?php include("../includes/header.php"); ?>
 
-    <div class="container">
-        <div class="profile-page">
-            <div class="profile-sidebar">
-                <div class="profile-picture">
-                    <img id="profileImage"
-                        src="<?php echo !empty($p['foto']) ? '../uploads/' . $p['foto'] : 'https://via.placeholder.com/150'; ?>"
-                        alt="Foto do perfil">
-                    <div class="change-photo-btn" id="changePhotoBtn">Alterar foto</div>
-                </div>
+<?php include("../includes/header.php"); ?>
 
-                <div class="user-details">
-                    <div class="user-name"><?php echo htmlspecialchars($p['nome']); ?></div>
-                    <div class="user-email"><?php echo htmlspecialchars($p['email']); ?></div>
-                </div>
+<div class="container">
 
-                <ul class="sidebar-menu">
-                    <li><a href="#" class="active">Meus Pedidos</a></li>
-                    <li><a href="#">Meus Dados</a></li>
-                    <li><a href="#">Endereços</a></li>
-                    <li><a href="#">Cartões</a></li>
-                    <li><a href="#">Cupons</a></li>
-                    <li><a href="../includes/logout.php">Logout</a></li>
-                </ul>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
 
-                <form action="../includes/logout.php" method="POST">
-                    <button class="logout-btn">Sair</button>
-                </form>
-            </div>
+        <!-- FOTO -->
+        <form action="../includes/upload_foto.php" method="POST" enctype="multipart/form-data">
+            <label style="cursor:pointer;">
+                <img src="<?php echo $usuario['foto'] ? '../uploads/'.$usuario['foto'] : 'https://via.placeholder.com/130'; ?>">
+                <input type="file" name="foto" style="display:none" onchange="this.form.submit()">
+            </label>
+        </form>
 
-            <div class="profile-content">
-                <h2 class="section-title">Meus Pedidos</h2>
+        <h3><?php echo $usuario['nome']; ?></h3>
+        <p><?php echo $usuario['email']; ?></p>
 
-                <div class="recent-order-section">
-                    <h3>Pedido Mais Recente</h3>
-                    <?php if ($ultimoPedido): ?>
-                        <?php
-                        $sqlItens = "SELECT * FROM itens_pedido WHERE pedido_id = ?";
-                        $stmtItens = $pdo->prepare($sqlItens);
-                        $stmtItens->execute([$ultimoPedido['id']]);
-                        $itensUltimo = $stmtItens->fetchAll(PDO::FETCH_ASSOC);
-                        ?>
-                        <div class="order-card">
-                            <div class="order-header">
-                                <div class="order-id">Pedido #<?php echo $ultimoPedido['id']; ?></div>
-                                <div class="order-date">
-                                    <?php echo date('d/m/Y H:i', strtotime($ultimoPedido['data_pedido'])); ?>
-                                </div>
-                            </div>
-                            <div class="order-status status-<?php echo strtolower($ultimoPedido['status']); ?>">
-                                <?php echo ucfirst($ultimoPedido['status']); ?>
-                            </div>
+<div class="menu">
+    <a class="tab-btn active" data-tab="pedidos">Meus Pedidos</a>
+    <a class="tab-btn" data-tab="dados">Meus Dados</a>
+    <a class="tab-btn" data-tab="enderecos">Meus Endereços</a> <!-- NOVA ABA -->
+    <a class="logout" href="../includes/logout.php">Logout</a>
+</div>
+    </div>
 
-                            <div class="order-items">
-                                <?php foreach ($itensUltimo as $item): ?>
-                                    <div class="order-item">
-                                        <span><?php echo htmlspecialchars($item['produto']); ?></span>
-                                        <span>
-                                            R$
-                                            <?php echo number_format($item['preco_unitario'] * $item['quantidade'], 2, ',', '.'); ?>
-                                        </span>
-                                    </div>
-                                <?php endforeach; ?>
-                            </div>
+    <!-- CONTEÚDO -->
+    <div class="content">
 
-                            <div class="order-total">
-                                <span>Total:</span>
-                                <span>R$ <?php echo number_format($ultimoPedido['total'], 2, ',', '.'); ?></span>
-                            </div>
+        <!-- PEDIDOS -->
+        <div id="pedidos" class="tab active">
+            <h2>Meus Pedidos</h2>
 
-                            <button class="reorder-btn" id="reorderBtn">Refazer este pedido</button>
-                        </div>
-                    <?php else: ?>
-                        <p>Você ainda não fez nenhum pedido.</p>
-                    <?php endif; ?>
-                </div>
+            <?php if ($pedidos): ?>
+                <?php foreach ($pedidos as $pedido): ?>
+                    <div class="order">
+                        <strong>Pedido #<?php echo $pedido['id']; ?></strong><br>
+                        <small><?php echo date("d/m/Y H:i", strtotime($pedido["data_pedido"])); ?></small>
+                        <br><br>
 
-                <h3>Histórico de Pedidos</h3>
-                <div class="orders-list">
-                    <?php if ($pedidos): ?>
-                        <?php foreach ($pedidos as $pedido): ?>
-                            <?php
-                            $sqlItens = "SELECT * FROM itens_pedido WHERE pedido_id = ?";
-                            $stmtItens = $pdo->prepare($sqlItens);
-                            $stmtItens->execute([$pedido['id']]);
-                            $itens = $stmtItens->fetchAll(PDO::FETCH_ASSOC);
-                            ?>
-                            <div class="order-card">
-                                <div class="order-header">
-                                    <div class="order-id">Pedido #<?php echo $pedido['id']; ?></div>
-                                    <div class="order-date">
-                                        <?php echo date('d/m/Y H:i', strtotime($pedido['data_pedido'])); ?>
-                                    </div>
-                                </div>
-                                <div class="order-status status-<?php echo strtolower($pedido['status']); ?>">
-                                    <?php echo ucfirst($pedido['status']); ?>
-                                </div>
+                        <span class="status-<?php echo strtolower($pedido['status']); ?>">
+                            <?php echo ucfirst($pedido['status']); ?>
+                        </span>
 
-                                <div class="order-items">
-                                    <?php foreach ($itens as $item): ?>
-                                        <div class="order-item">
-                                            <span><?php echo htmlspecialchars($item['produto']); ?></span>
-                                            <span>
-                                                R$
-                                                <?php echo number_format($item['preco_unitario'] * $item['quantidade'], 2, ',', '.'); ?>
-                                            </span>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-
-                                <div class="order-total">
-                                    <span>Total:</span>
-                                    <span>R$ <?php echo number_format($pedido['total'], 2, ',', '.'); ?></span>
-                                </div>
-
-                                <div class="order-actions">
-                                    <button class="btn btn-primary">Ver detalhes</button>
-                                    <button class="btn btn-outline">Refazer pedido</button>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <p>Você ainda não possui pedidos registrados.</p>
-                    <?php endif; ?>
-                </div>
-            </div>
+                        <br><br>
+                        <strong>Total: R$ <?php echo number_format($pedido['total'], 2, ',', '.'); ?></strong>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>Nenhum pedido encontrado.</p>
+            <?php endif; ?>
         </div>
-    </div>  
-    <script src="perfil.js"></script>
-</body>
 
+        <!-- MEUS DADOS -->
+        <div id="dados" class="tab">
+
+            <h2>Meus Dados</h2>
+
+            <form class="form-dados" action="../includes/update_dados.php" method="POST">
+
+                Nome:
+                <input type="text" name="nome" value="<?php echo $usuario['nome']; ?>">
+
+                Email:
+                <input type="email" name="email" value="<?php echo $usuario['email']; ?>">
+
+                Nova senha (opcional):
+                <input type="password" name="senha">
+
+                <button type="submit">Salvar alterações</button>
+
+            </form>
+
+        </div>
+
+        <div id="enderecos" class="tab">
+    <h2>Meus Endereços</h2>
+    
+    <div class="enderecos-container">
+        <!-- Lista de endereços -->
+        <div class="enderecos-lista" id="listaEnderecos">
+            <?php
+            // Buscar endereços do usuário
+            $sqlEnderecos = "SELECT * FROM enderecos WHERE usuario_id = ? ORDER BY principal DESC, id DESC";
+            $stmtEnderecos = $pdo->prepare($sqlEnderecos);
+            $stmtEnderecos->execute([$usuario_id]);
+            $enderecos = $stmtEnderecos->fetchAll(PDO::FETCH_ASSOC);
+            ?>
+            
+            <?php if (count($enderecos) > 0): ?>
+                <?php foreach ($enderecos as $endereco): ?>
+                    <div class="endereco-card <?php echo $endereco['principal'] ? 'endereco-principal' : ''; ?>" 
+                         data-endereco-id="<?php echo $endereco['id']; ?>">
+                        <div class="endereco-header">
+                            <h4><?php echo htmlspecialchars($endereco['titulo']); ?></h4>
+                            <?php if ($endereco['principal']): ?>
+                                <span class="badge-principal">Principal</span>
+                            <?php endif; ?>
+                        </div>
+                        <div class="endereco-info">
+                            <p><?php echo htmlspecialchars($endereco['logradouro']); ?>, <?php echo htmlspecialchars($endereco['numero']); ?></p>
+                            <?php if (!empty($endereco['complemento'])): ?>
+                                <p>Complemento: <?php echo htmlspecialchars($endereco['complemento']); ?></p>
+                            <?php endif; ?>
+                            <p><?php echo htmlspecialchars($endereco['bairro']); ?> - <?php echo htmlspecialchars($endereco['cidade']); ?>/<?php echo htmlspecialchars($endereco['estado']); ?></p>
+                            <p>CEP: <?php echo htmlspecialchars($endereco['cep']); ?></p>
+                        </div>
+                        <div class="endereco-actions">
+                            <?php if (!$endereco['principal']): ?>
+                                <button class="btn-definir-principal" 
+                                        onclick="definirEnderecoPrincipal(<?php echo $endereco['id']; ?>)">
+                                    Tornar Principal
+                                </button>
+                            <?php endif; ?>
+                            <button class="btn-editar-endereco" 
+                                    onclick="editarEndereco(<?php echo $endereco['id']; ?>)">
+                                Editar
+                            </button>
+                            <button class="btn-excluir-endereco" 
+                                    onclick="excluirEndereco(<?php echo $endereco['id']; ?>)">
+                                Excluir
+                            </button>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="empty-state">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>Nenhum endereço cadastrado</p>
+                </div>
+            <?php endif; ?>
+        </div>
+        
+        <!-- Botão para adicionar novo endereço -->
+        <button class="btn-adicionar-endereco" onclick="abrirModalEndereco()">
+            <i class="fas fa-plus"></i> Adicionar Novo Endereço
+        </button>
+    </div>
+</div>
+
+<!-- Modal para adicionar/editar endereço -->
+<div id="modalEndereco" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalEnderecoTitulo">Adicionar Endereço</h3>
+            <span class="close" onclick="fecharModalEndereco()">&times;</span>
+        </div>
+        <form id="formEndereco" method="POST" action="../includes/salvar_endereco.php">
+            <input type="hidden" name="endereco_id" id="endereco_id" value="">
+            
+            <div class="form-group">
+                <label for="titulo">Título do Endereço*</label>
+                <input type="text" id="titulo" name="titulo" required 
+                       placeholder="Ex: Casa, Trabalho, etc.">
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="cep">CEP*</label>
+                    <input type="text" id="cep" name="cep" required 
+                           placeholder="00000-000" maxlength="9">
+                </div>
+                <div class="form-group">
+                    <label for="numero">Número*</label>
+                    <input type="text" id="numero" name="numero" required 
+                           placeholder="123">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="logradouro">Logradouro*</label>
+                <input type="text" id="logradouro" name="logradouro" required 
+                       placeholder="Rua, Avenida, etc.">
+            </div>
+            
+            <div class="form-group">
+                <label for="complemento">Complemento</label>
+                <input type="text" id="complemento" name="complemento" 
+                       placeholder="Apartamento, Bloco, etc.">
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="bairro">Bairro*</label>
+                    <input type="text" id="bairro" name="bairro" required>
+                </div>
+                <div class="form-group">
+                    <label for="cidade">Cidade*</label>
+                    <input type="text" id="cidade" name="cidade" required>
+                </div>
+                <div class="form-group">
+                    <label for="estado">Estado*</label>
+                    <select id="estado" name="estado" required>
+                        <option value="">Selecione</option>
+                        <option value="AC">Acre</option>
+                        <option value="AL">Alagoas</option>
+                        <option value="AP">Amapá</option>
+                        <option value="AM">Amazonas</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="DF">Distrito Federal</option>
+                        <option value="ES">Espírito Santo</option>
+                        <option value="GO">Goiás</option>
+                        <option value="MA">Maranhão</option>
+                        <option value="MT">Mato Grosso</option>
+                        <option value="MS">Mato Grosso do Sul</option>
+                        <option value="MG">Minas Gerais</option>
+                        <option value="PA">Pará</option>
+                        <option value="PB">Paraíba</option>
+                        <option value="PR">Paraná</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="PI">Piauí</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="RN">Rio Grande do Norte</option>
+                        <option value="RS">Rio Grande do Sul</option>
+                        <option value="RO">Rondônia</option>
+                        <option value="RR">Roraima</option>
+                        <option value="SC">Santa Catarina</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="SE">Sergipe</option>
+                        <option value="TO">Tocantins</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="principal" name="principal" value="1">
+                <label for="principal">Definir como endereço principal</label>
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn-cancelar" onclick="fecharModalEndereco()">Cancelar</button>
+                <button type="submit" class="btn-salvar">Salvar Endereço</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+    </div>
+
+</div>
+
+<script>
+// Controla abas
+document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+        document.getElementById(btn.dataset.tab).classList.add("active");
+
+    });
+});
+
+function abrirModalEndereco() {
+    document.getElementById('modalEndereco').style.display = 'block';
+    document.getElementById('modalEnderecoTitulo').textContent = 'Adicionar Endereço';
+    document.getElementById('formEndereco').reset();
+    document.getElementById('endereco_id').value = '';
+}
+
+function fecharModalEndereco() {
+    document.getElementById('modalEndereco').style.display = 'none';
+}
+
+function editarEndereco(enderecoId) {
+    fetch(`../includes/buscar_endereco.php?id=${enderecoId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('modalEnderecoTitulo').textContent = 'Editar Endereço';
+                document.getElementById('endereco_id').value = data.endereco.id;
+                document.getElementById('titulo').value = data.endereco.titulo;
+                document.getElementById('cep').value = data.endereco.cep;
+                document.getElementById('logradouro').value = data.endereco.logradouro;
+                document.getElementById('numero').value = data.endereco.numero;
+                document.getElementById('complemento').value = data.endereco.complemento || '';
+                document.getElementById('bairro').value = data.endereco.bairro;
+                document.getElementById('cidade').value = data.endereco.cidade;
+                document.getElementById('estado').value = data.endereco.estado;
+                document.getElementById('principal').checked = data.endereco.principal == 1;
+                
+                document.getElementById('modalEndereco').style.display = 'block';
+            } else {
+                alert('Erro ao carregar endereço');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Erro ao carregar endereço');
+        });
+}
+
+function definirEnderecoPrincipal(enderecoId) {
+    if (confirm('Deseja definir este endereço como principal?')) {
+        fetch('../includes/definir_endereco_principal.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `endereco_id=${enderecoId}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert(data.message || 'Erro ao definir endereço principal');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Erro ao definir endereço principal');
+        });
+    }
+}
+
+function excluirEndereco(enderecoId) {
+    if (confirm('Tem certeza que deseja excluir este endereço?')) {
+        fetch('../includes/excluir_endereco.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `endereco_id=${enderecoId}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert(data.message || 'Erro ao excluir endereço');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Erro ao excluir endereço');
+        });
+    }
+}
+
+// Buscar CEP automaticamente
+document.getElementById('cep').addEventListener('blur', function() {
+    const cep = this.value.replace(/\D/g, '');
+    
+    if (cep.length === 8) {
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+            .then(response => response.json())
+            .then(data => {
+                if (!data.erro) {
+                    document.getElementById('logradouro').value = data.logradouro;
+                    document.getElementById('bairro').value = data.bairro;
+                    document.getElementById('cidade').value = data.localidade;
+                    document.getElementById('estado').value = data.uf;
+                    document.getElementById('numero').focus();
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao buscar CEP:', error);
+            });
+    }
+});
+
+// Formatar CEP
+document.getElementById('cep').addEventListener('input', function() {
+    let value = this.value.replace(/\D/g, '');
+    if (value.length > 5) {
+        value = value.substring(0, 5) + '-' + value.substring(5, 8);
+    }
+    this.value = value;
+});
+</script>
+
+</body>
 </html>

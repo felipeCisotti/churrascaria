@@ -34,11 +34,51 @@
       <a href="reserva.php"><i class="fa fa-map-marker-alt"></i> Restaurantes</a>
       <a href="#valores"><i class="fa fa-info-circle"></i> Sobre Nós</a>
       <a href="perfil.php"><i class="fa fa-user"></i> Perfil</a>
-      <a href="#"><i class="fa fa-shopping-cart"></i> Carrinho</a>
+      <a href="carrinho.php" class="carrinho-link">
+    <i class="fa fa-shopping-cart"></i> Carrinho
+    <?php 
+    $total_itens = 0;
+    if (isset($_SESSION['carrinho']) && is_array($_SESSION['carrinho'])) {
+        $total_itens = array_sum($_SESSION['carrinho']);
+    }
+    if ($total_itens > 0): ?>
+        <span class="carrinho-count"><?php echo $total_itens; ?></span>
+    <?php endif; ?>
+</a>
     </nav>
   </div>
 </header>
 
+<script>
+  // Função para atualizar contador do carrinho no header
+  function atualizarContadorCarrinho() {
+      fetch('../includes/contador_carrinho.php')
+          .then(response => response.json())
+          .then(data => {
+              const contador = document.querySelector('.carrinho-count');
+              const carrinhoLink = document.querySelector('.carrinho-link');
+  
+              if (data.total_itens > 0) {
+                  if (!contador) {
+                      // Criar contador se não existir
+                      const novoContador = document.createElement('span');
+                      novoContador.className = 'carrinho-count';
+                      novoContador.textContent = data.total_itens;
+                      carrinhoLink.appendChild(novoContador);
+                  } else {
+                      contador.textContent = data.total_itens;
+                  }
+              } else if (contador) {
+                  contador.remove();
+              }
+          });
+  }
+  
+  // Chamar ao carregar a página
+  document.addEventListener('DOMContentLoaded', function() {
+      atualizarContadorCarrinho();
+  });
+</script>
 
 
 

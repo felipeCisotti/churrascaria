@@ -10,6 +10,5 @@ if ($conn->connect_error) {
 }
 
 
-</div>
-</body>
-</html>
+
+?>
