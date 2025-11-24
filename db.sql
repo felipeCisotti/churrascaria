@@ -55,7 +55,6 @@ CREATE TABLE reservas (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
--- Tabela para avaliações dos produtos
 CREATE TABLE avaliacoes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     produto_id INT NOT NULL,
@@ -67,7 +66,7 @@ CREATE TABLE avaliacoes (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
--- Tabela para faturamento
+
 CREATE TABLE faturamento (
     id INT AUTO_INCREMENT PRIMARY KEY,
     data DATE NOT NULL,
@@ -75,7 +74,6 @@ CREATE TABLE faturamento (
     total_pedidos INT DEFAULT 0
 );
 
--- Adicionar coluna de avaliação média nos produtos
 ALTER TABLE produtos ADD COLUMN avaliacao_media DECIMAL(3,2) DEFAULT 0; 
 select * from faturamento;	
 

@@ -451,7 +451,7 @@ color: white;
             if (cidadeEstadoMap[cidade]) {
                 estadoSelect.value = cidadeEstadoMap[cidade];
             }
-        });
+        }); 
 
         // Validação do formulário antes do envio
         document.querySelector('form').addEventListener('submit', function(e) {

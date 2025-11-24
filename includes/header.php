@@ -16,6 +16,7 @@
 
 </head>
 <body>
+  <div class="desktop">
 
 <header class="header">
   <div class="header-container">
@@ -48,9 +49,53 @@
     </nav>
   </div>
 </header>
+</div>
+
+<div class="mobile">
+
+<header class="header-mob">
+  <div class="header-container-mob">
+    <div class="logo-mob">
+      <img src="../assets/img/2 1.png" alt="DomBrasa">
+    </div> 
+    <div class="itens">
+      <a href="perfil.php"><i class="fa fa-user"></i></a>
+    </div>
+  
+
+    <!-- <nav class="nav-menu">
+      <a href="index.php"><i class="fa fa-home"></i> Início</a>
+      <a href="cardapio.php "><i class="fa fa-book"></i> Cardápio</a>
+      <a href="reserva.php"><i class="fa fa-map-marker-alt"></i> Restaurantes</a>
+      <a href="#valores"><i class="fa fa-info-circle"></i> Sobre Nós</a>
+      <a href="perfil.php"><i class="fa fa-user"></i> Perfil</a>
+      <a href="carrinho.php" class="carrinho-link">
+    <i class="fa fa-shopping-cart"></i> Carrinho-->
+    <?php
+    $total_itens = 0;
+    if (isset($_SESSION['carrinho']) && is_array($_SESSION['carrinho'])) {
+        $total_itens = array_sum($_SESSION['carrinho']);
+    }
+    if ($total_itens > 0): ?>
+        <span class="carrinho-count"><?php echo $total_itens; ?></span>
+    <?php endif; ?><!--
+</a>
+    </nav>-->
+  </div>
+
+  <div class="mob-bottom">
+    <div class="itens-bottom">
+      <a href="index.php"><i class="fa fa-home"></i></a>
+      <a href="reserva.php"><i class="fa fa-map-marker-alt"></i></a>
+      <a href="#valores"><i class="fa fa-info-circle"></i></a>
+      <a href=""><i class="fa fa-bars" aria-hidden="true"></i></a>
+    </div>
+  </div>
+</header>
+</div>
 
 <script>
-  // Função para atualizar contador do carrinho no header
+
   function atualizarContadorCarrinho() {
       fetch('../includes/contador_carrinho.php')
           .then(response => response.json())

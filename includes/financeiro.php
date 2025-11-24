@@ -24,7 +24,7 @@ include("connect.php");
 
 $userName = isset($_SESSION["nome"]) ? htmlspecialchars($_SESSION["nome"]) : "Admin";
 
-// Criar novo registro de faturamento
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cadastrar_faturamento'])) {
     $data = $_POST['data'] ?? null;
     $total_vendas = (float) str_replace(',', '.', ($_POST['total_vendas'] ?? 0));
@@ -50,7 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cadastrar_faturamento
     }
 }
 
-// Editar registro de faturamento
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editar_faturamento'])) {
     $id = (int) ($_POST['id'] ?? 0);
     $data = $_POST['data'] ?? null;
@@ -77,7 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editar_faturamento'])
     }
 }
 
-// Excluir registro
 if (isset($_GET['excluir'])) {
     $id = (int) $_GET['excluir'];
     if ($id > 0) {
@@ -97,7 +97,6 @@ if (isset($_GET['excluir'])) {
     }
 }
 
-// Exportar CSV do faturamento
 if (isset($_GET['export']) && $_GET['export'] === 'csv') {
     $sqlExport = "SELECT id, data, total_vendas, total_pedidos FROM faturamento ORDER BY data DESC";
     $stmtExport = $pdo->query($sqlExport);
@@ -106,21 +105,28 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv') {
     header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment; filename=faturamento_' . date('Ymd_His') . '.csv');
     $out = fopen('php://output', 'w');
-    fputcsv($out, ['id','data','total_vendas','total_pedidos']);
-    foreach ($rows as $r) fputcsv($out, $r);
+    fputcsv($out, ['id', 'data', 'total_vendas', 'total_pedidos']);
+    foreach ($rows as $r)
+        fputcsv($out, $r);
     fclose($out);
     exit;
 }
 
-// Filtros (data inicial/final)
+
 $data_inicio = isset($_GET['data_inicio']) ? $_GET['data_inicio'] : '';
 $data_fim = isset($_GET['data_fim']) ? $_GET['data_fim'] : '';
 
-// Buscar resumo e lista
+
 $params = [];
 $where = "";
-if ($data_inicio) { $where .= " AND data >= ?"; $params[] = $data_inicio; }
-if ($data_fim) { $where .= " AND data <= ?"; $params[] = $data_fim; }
+if ($data_inicio) {
+    $where .= " AND data >= ?";
+    $params[] = $data_inicio;
+}
+if ($data_fim) {
+    $where .= " AND data <= ?";
+    $params[] = $data_fim;
+}
 
 try {
     $sqlCounters = "SELECT 
@@ -139,7 +145,7 @@ try {
 
 } catch (Exception $e) {
     error_log("Erro buscar faturamento: " . $e->getMessage());
-    $counters = ['registros'=>0,'soma_vendas'=>0,'soma_pedidos'=>0];
+    $counters = ['registros' => 0, 'soma_vendas' => 0, 'soma_pedidos' => 0];
     $registros = [];
 }
 
@@ -150,6 +156,7 @@ $soma_pedidos = (int) ($counters['soma_pedidos'] ?? 0);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -158,18 +165,41 @@ $soma_pedidos = (int) ($counters['soma_pedidos'] ?? 0);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/dashboard.css">
     <style>
-        /* Botões sem hover e estilo consistente */
         .app-btn {
-            display:inline-flex; align-items:center; gap:.5rem;
-            padding:.5rem .9rem; border-radius:8px; font-weight:600;
-            border:1px solid transparent; cursor:pointer; transition:none !important;
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .5rem .9rem;
+            border-radius: 8px;
+            font-weight: 600;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: none !important;
         }
-        .app-btn-primary { background: #2563eb; color:#fff; }
-        .app-btn-outline { background:transparent; color:#0d6efd; border-color: rgba(13,110,253,0.12); }
-        .status-badge { padding:6px 10px; border-radius:8px; font-weight:600; }
-        .table .btn { transition:none !important; }
+
+        .app-btn-primary {
+            background: #2563eb;
+            color: #fff;
+        }
+
+        .app-btn-outline {
+            background: transparent;
+            color: #0d6efd;
+            border-color: rgba(13, 110, 253, 0.12);
+        }
+
+        .status-badge {
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .table .btn {
+            transition: none !important;
+        }
     </style>
 </head>
+
 <body>
     <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
 
@@ -229,8 +259,10 @@ $soma_pedidos = (int) ($counters['soma_pedidos'] ?? 0);
                 <input id="searchInput" type="text" placeholder="Buscar..." class="form-control form-control-sm">
             </div>
             <div class="d-flex gap-2">
-                <a class="app-btn app-btn-outline" href="financeiro.php?export=csv"><i class="fas fa-file-csv"></i> Exportar CSV</a>
-                <button class="app-btn app-btn-primary" data-bs-toggle="modal" data-bs-target="#modalFaturamento"><i class="fas fa-plus"></i> Novo</button>
+                <a class="app-btn app-btn-outline" href="financeiro.php?export=csv"><i class="fas fa-file-csv"></i>
+                    Exportar CSV</a>
+                <button class="app-btn app-btn-primary" data-bs-toggle="modal" data-bs-target="#modalFaturamento"><i
+                        class="fas fa-plus"></i> Novo</button>
             </div>
         </div>
 
@@ -241,7 +273,8 @@ $soma_pedidos = (int) ($counters['soma_pedidos'] ?? 0);
             </div>
 
             <?php if (isset($mensagem)): ?>
-                <div class="alert alert-<?php echo ($tipoMensagem==='success') ? 'success':'danger'; ?> alert-dismissible fade show" role="alert">
+                <div class="alert alert-<?php echo ($tipoMensagem === 'success') ? 'success' : 'danger'; ?> alert-dismissible fade show"
+                    role="alert">
                     <?php echo $mensagem; ?><button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             <?php endif; ?>
@@ -271,10 +304,12 @@ $soma_pedidos = (int) ($counters['soma_pedidos'] ?? 0);
                 <div class="card-header">
                     <form class="row g-2 align-items-center" method="GET" action="financeiro.php">
                         <div class="col-auto">
-                            <input type="date" name="data_inicio" class="form-control form-control-sm" value="<?php echo htmlspecialchars($data_inicio); ?>">
+                            <input type="date" name="data_inicio" class="form-control form-control-sm"
+                                value="<?php echo htmlspecialchars($data_inicio); ?>">
                         </div>
                         <div class="col-auto">
-                            <input type="date" name="data_fim" class="form-control form-control-sm" value="<?php echo htmlspecialchars($data_fim); ?>">
+                            <input type="date" name="data_fim" class="form-control form-control-sm"
+                                value="<?php echo htmlspecialchars($data_fim); ?>">
                         </div>
                         <div class="col-auto">
                             <button class="btn btn-sm btn-primary" type="submit">Filtrar</button>
@@ -297,23 +332,26 @@ $soma_pedidos = (int) ($counters['soma_pedidos'] ?? 0);
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <?php foreach ($registros as $r): ?>
-                                    <tr>
-                                        <td><?php echo date('d/m/Y', strtotime($r['data'])); ?></td>
-                                        <td>R$ <?php echo number_format((float)$r['total_vendas'], 2, ',', '.'); ?></td>
-                                        <td><?php echo (int)$r['total_pedidos']; ?></td>
-                                        <td>
-                                            <div class="btn-group" role="group">
-                                                <button class="btn btn-sm btn-outline-secondary" onclick="openEditar(<?php echo $r['id']; ?>, '<?php echo $r['data']; ?>', '<?php echo $r['total_vendas']; ?>', '<?php echo $r['total_pedidos']; ?>')" title="Editar">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-danger" onclick="confirmarExclusao(<?php echo $r['id']; ?>)" title="Excluir">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
+                                    <?php foreach ($registros as $r): ?>
+                                        <tr>
+                                            <td><?php echo date('d/m/Y', strtotime($r['data'])); ?></td>
+                                            <td>R$ <?php echo number_format((float) $r['total_vendas'], 2, ',', '.'); ?></td>
+                                            <td><?php echo (int) $r['total_pedidos']; ?></td>
+                                            <td>
+                                                <div class="btn-group" role="group">
+                                                    <button class="btn btn-sm btn-outline-secondary"
+                                                        onclick="openEditar(<?php echo $r['id']; ?>, '<?php echo $r['data']; ?>', '<?php echo $r['total_vendas']; ?>', '<?php echo $r['total_pedidos']; ?>')"
+                                                        title="Editar">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-danger"
+                                                        onclick="confirmarExclusao(<?php echo $r['id']; ?>)" title="Excluir">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -329,7 +367,8 @@ $soma_pedidos = (int) ($counters['soma_pedidos'] ?? 0);
     </main>
 
     <!-- Modal Novo / Editar -->
-    <div class="modal fade" id="modalFaturamento" tabindex="-1" aria-labelledby="modalFaturamentoLabel" aria-hidden="true">
+    <div class="modal fade" id="modalFaturamento" tabindex="-1" aria-labelledby="modalFaturamentoLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content">
                 <form id="formFatur" method="post" action="financeiro.php">
@@ -349,13 +388,16 @@ $soma_pedidos = (int) ($counters['soma_pedidos'] ?? 0);
                         </div>
                         <div class="mb-2">
                             <label class="form-label">Total Pedidos</label>
-                            <input type="number" name="total_pedidos" id="faturPedidos" class="form-control" min="0" required>
+                            <input type="number" name="total_pedidos" id="faturPedidos" class="form-control" min="0"
+                                required>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="app-btn app-btn-outline" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="app-btn app-btn-primary" id="btnSalvar" name="cadastrar_faturamento">Salvar</button>
-                        <button type="submit" class="app-btn app-btn-primary d-none" id="btnEditar" name="editar_faturamento">Atualizar</button>
+                        <button type="submit" class="app-btn app-btn-primary" id="btnSalvar"
+                            name="cadastrar_faturamento">Salvar</button>
+                        <button type="submit" class="app-btn app-btn-primary d-none" id="btnEditar"
+                            name="editar_faturamento">Atualizar</button>
                     </div>
                 </form>
             </div>
@@ -363,7 +405,8 @@ $soma_pedidos = (int) ($counters['soma_pedidos'] ?? 0);
     </div>
 
     <!-- Modal excluir -->
-    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body">
@@ -377,50 +420,51 @@ $soma_pedidos = (int) ($counters['soma_pedidos'] ?? 0);
         </div>
     </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    // Menu toggle
-    document.getElementById('menuToggle').addEventListener('click', function () {
-        document.getElementById('sidebar').classList.toggle('open');
-    });
-
-    // Busca local
-    document.getElementById('searchInput').addEventListener('input', function(e) {
-        const term = e.target.value.toLowerCase().trim();
-        document.querySelectorAll('#faturTable tbody tr').forEach(row => {
-            row.style.display = row.textContent.toLowerCase().includes(term) ? '' : 'none';
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Menu toggle
+        document.getElementById('menuToggle').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.toggle('open');
         });
-    });
 
-    function openEditar(id, data, vendas, pedidos) {
-        document.getElementById('faturId').value = id;
-        document.getElementById('faturData').value = data;
-        document.getElementById('faturVendas').value = parseFloat(vendas).toFixed(2).replace('.', ',');
-        document.getElementById('faturPedidos').value = pedidos;
-        document.getElementById('modalFaturamentoLabel').textContent = 'Editar Faturamento';
-        document.getElementById('btnSalvar').classList.add('d-none');
-        document.getElementById('btnEditar').classList.remove('d-none');
-        new bootstrap.Modal(document.getElementById('modalFaturamento')).show();
-    }
+        // Busca local
+        document.getElementById('searchInput').addEventListener('input', function (e) {
+            const term = e.target.value.toLowerCase().trim();
+            document.querySelectorAll('#faturTable tbody tr').forEach(row => {
+                row.style.display = row.textContent.toLowerCase().includes(term) ? '' : 'none';
+            });
+        });
 
-    // Ao fechar modal, resetar para criação
-    document.getElementById('modalFaturamento').addEventListener('hidden.bs.modal', function () {
-        document.getElementById('formFatur').reset();
-        document.getElementById('faturId').value = '';
-        document.getElementById('modalFaturamentoLabel').textContent = 'Novo Faturamento';
-        document.getElementById('btnSalvar').classList.remove('d-none');
-        document.getElementById('btnEditar').classList.add('d-none');
-    });
+        function openEditar(id, data, vendas, pedidos) {
+            document.getElementById('faturId').value = id;
+            document.getElementById('faturData').value = data;
+            document.getElementById('faturVendas').value = parseFloat(vendas).toFixed(2).replace('.', ',');
+            document.getElementById('faturPedidos').value = pedidos;
+            document.getElementById('modalFaturamentoLabel').textContent = 'Editar Faturamento';
+            document.getElementById('btnSalvar').classList.add('d-none');
+            document.getElementById('btnEditar').classList.remove('d-none');
+            new bootstrap.Modal(document.getElementById('modalFaturamento')).show();
+        }
 
-    function confirmarExclusao(id) {
-        document.getElementById('deleteConfirmBtn').href = 'financeiro.php?excluir=' + id;
-        new bootstrap.Modal(document.getElementById('confirmDeleteModal')).show();
-    }
+        // Ao fechar modal, resetar para criação
+        document.getElementById('modalFaturamento').addEventListener('hidden.bs.modal', function () {
+            document.getElementById('formFatur').reset();
+            document.getElementById('faturId').value = '';
+            document.getElementById('modalFaturamentoLabel').textContent = 'Novo Faturamento';
+            document.getElementById('btnSalvar').classList.remove('d-none');
+            document.getElementById('btnEditar').classList.add('d-none');
+        });
 
-    // Formatação input vendas - aceita vírgula
-    document.getElementById('faturVendas').addEventListener('input', function(e) {
-        this.value = this.value.replace(/[^0-9,\.]/g, '').replace(/\./g, ',');
-    });
-</script>
+        function confirmarExclusao(id) {
+            document.getElementById('deleteConfirmBtn').href = 'financeiro.php?excluir=' + id;
+            new bootstrap.Modal(document.getElementById('confirmDeleteModal')).show();
+        }
+
+        // Formatação input vendas - aceita vírgula
+        document.getElementById('faturVendas').addEventListener('input', function (e) {
+            this.value = this.value.replace(/[^0-9,\.]/g, '').replace(/\./g, ',');
+        });
+    </script>
 </body>
+
 </html>

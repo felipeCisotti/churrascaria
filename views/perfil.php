@@ -10,17 +10,20 @@ if (!isset($_SESSION['id'])) {
 
 $usuario_id = $_SESSION['id'];
 
-// Buscar informações do usuário
 $sqlUser = "SELECT nome, email, foto FROM usuarios WHERE id = ?";
 $stmtUser = $pdo->prepare($sqlUser);
 $stmtUser->execute([$usuario_id]);
 $usuario = $stmtUser->fetch(PDO::FETCH_ASSOC);
 
-// Buscar pedidos
 $sqlPedidos = "SELECT * FROM pedidos WHERE usuario_id = ? ORDER BY data_pedido DESC";
 $stmtPedidos = $pdo->prepare($sqlPedidos);
 $stmtPedidos->execute([$usuario_id]);
 $pedidos = $stmtPedidos->fetchAll(PDO::FETCH_ASSOC);
+
+$sqlReservas = "SELECT id, data_reserva, horario, qtd_pessoas, status, observacoes FROM reservas WHERE usuario_id = ?";
+$stmtReservas = $pdo->prepare($sqlReservas);
+$stmtReservas->execute([$usuario_id]);
+$reservas = $stmtReservas->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -258,7 +261,7 @@ $pedidos = $stmtPedidos->fetchAll(PDO::FETCH_ASSOC);
         margin-top: 10px;
     }
 
-    .status {
+    .status{
         display: inline-block;
         padding: 6px 12px;
         border-radius: 20px;
@@ -268,8 +271,8 @@ $pedidos = $stmtPedidos->fetchAll(PDO::FETCH_ASSOC);
     }
 
     .status-entregue {
-        background: #d4edda;
-        color: var(--success-color);
+        background: #198754;
+        color: white;
     }
 
     .status-pendente {
@@ -655,7 +658,6 @@ $pedidos = $stmtPedidos->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="container">
 
-    <!-- SIDEBAR -->
     <div class="sidebar">
 
         <!-- FOTO -->
@@ -672,8 +674,10 @@ $pedidos = $stmtPedidos->fetchAll(PDO::FETCH_ASSOC);
 <div class="menu">
     <a class="tab-btn active" data-tab="pedidos">Meus Pedidos</a>
     <a class="tab-btn" data-tab="dados">Meus Dados</a>
-    <a class="tab-btn" data-tab="enderecos">Meus Endereços</a> <!-- NOVA ABA -->
+    <a class="tab-btn" data-tab="enderecos">Meus Endereços</a>
+    <a class="tab-btn" data-tab="reservas">Minhas Reservas</a>
     <a class="logout" href="../includes/logout.php">Logout</a>
+
 </div>
     </div>
 
@@ -691,7 +695,7 @@ $pedidos = $stmtPedidos->fetchAll(PDO::FETCH_ASSOC);
                         <small><?php echo date("d/m/Y H:i", strtotime($pedido["data_pedido"])); ?></small>
                         <br><br>
 
-                        <span class="status-<?php echo strtolower($pedido['status']); ?>">
+                        <span class="status<?php echo strtolower($pedido['status']);?>">
                             <?php echo ucfirst($pedido['status']); ?>
                         </span>
 
@@ -784,7 +788,7 @@ $pedidos = $stmtPedidos->fetchAll(PDO::FETCH_ASSOC);
             <?php endif; ?>
         </div>
         
-        <!-- Botão para adicionar novo endereço -->
+
         <button class="btn-adicionar-endereco" onclick="abrirModalEndereco()">
             <i class="fas fa-plus"></i> Adicionar Novo Endereço
         </button>
@@ -821,7 +825,7 @@ $pedidos = $stmtPedidos->fetchAll(PDO::FETCH_ASSOC);
             </div>
             
             <div class="form-group">
-                <label for="logradouro">Logradouro*</label>
+                <label for="logradouro">Rua*</label>
                 <input type="text" id="logradouro" name="logradouro" required 
                        placeholder="Rua, Avenida, etc.">
             </div>
@@ -888,6 +892,33 @@ $pedidos = $stmtPedidos->fetchAll(PDO::FETCH_ASSOC);
         </form>
     </div>
 </div>
+
+ <div id="reservas" class="tab">
+            <h2>Minhas Reservas</h2>
+
+            <?php if ($reservas): ?>
+                <?php foreach ($reservas as $reserva): ?>
+                    <div class="order">
+                        <strong>Reserva #<?php echo $reserva['id']; ?></strong><br>
+                        <strong><?php echo date('d/m/Y', strtotime($reserva['data_reserva'])); ?></strong>
+                        <strong><?php echo date('H:i', strtotime($reserva['horario'])); ?></strong>
+                        <br><br>
+
+                        <span class="qtd<?php echo strtolower($reserva ['qtd_pessoas']); ?>">
+                            Reserva para <?php echo ucfirst($reserva['qtd_pessoas']); ?> Pessoas
+                        </span>
+
+                        <br><br>
+
+                        <span class="status<?php echo strtolower($reserva['status']); ?>">
+                            <?php echo ucfirst($reserva['status']); ?>
+                        </span>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>Nenhum pedido encontrado.</p>
+            <?php endif; ?>
+        </div>
 
     </div>
 
