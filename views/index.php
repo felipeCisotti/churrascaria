@@ -9,6 +9,9 @@ if (isset($_SESSION['id'])) {
 }
 ?>
 
+<a href="carrinho.php" class="btn-carrinho-flutuante">
+    🛒
+</a>
 <div class="corrossel">
 <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
@@ -35,9 +38,9 @@ if (isset($_SESSION['id'])) {
 
   <div class="categoria-mob">
     <div class="cat-itens">
-      <a href="">Todos</a>
-      <a href="">Carne</a>
-      <a href="">Bebidas</a>
+      <a href="cardapio.php">Todos</a>
+      <a href="cardapio.php">Carne</a>
+      <a href="cardapio.php">Bebidas</a>
     </div>
   </div>
 
@@ -58,12 +61,12 @@ if (isset($_SESSION['id'])) {
     <h2>Cardápio</h2>
 
     <div class="slider-categorias">
-      <a class="img-card-mob" href=""><img src="../assets/img/cardapio/pratos.png" alt=""></a>
-      <a class="img-card-mob" href=""><img src="../assets/img/cardapio/espetinhos.png" alt=""></a>
-      <a class="img-card-mob" href=""><img src="../assets/img/cardapio/porcoes.png" alt=""></a>
-      <a class="img-card-mob" href=""><img src="../assets/img/cardapio/drinks.png" alt=""></a>
-      <a class="img-card-mob" href=""><img src="../assets/img/cardapio/sobremesas.png" alt=""></a>
-      <a class="img-card-mob" href=""><img src="../assets/img/cardapio/rodizio.png" alt=""></a>
+      <a class="img-card-mob" href="cardapio.php"><img src="../assets/img/cardapio/pratos.png" alt=""></a>
+      <a class="img-card-mob" href="cardapio.php"><img src="../assets/img/cardapio/espetinhos.png" alt=""></a>
+      <a class="img-card-mob" href="cardapio.php"><img src="../assets/img/cardapio/porcoes.png" alt=""></a>
+      <a class="img-card-mob" href="cardapio.php"><img src="../assets/img/cardapio/drinks.png" alt=""></a>
+      <a class="img-card-mob" href="cardapio.php"><img src="../assets/img/cardapio/sobremesas.png" alt=""></a>
+      <a class="img-card-mob" href="cardapio.php"><img src="../assets/img/cardapio/rodizio.png" alt=""></a>
     </div>
   </div>
 
@@ -97,11 +100,11 @@ if (isset($_SESSION['id'])) {
   <div class="car">
 <div class="caroussel">
 <div class="slides" id="slides">
-<div class="slide"><img src="../assets/img/c1.png" alt=""></div>
-<div class="slide"><img src="../assets/img/c2.png" alt=""></div>
-<div class="slide"><img src="../assets/img/c3.png" alt=""></div>
-<div class="slide"><img src="../assets/img/c4.png" alt=""></div>
-<div class="slide"><img src="../assets/img/c5.png" alt=""></div>
+<div class="sliders"><img src="../assets/img/c1.png" alt=""></div>
+<div class="sliders"><img src="../assets/img/c2.png" alt=""></div>
+<div class="sliders"><img src="../assets/img/c3.png" alt=""></div>
+<div class="sliders"><img src="../assets/img/c4.png" alt=""></div>
+<div class="sliders"><img src="../assets/img/c5.png" alt=""></div>
 </div>
 <button class="control prev" id="prev">❮</button>
 <button class="control next" id="next">❯</button>
@@ -127,7 +130,7 @@ if (isset($_SESSION['id'])) {
   </div>
 
   <div class="valores">
-    <div class="nume">4</div>
+    <div class="nume">3</div>
     <div class="texto-valores">
       <h5>Serviço no Ponto</h5>
       Servimos as carnes imediatamente após o preparo, no ponto ideal de cada uma.
@@ -135,7 +138,7 @@ if (isset($_SESSION['id'])) {
   </div>
 
   <div class="valores">
-    <div class="nume">3</div>
+    <div class="nume">4</div>
     <div class="texto-valores">
       <h5>Assamento Perfeito</h5>
       Controlamos temperatura e distância do fogo para cada tipo de corte.

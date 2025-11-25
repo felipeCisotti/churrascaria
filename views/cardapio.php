@@ -17,6 +17,9 @@ $categorias = $stmtCategorias->fetchAll(PDO::FETCH_COLUMN);
     <div class="subheader">
         <img src="../assets/img/subheader.png" alt="">
     </div>
+    <a href="carrinho.php" class="btn-carrinho-flutuante">
+    🛒
+</a>
 
     <?php foreach ($categorias as $categoria): ?>
         <?php

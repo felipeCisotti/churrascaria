@@ -88,10 +88,6 @@ color: white;
 .left-tex{
     color: #ffffffff;
 }
-.corrossel{
-    margin-top: 20px;
-    margin-bottom: -50px;
-}
 .carousel-inner img {
     width: 100%;
     height: 400px;
@@ -101,8 +97,41 @@ color: white;
 .banner-mob {
     display: none;
 }
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: #b41605;
+  border-radius: 20px;
+  padding: 3px 10px;
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #fff;
+  padding: 6px;
+  width: 160px;
+  font-size: 0.9rem;
+}
+
+.search-box input::placeholder {
+  color: #f6eae1;
+}
+
+.search-box button {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
 @media (max-width: 768px) {
     .encontre {
+        display: none;
+    }
+    .carrassel{
         display: none;
     }
     .banner-mob {
@@ -122,7 +151,7 @@ color: white;
     .subheader img {
         display: none;
     }
-    .reserv{
+    .reserv img{
         display: none;
     }
     .reserva-form {
@@ -136,7 +165,7 @@ color: white;
         margin: auto;
     }
     
-    .separador{
+    .separador img{
         display: none;
     }  
     .reserva-form {
@@ -213,7 +242,6 @@ color: white;
     box-shadow: 0 4px 18px rgba(182, 42, 23, 0.55);
 }
 
-/* Consertar a área .junto para ficar igual ao print */
 .junto {
     display: flex;
     flex-direction: column;
@@ -221,4 +249,9 @@ color: white;
 }
 
 
+}
+@media (min-width: 769px) {
+    .banner-mob {
+        display: none;
+    }
 }

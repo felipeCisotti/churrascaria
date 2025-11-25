@@ -328,6 +328,7 @@ if ($desconto > 0) {
     margin-top: 20px;
     text-transform: uppercase;
     letter-spacing: 1px;
+    margin-bottom: 100px;
 }
 
 .btn-finalizar:hover {
