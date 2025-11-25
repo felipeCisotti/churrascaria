@@ -71,14 +71,7 @@
       <a href="perfil.php"><i class="fa fa-user"></i> Perfil</a>
       <a href="carrinho.php" class="carrinho-link">
     <i class="fa fa-shopping-cart"></i> Carrinho-->
-    <?php
-    $total_itens = 0;
-    if (isset($_SESSION['carrinho']) && is_array($_SESSION['carrinho'])) {
-        $total_itens = array_sum($_SESSION['carrinho']);
-    }
-    if ($total_itens > 0): ?>
-        <span class="carrinho-count"><?php echo $total_itens; ?></span>
-    <?php endif; ?><!--
+     <!-- #region --><!--
 </a>
     </nav>-->
   </div>

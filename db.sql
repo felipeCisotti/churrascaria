@@ -55,6 +55,7 @@ CREATE TABLE reservas (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
+-- Tabela para avaliações dos produtos
 CREATE TABLE avaliacoes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     produto_id INT NOT NULL,
@@ -66,7 +67,7 @@ CREATE TABLE avaliacoes (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
-
+-- Tabela para faturamento
 CREATE TABLE faturamento (
     id INT AUTO_INCREMENT PRIMARY KEY,
     data DATE NOT NULL,
@@ -74,10 +75,11 @@ CREATE TABLE faturamento (
     total_pedidos INT DEFAULT 0
 );
 
+-- Adicionar coluna de avaliação média nos produtos
 ALTER TABLE produtos ADD COLUMN avaliacao_media DECIMAL(3,2) DEFAULT 0; 
 select * from faturamento;	
 
-select * from usuarios;				
+select * from usuarios;		
 delete from usuarios;
 use churrascaria;
 
@@ -87,3 +89,27 @@ CREATE TABLE restaurantes (
   estado VARCHAR(2) NOT NULL,
   cidade VARCHAR(100) NOT NULL
 );
+
+select * from produtos	;
+
+ALTER TABLE usuarios ADD COLUMN foto VARCHAR(255) NULL;
+
+-- Tabela para endereços dos usuários
+CREATE TABLE enderecos (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    usuario_id INT NOT NULL,
+    titulo VARCHAR(50) NOT NULL,
+    cep VARCHAR(10) NOT NULL,
+    logradouro VARCHAR(200) NOT NULL,
+    numero VARCHAR(20) NOT NULL,
+    complemento VARCHAR(100),
+    bairro VARCHAR(100) NOT NULL,
+    cidade VARCHAR(100) NOT NULL,
+    estado VARCHAR(2) NOT NULL,
+    principal TINYINT(1) DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+-- Adicionar coluna endereco_entrega_id na tabela pedidos
+ALTER TABLE pedidos ADD COLUMN endereco_entrega_id INT NULL;
+ALTER TABLE pedidos ADD COLUMN observacoes TEXT NULL AFTER endereco_entrega_id;

@@ -57,7 +57,9 @@ $restaurantes = $stmtRestaurantes->fetchAll();
 ?>
 <body>
     <?php include '../includes/header.php'; ?>
+    <link rel="stylesheet" href="../css/reserva.css">
 
+    <div class="corrossel">
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
@@ -65,10 +67,21 @@ $restaurantes = $stmtRestaurantes->fetchAll();
     </div>
 </div>
 </div>
+    </div>
 
     <div class="subheader">
         <img src="../assets/img/subheader.png" alt="">
     </div>
+
+    <div class="search-mobile">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" placeholder="Buscar carnes, acompanhamentos...">
+    <i class="fa-solid fa-filter"></i>
+  </div>
+
+  <div class="banner-mob">
+    <img src="../assets/img/banner-reserva.png" alt="">
+  </div>
 
 
 
@@ -83,6 +96,7 @@ $restaurantes = $stmtRestaurantes->fetchAll();
                 <div class="reserva-hero">
                     <img src="../assets/img/restaurantes/reserva.png" alt="">
                 </div>
+            
 
                 <form class="reserva-form" method="POST" action="">
                     <!-- Informações do Restaurante -->
@@ -179,7 +193,7 @@ $restaurantes = $stmtRestaurantes->fetchAll();
                         </div>
             </div>
 
-        <!-- Informações Adicionais -->
+        <div class="infos">
         <div class="row mb-2 inf-res">
             <div class="col-md-4 text-center">
                 <div class="card border-0">
@@ -209,6 +223,7 @@ $restaurantes = $stmtRestaurantes->fetchAll();
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
 <?php
@@ -246,99 +261,6 @@ if (isset($_GET['buscar'])) {
 <head>
 <meta charset="UTF-8">
 <title>Localize seu Restaurante</title>
-<style>
-
-.encontre {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin:0;
-    padding: 0;
-    background-color: #a00000ff;
-}
-.left {
-    width: 50%;
-    margin-left: 40px;
-
-}
-.left h1 {
-    font-size: 32px;
-    margin-bottom: 10px;
-}
-.left p {
-    font-size: 16px;
-    line-height: 1.5;
-}
-select, button {
-    width: 45%;
-    padding: 10px;
-    margin: 10px 5px;
-    border-radius: 5px;
-    border: none;
-    font-size: 16px;
-}
-button {
-    
-}
-button:hover {
-    background-color: #c95c0e;
-}
-.btn-local {
-    display: block;
-    width: 93%;
-    background-color: transparent;
-    border: 2px solid white;
-    color: white;
-    margin-top: 10px;
-}
-
-.busc{
-    display: block;
-    width: 93%;
-    background-color: #e46a11;
-color: white;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.btn-local:hover {
-    background-color: white;
-    color: #8c0d23;
-}
-.map {
-    width: 50%;
-    text-align: center;
-}
-.map img {
-    width: 100%;
-    height:auto;
-
-}
-.resultados {
-    margin-top: 30px;
-    background-color: #fff;
-    color: #000;
-    padding: 20px;
-    border-radius: 10px;
-    margin-right: 40px;
-}
-.resultados h2 {
-    margin-bottom: 10px;
-}
-.restaurante {
-    border-bottom: 1px solid #ccc;
-    padding: 10px 0;
-}
-
-.formul{
-    width: 80%;
-}
-
-.left-tex{
-    color: #ffffffff;
-}
-
-</style>
 </head>
 <body class="">
 

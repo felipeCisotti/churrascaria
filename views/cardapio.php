@@ -67,8 +67,7 @@ $categorias = $stmtCategorias->fetchAll(PDO::FETCH_COLUMN);
 
                     </div>
 
-                    <button class="control prev" id="prev-<?php echo $catID; ?>">❮</button>
-                    <button class="control next" id="next-<?php echo $catID; ?>">❯</button>
+                    
 
                 </div>
 

@@ -241,33 +241,42 @@
 }
 
 @media (max-width: 768px) {
-    /* layout tablet: otimiza espaços e tamanhos */
     .slide {
         flex: 0 0 calc(50% - 12px);
+        display: flex ;
+        justify-content: center;
     }
-    .produto-card {
-        padding: 16px;
-    }
-    .produto-card img {
-        max-height: 220px;
-    }
+
     .slides {
         gap: 12px;
     }
+    
+    .produto-card {
+        padding: 16px;
+
+    }
+    .produto-card img {
+        max-height: 220px;
+
+    }
     .produto-card h3 {
         font-size: 1.1rem;
+
     }
     .produto-descricao {
         font-size: 0.88rem;
+
     }
     .control {
         width: 36px;
         height: 36px;
         font-size: 1.1rem;
+
     }
     .dot {
         width: 9px;
         height: 9px;
+
     }
 }
 
