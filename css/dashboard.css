@@ -29,6 +29,7 @@
             z-index: 1000;
         }
 
+        
 
         .sidebar-header {
             text-align: center;
@@ -498,6 +499,11 @@ input::placeholder {
 }
 .btn-action:hover {
     opacity: 0.9;
+}
+
+.btn-group{
+    background: #2ecc71;
+    color: white;
 }
 .ped-list {
     margin-top: 30px;

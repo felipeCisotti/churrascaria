@@ -20,7 +20,7 @@ if (!isset($_SESSION["tipo"]) || $_SESSION["tipo"] !== "admin") {
     exit;
 }
 
-include ("connect.php");
+include("connect.php");
 
 $userName = isset($_SESSION["nome"]) ? htmlspecialchars($_SESSION["nome"]) : "Admin";
 
@@ -28,10 +28,10 @@ $userName = isset($_SESSION["nome"]) ? htmlspecialchars($_SESSION["nome"]) : "Ad
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pedido_id']) && isset($_POST['novo_status'])) {
     $pedido_id = $_POST['pedido_id'];
     $novo_status = $_POST['novo_status'];
-    
+
     $sqlUpdate = "UPDATE pedidos SET status = ? WHERE id = ?";
     $stmtUpdate = $pdo->prepare($sqlUpdate);
-    
+
     if ($stmtUpdate->execute([$novo_status, $pedido_id])) {
         $mensagem = "Status do pedido #$pedido_id atualizado para " . ucfirst($novo_status);
         $tipoMensagem = "success";
@@ -93,7 +93,7 @@ if ($filtro_status !== 'todos') {
         <i class="fas fa-bars"></i>
     </button>
 
-<aside class="sidebar" id="sidebar">
+    <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <img src="../assets/img/3.png" alt="Logo">
         </div>
@@ -126,14 +126,6 @@ if ($filtro_status !== 'todos') {
                 <i class="fa-solid fa-pen"></i>
                 <span>Reservas</span>
             </a>
-            <a href="financeiro.php" class="menu-item">
-                <i class="fa-solid fa-dollar-sign"></i>
-                <span>Financeiro</span>
-            </a>
-            <a href="relatorios.php" class="menu-item">
-                <i class="fa-solid fa-chart-line"></i>
-                <span>Relatórios</span>
-            </a>
 
             <div class="menu-label">Logout</div>
             <a href="logout.php" class="menu-item">
@@ -165,7 +157,8 @@ if ($filtro_status !== 'todos') {
 
             <!-- Mensagens -->
             <?php if (isset($mensagem)): ?>
-                <div class="alert alert-<?php echo $tipoMensagem === 'success' ? 'success' : 'danger'; ?> alert-dismissible fade show" role="alert">
+                <div class="alert alert-<?php echo $tipoMensagem === 'success' ? 'success' : 'danger'; ?> alert-dismissible fade show"
+                    role="alert">
                     <?php echo $mensagem; ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
@@ -176,32 +169,39 @@ if ($filtro_status !== 'todos') {
                 <div class="card-body">
                     <h5 class="card-title">Filtrar por Status</h5>
                     <div class="d-flex flex-wrap gap-2">
-                        <span class="badge filter-badge <?php echo $filtro_status === 'todos' ? 'bg-primary active' : 'bg-light text-dark'; ?>" 
-                              onclick="window.location.href='pedidos.php'">
+                        <span
+                            class="badge filter-badge <?php echo $filtro_status === 'todos' ? 'bg-primary active' : 'bg-light text-dark'; ?>"
+                            onclick="window.location.href='pedidos.php'">
                             Todos <span class="badge bg-secondary"><?php echo $counters['total']; ?></span>
                         </span>
-                        <span class="badge filter-badge <?php echo $filtro_status === 'pendente' ? 'bg-primary active' : 'bg-light text-dark'; ?>" 
-                              onclick="window.location.href='pedidos.php?status=pendente'">
+                        <span
+                            class="badge filter-badge <?php echo $filtro_status === 'pendente' ? 'bg-primary active' : 'bg-light text-dark'; ?>"
+                            onclick="window.location.href='pedidos.php?status=pendente'">
                             Pendente <span class="badge bg-warning"><?php echo $counters['pendentes']; ?></span>
                         </span>
-                        <span class="badge filter-badge <?php echo $filtro_status === 'confirmado' ? 'bg-primary active' : 'bg-light text-dark'; ?>" 
-                              onclick="window.location.href='pedidos.php?status=confirmado'">
+                        <span
+                            class="badge filter-badge <?php echo $filtro_status === 'confirmado' ? 'bg-primary active' : 'bg-light text-dark'; ?>"
+                            onclick="window.location.href='pedidos.php?status=confirmado'">
                             Confirmado <span class="badge bg-info"><?php echo $counters['confirmados']; ?></span>
                         </span>
-                        <span class="badge filter-badge <?php echo $filtro_status === 'em_preparo' ? 'bg-primary active' : 'bg-light text-dark'; ?>" 
-                              onclick="window.location.href='pedidos.php?status=em_preparo'">
+                        <span
+                            class="badge filter-badge <?php echo $filtro_status === 'em_preparo' ? 'bg-primary active' : 'bg-light text-dark'; ?>"
+                            onclick="window.location.href='pedidos.php?status=em_preparo'">
                             Em Preparo <span class="badge bg-warning"><?php echo $counters['em_preparo']; ?></span>
                         </span>
-                        <span class="badge filter-badge <?php echo $filtro_status === 'a_caminho' ? 'bg-primary active' : 'bg-light text-dark'; ?>" 
-                              onclick="window.location.href='pedidos.php?status=a_caminho'">
+                        <span
+                            class="badge filter-badge <?php echo $filtro_status === 'a_caminho' ? 'bg-primary active' : 'bg-light text-dark'; ?>"
+                            onclick="window.location.href='pedidos.php?status=a_caminho'">
                             A Caminho <span class="badge bg-primary"><?php echo $counters['a_caminho']; ?></span>
                         </span>
-                        <span class="badge filter-badge <?php echo $filtro_status === 'entregue' ? 'bg-primary active' : 'bg-light text-dark'; ?>" 
-                              onclick="window.location.href='pedidos.php?status=entregue'">
+                        <span
+                            class="badge filter-badge <?php echo $filtro_status === 'entregue' ? 'bg-primary active' : 'bg-light text-dark'; ?>"
+                            onclick="window.location.href='pedidos.php?status=entregue'">
                             Entregue <span class="badge bg-success"><?php echo $counters['entregues']; ?></span>
                         </span>
-                        <span class="badge filter-badge <?php echo $filtro_status === 'cancelado' ? 'bg-primary active' : 'bg-light text-dark'; ?>" 
-                              onclick="window.location.href='pedidos.php?status=cancelado'">
+                        <span
+                            class="badge filter-badge <?php echo $filtro_status === 'cancelado' ? 'bg-primary active' : 'bg-light text-dark'; ?>"
+                            onclick="window.location.href='pedidos.php?status=cancelado'">
                             Cancelado <span class="badge bg-danger"><?php echo $counters['cancelados']; ?></span>
                         </span>
                     </div>
@@ -211,7 +211,9 @@ if ($filtro_status !== 'todos') {
             <!-- Lista de Pedidos -->
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Pedidos <?php echo $filtro_status !== 'todos' ? '- ' . ucfirst($filtro_status) : ''; ?></h5>
+                    <h5 class="mb-0">Pedidos
+                        <?php echo $filtro_status !== 'todos' ? '- ' . ucfirst($filtro_status) : ''; ?>
+                    </h5>
                     <span class="badge bg-secondary"><?php echo count($pedidos); ?> pedidos</span>
                 </div>
                 <div class="card-body">
@@ -237,7 +239,8 @@ if ($filtro_status !== 'todos') {
                                                 <div>
                                                     <strong><?php echo htmlspecialchars($pedido['usuario_nome']); ?></strong>
                                                     <br>
-                                                    <small class="text-muted"><?php echo htmlspecialchars($pedido['usuario_email']); ?></small>
+                                                    <small
+                                                        class="text-muted"><?php echo htmlspecialchars($pedido['usuario_email']); ?></small>
                                                 </div>
                                             </td>
                                             <td>R$ <?php echo number_format($pedido['total'], 2, ',', '.'); ?></td>
@@ -256,73 +259,85 @@ if ($filtro_status !== 'todos') {
                                             </td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <!-- Botão para ver detalhes -->
-                                                    <button class="btn btn-sm btn-outline-primary" 
-                                                            onclick="verDetalhes(<?php echo $pedido['id']; ?>)"
-                                                            title="Ver Detalhes">
+                                                    <button type="button" class="btn btn-details btn-sm btn-outline-primary"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#modalPedido<?php echo $pedido['id']; ?>">
                                                         <i class="fas fa-eye"></i>
                                                     </button>
-                                                    
+
                                                     <!-- Dropdown para alterar status -->
                                                     <div class="dropdown">
-                                                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" 
-                                                                type="button" data-bs-toggle="dropdown"
-                                                                title="Alterar Status">
+                                                        <button class="btn btn- btn-sm btn-outline-secondary dropdown-toggle"
+                                                            type="button" data-bs-toggle="dropdown" title="Alterar Status">
                                                             <i class="fas fa-sync-alt"></i>
                                                         </button>
                                                         <ul class="dropdown-menu">
                                                             <li>
                                                                 <form method="POST" class="d-inline">
-                                                                    <input type="hidden" name="pedido_id" value="<?php echo $pedido['id']; ?>">
+                                                                    <input type="hidden" name="pedido_id"
+                                                                        value="<?php echo $pedido['id']; ?>">
                                                                     <input type="hidden" name="novo_status" value="pendente">
-                                                                    <button type="submit" class="dropdown-item <?php echo $pedido['status'] === 'pendente' ? 'active' : ''; ?>">
+                                                                    <button type="submit"
+                                                                        class="dropdown-item <?php echo $pedido['status'] === 'pendente' ? 'active' : ''; ?>">
                                                                         🟡 Pendente
                                                                     </button>
                                                                 </form>
                                                             </li>
                                                             <li>
                                                                 <form method="POST" class="d-inline">
-                                                                    <input type="hidden" name="pedido_id" value="<?php echo $pedido['id']; ?>">
+                                                                    <input type="hidden" name="pedido_id"
+                                                                        value="<?php echo $pedido['id']; ?>">
                                                                     <input type="hidden" name="novo_status" value="confirmado">
-                                                                    <button type="submit" class="dropdown-item <?php echo $pedido['status'] === 'confirmado' ? 'active' : ''; ?>">
+                                                                    <button type="submit"
+                                                                        class="dropdown-item <?php echo $pedido['status'] === 'confirmado' ? 'active' : ''; ?>">
                                                                         🔵 Confirmado
                                                                     </button>
                                                                 </form>
                                                             </li>
                                                             <li>
                                                                 <form method="POST" class="d-inline">
-                                                                    <input type="hidden" name="pedido_id" value="<?php echo $pedido['id']; ?>">
+                                                                    <input type="hidden" name="pedido_id"
+                                                                        value="<?php echo $pedido['id']; ?>">
                                                                     <input type="hidden" name="novo_status" value="em_preparo">
-                                                                    <button type="submit" class="dropdown-item <?php echo $pedido['status'] === 'em_preparo' ? 'active' : ''; ?>">
+                                                                    <button type="submit"
+                                                                        class="dropdown-item <?php echo $pedido['status'] === 'em_preparo' ? 'active' : ''; ?>">
                                                                         🟠 Em Preparo
                                                                     </button>
                                                                 </form>
                                                             </li>
                                                             <li>
                                                                 <form method="POST" class="d-inline">
-                                                                    <input type="hidden" name="pedido_id" value="<?php echo $pedido['id']; ?>">
+                                                                    <input type="hidden" name="pedido_id"
+                                                                        value="<?php echo $pedido['id']; ?>">
                                                                     <input type="hidden" name="novo_status" value="a_caminho">
-                                                                    <button type="submit" class="dropdown-item <?php echo $pedido['status'] === 'a_caminho' ? 'active' : ''; ?>">
+                                                                    <button type="submit"
+                                                                        class="dropdown-item <?php echo $pedido['status'] === 'a_caminho' ? 'active' : ''; ?>">
                                                                         🚚 A Caminho
                                                                     </button>
                                                                 </form>
                                                             </li>
                                                             <li>
                                                                 <form method="POST" class="d-inline">
-                                                                    <input type="hidden" name="pedido_id" value="<?php echo $pedido['id']; ?>">
+                                                                    <input type="hidden" name="pedido_id"
+                                                                        value="<?php echo $pedido['id']; ?>">
                                                                     <input type="hidden" name="novo_status" value="entregue">
-                                                                    <button type="submit" class="dropdown-item <?php echo $pedido['status'] === 'entregue' ? 'active' : ''; ?>">
+                                                                    <button type="submit"
+                                                                        class="dropdown-item <?php echo $pedido['status'] === 'entregue' ? 'active' : ''; ?>">
                                                                         ✅ Entregue
                                                                     </button>
                                                                 </form>
                                                             </li>
-                                                            <li><hr class="dropdown-divider"></li>
+                                                            <li>
+                                                                <hr class="dropdown-divider">
+                                                            </li>
                                                             <li>
                                                                 <form method="POST" class="d-inline">
-                                                                    <input type="hidden" name="pedido_id" value="<?php echo $pedido['id']; ?>">
+                                                                    <input type="hidden" name="pedido_id"
+                                                                        value="<?php echo $pedido['id']; ?>">
                                                                     <input type="hidden" name="novo_status" value="cancelado">
-                                                                    <button type="submit" class="dropdown-item text-danger <?php echo $pedido['status'] === 'cancelado' ? 'active' : ''; ?>"
-                                                                            onclick="return confirm('Tem certeza que deseja cancelar este pedido?')">
+                                                                    <button type="submit"
+                                                                        class="dropdown-item text-danger <?php echo $pedido['status'] === 'cancelado' ? 'active' : ''; ?>"
+                                                                        onclick="return confirm('Tem certeza que deseja cancelar este pedido?')">
                                                                         ❌ Cancelar
                                                                     </button>
                                                                 </form>
@@ -336,13 +351,14 @@ if ($filtro_status !== 'todos') {
                                 </tbody>
                             </table>
                         </div>
+
                     <?php else: ?>
                         <div class="text-center py-4">
                             <i class="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
                             <h5>Nenhum pedido encontrado</h5>
                             <p class="text-muted">
-                                <?php echo $filtro_status !== 'todos' ? 
-                                    'Não há pedidos com status "' . ucfirst($filtro_status) . '"' : 
+                                <?php echo $filtro_status !== 'todos' ?
+                                    'Não há pedidos com status "' . ucfirst($filtro_status) . '"' :
                                     'Não há pedidos cadastrados no sistema'; ?>
                             </p>
                         </div>
@@ -350,6 +366,8 @@ if ($filtro_status !== 'todos') {
                 </div>
             </div>
         </div>
+
+
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
@@ -360,10 +378,10 @@ if ($filtro_status !== 'todos') {
         });
 
         // Busca em tempo real
-        document.getElementById('searchInput').addEventListener('input', function(e) {
+        document.getElementById('searchInput').addEventListener('input', function (e) {
             const searchTerm = e.target.value.toLowerCase();
             const rows = document.querySelectorAll('#pedidosTable tbody tr');
-            
+
             rows.forEach(row => {
                 const text = row.textContent.toLowerCase();
                 row.style.display = text.includes(searchTerm) ? '' : 'none';
@@ -390,5 +408,44 @@ if ($filtro_status !== 'todos') {
             }
         });
     </script>
+
+    <?php foreach ($pedidos as $pedido): ?>
+
+        <!-- Modal exclusivo por pedido -->
+        <div class="modal fade" id="modalPedido<?php echo $pedido['id']; ?>" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">Detalhes do Pedido #<?php echo $pedido['id']; ?></h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p><strong>Cliente:</strong> <?php echo htmlspecialchars($pedido['usuario_nome']); ?></p>
+                        <p><strong>Email:</strong> <?php echo htmlspecialchars($pedido['usuario_email']); ?></p>
+                        <p><strong>Total:</strong> R$ <?php echo number_format($pedido['total'], 2, ',', '.'); ?></p>
+                        <p><strong>Status:</strong> <?php echo ucfirst(str_replace('_', ' ', $pedido['status'])); ?></p>
+                        <p><strong>Data:</strong> <?php echo date('d/m/Y H:i', strtotime($pedido['data_pedido'])); ?></p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color:#6c757d; border-color:#6c757d; color:#fff;
+         box-shadow:none;
+         --bs-btn-hover-bg:#6c757d;
+         --bs-btn-hover-border-color:#6c757d;
+         --bs-btn-active-bg:#6c757d;
+         --bs-btn-active-border-color:#6c757d;">
+                            Fechar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+
+
+
+
 </body>
+
 </html>

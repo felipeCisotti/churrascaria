@@ -208,14 +208,6 @@ $counters = $stmtCounters->fetch();
                 <i class="fa-solid fa-pen"></i>
                 <span>Reservas</span>
             </a>
-            <a href="financeiro.php" class="menu-item">
-                <i class="fa-solid fa-dollar-sign"></i>
-                <span>Financeiro</span>
-            </a>
-            <a href=" relatorios.php" class="menu-item">
-                <i class="fa-solid fa-chart-line"></i>
-                <span>Relatórios</span>
-            </a>
 
             <div class="menu-label">Logout</div>
             <a href="logout.php" class="menu-item">

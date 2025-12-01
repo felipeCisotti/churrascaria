@@ -149,8 +149,9 @@ footer {
   background-color: var(--amarelo);
   margin: 0;
 }
-
-
+.celular{
+  display: none;
+}
 .log-footer {
   width: 200px;
   height: 100%;
@@ -167,12 +168,17 @@ footer {
 } 
 .search-mobile,
 .categoria-mob,
-.car-mob,
-.cardapio-menu-mob
+.cardapio-menu-mob,
 .btn-carrinho-flutuante{
   display: none;
 }
 
+.carocel-mobile{
+  display: none;
+}
+.cardapio-menu-mob{
+  display: none;
+}
 @media (max-width: 768px) {
 
   .search-mobile,
@@ -181,10 +187,7 @@ footer {
 .btn-carrinho-flutuante {
   display: block;
 }
-.corrossel{
-  display: none;
-}
-.car-mob{
+.carousel-desktop{
   display: none;
 }
   .header{
@@ -210,6 +213,13 @@ footer {
     height: auto;
   }
 
+  .caroussel{
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  margin-top: 20px;
+}
+
   .search-mobile {
     width: 90%;
     margin: 15px auto;
@@ -231,6 +241,9 @@ footer {
     outline: none;
   }
 
+  .celular{
+    display: block;
+  }
   
 
   .categoria-mob {
@@ -333,10 +346,63 @@ footer {
     text-decoration: none;
 }
 
-  .car-mob .slide img {
-    width: 264px;
-    height: 184px;
-  }
+.car-mob {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* O container do carrossel precisa ter largura fixa */
+.car-mob .caroussel {
+  overflow: hidden;
+  width: 100%;
+  max-width: 300px;   /* LIMITA A LARGURA E CENTRALIZA O SLIDE */
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Slides alinhados certinho */
+#slides-mobile {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Slide precisa ocupar exatamente a largura do container */
+.car-mob .slide {
+  min-width: 100%;  /* 🔥 Agora fica 1 por vez */
+  display: flex;
+  justify-content: center;
+}
+
+.car-mob .slide img {
+  width: 264px;
+  height: 184px;
+  border-radius: 14px;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Dots */
+.dots {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.dots .dot {
+  width: 10px;
+  height: 10px;
+  background: #ffffff83;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.dots .dot.active {
+  background: var(--amarelo);
+}
+
 
   .car {
      display: block; 
@@ -457,6 +523,7 @@ footer {
   font-size: 0.9rem;
 }
 
+
 .search-box input::placeholder {
   color: #f6eae1;
 }
@@ -533,7 +600,7 @@ footer {
   padding-left: 10px;
 }
 
-.caroussel {
+.caroussel-desktop {
   overflow: hidden;
   position: relative;
   width: 100%;
@@ -541,18 +608,19 @@ footer {
 }
 
 
-.slides {
+
+.slidesr {
   display: flex;
   transition: transform 0.5s ease;
 }
 
-.slides {
+.slidesr {
   flex: 0 0 33.333%;
   box-sizing: border-box;
   padding: 10px;
 }
 
-.slides img {
+.slidesr img {
   width: 489px;
   height: 383px;
   border-radius: 14px;

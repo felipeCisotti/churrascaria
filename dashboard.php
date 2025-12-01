@@ -110,14 +110,6 @@ $totalAvaliacoes = $stmtTotalAval->fetchColumn();
                 <i class="fa-solid fa-pen"></i>
                 <span>Reservas</span>
             </a>
-            <a href="includes/financeiro.php" class="menu-item">
-                <i class="fa-solid fa-dollar-sign"></i>
-                <span>Financeiro</span>
-            </a>
-            <a href="includes/relatorios.php" class="menu-item">
-                <i class="fa-solid fa-chart-line"></i>
-                <span>Relatórios</span>
-            </a>
 
             <div class="menu-label">Logout</div>
             <a href="includes/logout.php" class="menu-item">
@@ -177,91 +169,7 @@ $totalAvaliacoes = $stmtTotalAval->fetchColumn();
                     </div>
                     <div class="card-value"><?php echo $totalUser ?></div>
                 </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Avaliação Média</h3>
-                        <div class="card-icon" style="background-color: #BB1600;">
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                    </div>
-                    <div class="card-value"><?php echo number_format($mediaAvaliacoes, 1) ?>/5.0</div>
-                </div>
             </div>
-
-            <!-- NOVA SEÇÃO PARA AVALIAÇÕES RECENTES -->
-            <div class="row mt-4">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Avaliações Recentes</h4>
-                        </div>
-                        <div class="card-body">
-                            <?php
-                            $sqlAvaliacoes = "SELECT a.*, p.nome as produto_nome, u.nome as usuario_nome 
-                                            FROM avaliacoes a 
-                                            JOIN produtos p ON a.produto_id = p.id 
-                                            JOIN usuarios u ON a.usuario_id = u.id 
-                                            ORDER BY a.data_avaliacao DESC 
-                                            LIMIT 5";
-                            $stmtAvaliacoes = $pdo->query($sqlAvaliacoes);
-                            $avaliacoes = $stmtAvaliacoes->fetchAll();
-                            
-                            if (count($avaliacoes) > 0) {
-                                foreach ($avaliacoes as $avaliacao) {
-                                    echo '<div class="avaliacao-item mb-3 p-2 border-bottom">';
-                                    echo '<div class="d-flex justify-content-between">';
-                                    echo '<strong>' . htmlspecialchars($avaliacao['produto_nome']) . '</strong>';
-                                    echo '<span class="badge bg-warning">' . $avaliacao['nota'] . '/5</span>';
-                                    echo '</div>';
-                                    echo '<small class="text-muted">Por: ' . htmlspecialchars($avaliacao['usuario_nome']) . '</small>';
-                                    if (!empty($avaliacao['comentario'])) {
-                                        echo '<p class="mb-0 mt-1"><em>"' . htmlspecialchars($avaliacao['comentario']) . '"</em></p>';
-                                    }
-                                    echo '</div>';
-                                }
-                            } else {
-                                echo '<p class="text-muted">Nenhuma avaliação encontrada.</p>';
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Produtos Mais Bem Avaliados</h4>
-                        </div>
-                        <div class="card-body">
-                            <?php
-                            $sqlTopProdutos = "SELECT nome, preco, avaliacao_media 
-                                             FROM produtos 
-                                             WHERE avaliacao_media > 0 
-                                             ORDER BY avaliacao_media DESC 
-                                             LIMIT 5";
-                            $stmtTopProdutos = $pdo->query($sqlTopProdutos);
-                            $topProdutos = $stmtTopProdutos->fetchAll();
-                            
-                            if (count($topProdutos) > 0) {
-                                foreach ($topProdutos as $produto) {
-                                    echo '<div class="produto-item mb-2 p-2 border-bottom">';
-                                    echo '<div class="d-flex justify-content-between">';
-                                    echo '<span>' . htmlspecialchars($produto['nome']) . '</span>';
-                                    echo '<span class="badge bg-success">' . number_format($produto['avaliacao_media'], 1) . '/5</span>';
-                                    echo '</div>';
-                                    echo '<small class="text-muted">R$ ' . number_format($produto['preco'], 2, ',', '.') . '</small>';
-                                    echo '</div>';
-                                }
-                            } else {
-                                echo '<p class="text-muted">Nenhum produto avaliado ainda.</p>';
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
 
             <div class="todos-pedidos mt-4">
                 <section class="ped-list">
@@ -285,7 +193,7 @@ $totalAvaliacoes = $stmtTotalAval->fetchColumn();
                             echo "<td>" . htmlspecialchars($pedido['usuario_nome']) . "</td>";
                             echo "<td>R$ " . number_format($pedido['total'], 2, ',', '.') . "</td>";
                             echo "<td>
-                                    <form method='POST' action='atualizar_status.php' class='d-inline'>
+                                    <form method='POST' action='includes/atualizar_status.php' class='d-inline'>
                                         <input type='hidden' name='id' value='" . htmlspecialchars($pedido['id']) . "'>
                                         <select name='status' class='form-select form-select-sm' onchange='this.form.submit()'>
                                             <option value='pendente'" . ($pedido['status'] == 'pendente' ? ' selected' : '') . ">Pendente</option>
@@ -299,9 +207,9 @@ $totalAvaliacoes = $stmtTotalAval->fetchColumn();
                                   </td>";
                             echo "<td>" . htmlspecialchars($pedido['data_pedido']) . "</td>";
                             echo "<td>
-                                    <form method='POST' action='delete_pedido.php' class='d-inline'>
+                                    <form method='POST' action='includes/delete_pedido.php' class='d-inline'>
                                         <input type='hidden' name='id' value='" . htmlspecialchars($pedido['id']) . "'>
-                                        <button type='submit' class='btn btn-danger btn-sm' onclick=\"return confirm('Tem certeza?')\">Deletar</button>
+                                        <button type='submit' class='btn-excluir btn-danger btn-sm' onclick=\"return confirm('Tem certeza?')\">Deletar</button>
                                     </form>
                                   </td>";
                             echo "</tr>";

@@ -100,10 +100,10 @@ if (isset($_SESSION['id'])) {
   <div class="car">
 <div class="caroussel">
 <div class="slides" id="slides">
-<div class="sliders"><img src="../assets/img/c1.png" alt=""></div>
-<div class="sliders"><img src="../assets/img/c2.png" alt=""></div>
-<div class="sliders"><img src="../assets/img/c3.png" alt=""></div>
-<div class="sliders"><img src="../assets/img/c4.png" alt=""></div>
+<div class="sliders"><img class="img-car" src="../assets/img/c1.png" alt=""></div>
+<div class="sliders"><img class="img-car" src="../assets/img/c2.png" alt=""></div>
+<div class="sliders"><img  class="img-car"src="../assets/img/c3.png" alt=""></div>
+<div class="sliders"><img class="img-car"   src="../assets/img/c4.png" alt=""></div>
 <div class="sliders"><img src="../assets/img/c5.png" alt=""></div>
 </div>
 <button class="control prev" id="prev">❮</button>
@@ -148,13 +148,18 @@ if (isset($_SESSION['id'])) {
 
 <script>
 const slides = document.getElementById('slides');
-const totalSlides = document.querySelectorAll('.slide').length;
+const slideItems = document.querySelectorAll('.slide');
 const next = document.getElementById('next');
 const prev = document.getElementById('prev');
 const dotsContainer = document.getElementById('dots');
+
 let current = 0;
-let slidesPerView = 3;
+let slidesPerView = 1;
 let intervalId = null;
+
+// Largura fixa dos cards
+const CARD_WIDTH = 264;
+const GAP = 16;
 
 function getSlidesPerView() {
   const w = window.innerWidth;
@@ -164,9 +169,18 @@ function getSlidesPerView() {
   return 3;
 }
 
+function updatePosition() {
+  const totalWidth = (CARD_WIDTH + GAP) * current;
+  slides.style.transform = `translateX(-${totalWidth}px)`;
+  updateDots();
+}
+
 function buildDots() {
   dotsContainer.innerHTML = '';
-  const totalDots = Math.max(1, Math.ceil(totalSlides / slidesPerView));
+
+  const totalSlides = slideItems.length;
+  const totalDots = Math.ceil(totalSlides / slidesPerView);
+
   for (let i = 0; i < totalDots; i++) {
     const dot = document.createElement('span');
     dot.classList.add('dot');
@@ -174,9 +188,9 @@ function buildDots() {
     dot.addEventListener('click', () => moveTo(i));
     dotsContainer.appendChild(dot);
   }
-  return document.querySelectorAll('.dot');
-}
 
+  dots = document.querySelectorAll('.dot');
+}
 let dots = [];
 
 function updateDots() {
@@ -187,21 +201,21 @@ function updateDots() {
 
 function moveTo(index) {
   current = index * slidesPerView;
-  if (current >= totalSlides) current = 0;
-  slides.style.transform = `translateX(-${(100 / slidesPerView) * index}%)`;
-  updateDots();
+  updatePosition();
 }
 
 function nextSlide() {
+  const totalSlides = slideItems.length;
   current += slidesPerView;
   if (current >= totalSlides) current = 0;
-  moveTo(Math.floor(current / slidesPerView));
+  updatePosition();
 }
 
 function prevSlide() {
+  const totalSlides = slideItems.length;
   current -= slidesPerView;
   if (current < 0) current = Math.max(0, totalSlides - slidesPerView);
-  moveTo(Math.floor(current / slidesPerView));
+  updatePosition();
 }
 
 if (next) next.addEventListener('click', nextSlide);
@@ -209,16 +223,13 @@ if (prev) prev.addEventListener('click', prevSlide);
 
 function startAutoPlay() {
   if (intervalId) clearInterval(intervalId);
-  intervalId = setInterval(() => {
-    nextSlide();
-  }, 5000);
+  intervalId = setInterval(nextSlide, 5000);
 }
 
 function setup() {
   slidesPerView = getSlidesPerView();
-  dots = buildDots();
-  if (current >= totalSlides) current = 0;
-  moveTo(Math.floor(current / slidesPerView));
+  buildDots();
+  updatePosition();
   startAutoPlay();
 }
 
@@ -230,37 +241,25 @@ window.addEventListener('resize', () => {
     if (newSPV !== slidesPerView) {
       slidesPerView = newSPV;
       current = 0;
-      dots = buildDots();
-      moveTo(0);
-      startAutoPlay();
+      buildDots();
+      updatePosition();
     }
   }, 150);
 });
 
-// Suporte a swipe (touch) para mobile
-let touchStartX = 0;
-let touchEndX = 0;
-const touchThreshold = 50;
+// Swipe
+let startX = 0;
+slides.addEventListener("touchstart", e => {
+  startX = e.touches[0].clientX;
+}, { passive: true });
 
-slides.addEventListener('touchstart', (e) => {
-  touchStartX = e.touches[0].clientX;
-}, {passive: true});
-
-slides.addEventListener('touchmove', (e) => {
-  touchEndX = e.touches[0].clientX;
-}, {passive: true});
-
-slides.addEventListener('touchend', () => {
-  const diff = touchStartX - touchEndX;
-  if (Math.abs(diff) > touchThreshold) {
-    if (diff > 0) nextSlide(); else prevSlide();
+slides.addEventListener("touchend", e => {
+  const diff = startX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) {
+    if (diff > 0) nextSlide();
+    else prevSlide();
   }
-  touchStartX = 0; touchEndX = 0;
-});
+}, { passive: true });
 
 setup();
 </script>
-
-<?php
-include '../includes/footer.php';
-?>

@@ -24,35 +24,36 @@ include ("connect.php");
 
 $userName = isset($_SESSION["nome"]) ? htmlspecialchars($_SESSION["nome"]) : "Admin";
 
-// Processar cadastro de novo produto
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cadastrar_produto'])) {
     $nome = $_POST['nome'];
     $descricao = $_POST['descricao'];
     $preco = $_POST['preco'];
     $categoria = $_POST['categoria'];
     $ativo = isset($_POST['ativo']) ? 1 : 0;
-    
-    // Processar upload de imagem
+
     $imagem = null;
     if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === 0) {
+
         $uploadDir = '../assets/img/cardapio/';
+
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
-        
+
         $extensao = pathinfo($_FILES['imagem']['name'], PATHINFO_EXTENSION);
         $nomeImagem = uniqid() . '.' . $extensao;
+
         $caminhoImagem = $uploadDir . $nomeImagem;
-        
-        if (move_uploaded_file($_FILES['imagem']['tmp_name'], $caminhoImagem)) {
-            $imagem = $nomeImagem;
-        }
+
+        move_uploaded_file($_FILES['imagem']['tmp_name'], $caminhoImagem);
+
+        $imagem = $nomeImagem;
     }
-    
+
     $sqlInsert = "INSERT INTO produtos (nome, descricao, preco, categoria, imagem, ativo) 
                   VALUES (?, ?, ?, ?, ?, ?)";
     $stmtInsert = $pdo->prepare($sqlInsert);
-    
+
     if ($stmtInsert->execute([$nome, $descricao, $preco, $categoria, $imagem, $ativo])) {
         $mensagem = "Produto cadastrado com sucesso!";
         $tipoMensagem = "success";
@@ -62,7 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cadastrar_produto']))
     }
 }
 
-// Processar edição de produto
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editar_produto'])) {
     $id = $_POST['id'];
     $nome = $_POST['nome'];
@@ -70,39 +70,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editar_produto'])) {
     $preco = $_POST['preco'];
     $categoria = $_POST['categoria'];
     $ativo = isset($_POST['ativo']) ? 1 : 0;
-    
-    // Se há nova imagem, processar upload
+
     if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === 0) {
-        $uploadDir = 'uploads/produtos/';
+
+        $uploadDir = '../assets/img/cardapio/';
+
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
-        
+
         $extensao = pathinfo($_FILES['imagem']['name'], PATHINFO_EXTENSION);
         $nomeImagem = uniqid() . '.' . $extensao;
+
         $caminhoImagem = $uploadDir . $nomeImagem;
-        
-        if (move_uploaded_file($_FILES['imagem']['tmp_name'], $caminhoImagem)) {
-            // Deletar imagem antiga se existir
-            $sqlImagemAntiga = "SELECT imagem FROM produtos WHERE id = ?";
-            $stmtImagem = $pdo->prepare($sqlImagemAntiga);
-            $stmtImagem->execute([$id]);
-            $imagemAntiga = $stmtImagem->fetchColumn();
-            
-            if ($imagemAntiga && file_exists($imagemAntiga)) {
-                unlink($imagemAntiga);
-            }
-            
-            $imagem = $caminhoImagem;
-        }
+
+        move_uploaded_file($_FILES['imagem']['tmp_name'], $caminhoImagem);
+
+        $imagem = $nomeImagem;
+
     } else {
-        // Manter imagem existente
         $imagem = $_POST['imagem_atual'];
     }
-    
+
     $sqlUpdate = "UPDATE produtos SET nome = ?, descricao = ?, preco = ?, categoria = ?, imagem = ?, ativo = ? WHERE id = ?";
     $stmtUpdate = $pdo->prepare($sqlUpdate);
-    
+
     if ($stmtUpdate->execute([$nome, $descricao, $preco, $categoria, $imagem, $ativo, $id])) {
         $mensagem = "Produto atualizado com sucesso!";
         $tipoMensagem = "success";
@@ -112,65 +104,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editar_produto'])) {
     }
 }
 
-// Processar exclusão de produto
 if (isset($_GET['excluir'])) {
-    $id = (int) $_GET['excluir']; // força tipo inteiro
-    
+    $id = (int) $_GET['excluir'];
+
     try {
-        // Verificar se o produto está em algum pedido antes de excluir
+        // Verifica se está em pedidos
         $sqlCheckPedidos = "SELECT COUNT(*) FROM itens_pedido WHERE produto_id = ?";
         $stmtCheck = $pdo->prepare($sqlCheckPedidos);
         $stmtCheck->execute([$id]);
         $usoEmPedidos = (int) $stmtCheck->fetchColumn();
-        
+
         if ($usoEmPedidos > 0) {
             $mensagem = "Não é possível excluir este produto pois está vinculado a pedidos.";
             $tipoMensagem = "error";
+
         } else {
-            // Deletar imagem se existir
-            $sqlImagem = "SELECT imagem FROM produtos WHERE id = ?";
-            $stmtImagem = $pdo->prepare($sqlImagem);
-            $stmtImagem->execute([$id]);
-            $imagem = $stmtImagem->fetchColumn();
-            
-            if ($imagem && file_exists($imagem)) {
-                @unlink($imagem); // suprime warning, log se necessário
-            }
-            
+
             $sqlDelete = "DELETE FROM produtos WHERE id = ?";
             $stmtDelete = $pdo->prepare($sqlDelete);
-            
+
             if ($stmtDelete->execute([$id])) {
                 $mensagem = "Produto excluído com sucesso!";
                 $tipoMensagem = "success";
-                // opcional: redirecionar para limpar GET e evitar re-execução
                 header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
                 exit;
+
             } else {
                 $mensagem = "Erro ao excluir produto";
                 $tipoMensagem = "error";
-                error_log("Erro delete produto: " . implode(" | ", $stmtDelete->errorInfo()));
             }
         }
+
     } catch (Exception $e) {
         $mensagem = "Erro ao processar exclusão.";
         $tipoMensagem = "error";
-        error_log("Exclusão produto error: " . $e->getMessage());
     }
 }
 
-// Buscar todos os produtos
 $sqlProdutos = "SELECT * FROM produtos ORDER BY categoria, nome";
 $stmtProdutos = $pdo->query($sqlProdutos);
 $produtos = $stmtProdutos->fetchAll();
 
-// Buscar categorias únicas para o filtro
 $sqlCategorias = "SELECT DISTINCT categoria FROM produtos WHERE categoria IS NOT NULL ORDER BY categoria";
 $stmtCategorias = $pdo->query($sqlCategorias);
 $categorias = $stmtCategorias->fetchAll();
 
-// Filtro por categoria
 $filtro_categoria = isset($_GET['categoria']) ? $_GET['categoria'] : 'todas';
+
 if ($filtro_categoria !== 'todas') {
     $sqlProdutos = "SELECT * FROM produtos WHERE categoria = ? ORDER BY nome";
     $stmtProdutos = $pdo->prepare($sqlProdutos);
@@ -178,15 +158,17 @@ if ($filtro_categoria !== 'todas') {
     $produtos = $stmtProdutos->fetchAll();
 }
 
-// Contadores
 $sqlCounters = "SELECT 
     COUNT(*) as total,
     SUM(CASE WHEN ativo = 1 THEN 1 ELSE 0 END) as ativos,
     SUM(CASE WHEN ativo = 0 THEN 1 ELSE 0 END) as inativos
     FROM produtos";
+
 $stmtCounters = $pdo->query($sqlCounters);
 $counters = $stmtCounters->fetch();
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -377,15 +359,6 @@ $counters = $stmtCounters->fetch();
                 <i class="fa-solid fa-pen"></i>
                 <span>Reservas</span>
             </a>
-            <a href="financeiro.php" class="menu-item">
-                <i class="fa-solid fa-dollar-sign"></i>
-                <span>Financeiro</span>
-            </a>
-            <a href="relatorios.php" class="menu-item">
-                <i class="fa-solid fa-chart-line"></i>
-                <span>Relatórios</span>
-            </a>
-
             <div class="menu-label">Logout</div>
             <a href="logout.php" class="menu-item">
                 <i class="fas fa-sign-out-alt"></i>
@@ -447,8 +420,9 @@ $counters = $stmtCounters->fetch();
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-body text-center">
-                            <button class="btn-lg" data-bs-toggle="modal" data-bs-target="#modalProduto">
-                                <i class="fas fa-plus"></i> NOVO PRODUTO
+                            <button class="app-btn app-btn-primary app-btn-lg" data-bs-toggle="modal" data-bs-target="#modalProduto">
+                                <i class="fas fa-plus"></i>
+                                <span>Novo Usuário</span>
                             </button>
                         </div>
                     </div>
@@ -509,8 +483,8 @@ $counters = $stmtCounters->fetch();
                                 </div>
                                 
                                 <div class="card-footer bg-transparent">
-                                    <div class="btn-group w-100">
-                                        <button class="btn btn-outline-danger btn-sm btn-acao" 
+                                    <div class="btn w-100">
+                                        <button class="btn btn-outline-danger btn-sm btn-delete" 
                                                 onclick="confirmarExclusao(<?php echo $produto['id']; ?>, '<?php echo htmlspecialchars($produto['nome']); ?>')"
                                                 title="Excluir">
                                             <i class="fas fa-trash"></i>

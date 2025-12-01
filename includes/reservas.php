@@ -78,7 +78,7 @@ if (isset($_GET['excluir'])) {
 }
 
 // Buscar todas as reservas
-$sqlReservas = "SELECT r.*, u.nome as usuario_nome, u.email as usuario_email, u.telefone as usuario_telefone 
+$sqlReservas = "SELECT r.*, u.nome as usuario_nome, u.email as usuario_email, u.telefone as usuario_telefone    
                 FROM reservas r 
                 JOIN usuarios u ON r.usuario_id = u.id 
                 ORDER BY r.data_reserva DESC, r.horario DESC";
@@ -275,19 +275,10 @@ if ($filtro_status !== 'todas') {
                 <i class="fa-solid fa-location-dot"></i>
                 <span>Restaurantes</span>
             </a>
-            <a href="includes/reservas.php" class="menu-item">
+            <a href="reservas.php" class="menu-item">
                 <i class="fa-solid fa-pen"></i>
                 <span>Reservas</span>
             </a>
-            <a href="financeiro.php" class="menu-item">
-                <i class="fa-solid fa-dollar-sign"></i>
-                <span>Financeiro</span>
-            </a>
-            <a href="relatorios.php" class="menu-item">
-                <i class="fa-solid fa-chart-line"></i>
-                <span>Relatórios</span>
-            </a>
-
             <div class="menu-label">Logout</div>
             <a href="logout.php" class="menu-item">
                 <i class="fas fa-sign-out-alt"></i>
@@ -442,9 +433,9 @@ if ($filtro_status !== 'todas') {
                                             <td>
                                                 <div  style=" background-color: #ab0000ff; .btn-group::hover: background-color: #ff8b8ba4" class="btn-group">
                                                     <!-- Botão para ver detalhes -->
-                                                    <button class="deta btn btn-sm btn-outline-primary" 
-                                                            onclick="verDetalhes(<?php echo $reserva['id']; ?>)"
-                                                            title="Ver Detalhes">
+                                                    <button type="button" class="deta btn btn-sm btn-outline-primary"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#modalReserva<?php echo $reserva['id']; ?>">
                                                         <i class="fas fa-eye"></i>
                                                     </button>
                                                     
@@ -486,6 +477,7 @@ if ($filtro_status !== 'todas') {
                                                                             onclick="return confirm('Tem certeza que deseja cancelar esta reserva?')">
                                                                          Cancelada
                                                                     </button>
+                                                                    
                                                                 </form>
                                                             </li>
                                                         </ul>
@@ -668,5 +660,67 @@ if ($filtro_status !== 'todas') {
             }
         });
     </script>
+
+<?php foreach ($reservas as $reserva): ?>
+
+<!-- Modal exclusivo por reserva -->
+
+<div class="modal fade" id="modalReserva<?php echo $reserva['id']; ?>" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+```
+        <div class="modal-header">
+            <h1 class="modal-title fs-5">
+                Detalhes da Reserva #<?php echo $reserva['id']; ?>
+            </h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+
+            <p><strong>Cliente:</strong> <?php echo htmlspecialchars($reserva['usuario_nome']); ?></p>
+
+            <p><strong>Email:</strong> <?php echo htmlspecialchars($reserva['usuario_email']); ?></p>
+
+            <p><strong>Telefone:</strong> <?php echo htmlspecialchars($reserva['usuario_telefone']); ?></p>
+
+            <p><strong>Data da Reserva:</strong>
+                <?php echo date('d/m/Y', strtotime($reserva['data_reserva'])); ?>
+            </p>
+
+            <p><strong>Horário:</strong>
+                <?php echo date('H:i', strtotime($reserva['horario'])); ?>
+            </p>
+
+            <p><strong>Observações:</strong>
+                <?php echo !empty($reserva['observacoes']) ? htmlspecialchars($reserva['observacoes']) : 'Nenhuma'; ?>
+            </p>
+
+        </div>
+
+        <div class="modal-footer">
+            <button type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                    style="background-color:#6c757d; border-color:#6c757d; color:#fff;
+                    box-shadow:none;
+                    --bs-btn-hover-bg:#6c757d;
+                    --bs-btn-hover-border-color:#6c757d;
+                    --bs-btn-active-bg:#6c757d;
+                    --bs-btn-active-border-color:#6c757d;">
+                Fechar
+            </button>
+        </div>
+
+    </div>
+</div>
+```
+
+</div>
+
+<?php endforeach; ?>
+
+
 </body>
 </html>
