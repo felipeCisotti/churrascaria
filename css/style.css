@@ -155,15 +155,21 @@ footer {
   width: 200px;
   height: 100%;
 }
-
+.btn-carrinho-flutuante{
+  display: none;
+}
 .header-mob{
   display: none;
 }
-
+.sliders img
+.corrossel{
+  display: block;
+} 
 .search-mobile,
 .categoria-mob,
 .car-mob,
-.cardapio-menu-mob{
+.cardapio-menu-mob
+.btn-carrinho-flutuante{
   display: none;
 }
 
@@ -171,10 +177,10 @@ footer {
 
   .search-mobile,
 .categoria-mob,
-.cardapio-menu-mob{
+.cardapio-menu-mob
+.btn-carrinho-flutuante {
   display: block;
 }
-
 .corrossel{
   display: none;
 }
@@ -230,8 +236,28 @@ footer {
     padding: 10px 20px;
     overflow-x: auto;
     justify-content: center;
-
+    margin-top: 30px;
   }
+
+  .btn-carrinho-flutuante {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    background: var(--vermelho);
+    color: #fff;
+    font-size: 28px;
+    padding: 15px 18px;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    text-decoration: none;
+    transition: 0.3s;
+    z-index: 9999;
+}
+
+.btn-carrinho-flutuante:hover {
+    background: #218838;
+    transform: scale(1.1);
+}
 
   .cat-itens a {
     padding: 10px 20px;
@@ -279,7 +305,11 @@ footer {
     background: #fff;
     padding: 12px 0;
     z-index: 9999;
-    border-top: 2px solid #b20202; /* opcional: borda igual seus ícones */
+    border-top: 2px solid #b20202;
+}
+
+.img-log{
+  display: none;
 }
 
 .mob-bottom .itens-bottom {
@@ -296,7 +326,7 @@ footer {
 
   .car-mob .slide img {
     width: 264px;
-    height: 144px;
+    height: 184px;
   }
 
   .car {
@@ -317,7 +347,8 @@ footer {
 
   .cardapio-menu-mob {
     background-color: var(--vermelho);
-    height: 400px;
+    height: 350px;
+    margin-top: 30px;
   }
 
   .cardapio-menu-mob h2 {
@@ -357,6 +388,16 @@ footer {
   .slide {  
     padding: 10px;
   }
+
+  .itens a i{
+    text-decoration: none;
+    color: white;
+    font-size: 22px;
+  }
+
+  .btn-carrinho-flutuante{
+    display: block;
+  }
 }
 
 
@@ -372,6 +413,7 @@ footer {
   justify-content: space-between;
   padding: 10px 40px;
 }
+
 
 .logo {
   display: flex;
@@ -495,17 +537,18 @@ footer {
   transition: transform 0.5s ease;
 }
 
-.slide {
+.slides {
   flex: 0 0 33.333%;
   box-sizing: border-box;
   padding: 10px;
 }
 
-.slide img {
+.slides img {
   width: 489px;
   height: 383px;
   border-radius: 14px;
   object-fit: cover;
+  gap: 20px;
 }
 
 .cardapio-menu {
@@ -560,14 +603,22 @@ background-color: white;
   border-radius: 999px;
 }
 
+
+
 .car {
   background-color: var(--vermelho);
+  padding: 20px;
+  margin-top: 30px;
+  border-radius: 20px;
+  height: auto;
+  object-fit: cover;
 }
 
 .valores-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  margin-bottom: 50px;
 }
 
 .valores {

@@ -33,7 +33,9 @@ if ($result->num_rows > 0) {
 
 include '../includes/header.php';
 ?>
-
+<a href="carrinho.php" class="btn-carrinho-flutuante">
+    🛒
+</a>
 
 <div class="corrossel">
 <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">

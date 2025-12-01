@@ -56,10 +56,15 @@ $stmtRestaurantes = $pdo->query($sqlRestaurantes);
 $restaurantes = $stmtRestaurantes->fetchAll();
 ?>
 <body>
+
+<a href="carrinho.php" class="btn-carrinho-flutuante">
+    🛒
+</a>
     <?php include '../includes/header.php'; ?>
     <link rel="stylesheet" href="../css/reserva.css">
+    <link rel="stylesheet" href="../css/style.css">
 
-    <div class="corrossel">
+    <div class="carrassel">
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
@@ -346,11 +351,6 @@ if (isset($_GET['buscar'])) {
             const selectedDate = new Date(this.value);
             const today = new Date();
             today.setHours(0, 0, 0, 0);
-            
-            if (selectedDate < today) {
-                alert('Não é possível fazer reservas para datas passadas.');
-                this.value = '';
-            }
         });
 
         // Preenchimento automático do estado baseado na cidade selecionada
