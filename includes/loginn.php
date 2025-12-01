@@ -12,7 +12,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    // Permitir login por email (válido) ou por nome de usuário (quando email inválido)
     $loginField = null;
     $loginValue = null;
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {

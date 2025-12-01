@@ -262,7 +262,7 @@ $totalAvaliacoes = $stmtTotalAval->fetchColumn();
                 </div>
             </div>
 
-            <!-- SEÇÃO DE PEDIDOS (EXISTENTE) -->
+
             <div class="todos-pedidos mt-4">
                 <section class="ped-list">
                     <h3>Pedidos</h3>

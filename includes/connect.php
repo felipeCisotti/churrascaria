@@ -21,7 +21,6 @@ try {
     }
 } catch (Exception $e) {
     error_log("DB connect error: " . $e->getMessage());
-    // Em dev, mostrar erro; em produção, mostre mensagem genérica
     if (php_sapi_name() !== 'cli') {
         echo "Erro de conexão com o banco. Verifique logs.";
     }
