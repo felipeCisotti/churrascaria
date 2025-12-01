@@ -64,10 +64,10 @@ $restaurantes = $stmtRestaurantes->fetchAll();
     <link rel="stylesheet" href="../css/reserva.css">
     <link rel="stylesheet" href="../css/style.css">
 
-    <div class="carrassel">
-    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
+    <div class="carroussel-reserva">
+    <div id="carouselExampleSlidesOnly" class="carousel slider" data-bs-ride="carousels">
+  <div class="carousels-inner">
+    <div class="carousels-item active">
       <img src="../assets/img/restaurantes/bannerrest.png" class="d-block w-100" alt="...">
     </div>
 </div>
@@ -104,7 +104,6 @@ $restaurantes = $stmtRestaurantes->fetchAll();
             
 
                 <form class="reserva-form" method="POST" action="">
-                    <!-- Informações do Restaurante -->
                     <div class="restaurante-info">
                         <div class="form-row">
                             <div class="form-group">
@@ -305,7 +304,7 @@ if (isset($_GET['buscar'])) {
             </select>
             
             <button class="busc" type="submit" name="buscar">BUSCAR RESTAURANTES</button>
-            <button type="button" class="btn-local">OU USE SUA LOCALIZAÇÃO ATUAL</button>
+            <button type="button" onclick="abrirNoMaps()" class="btn-local">OU USE SUA LOCALIZAÇÃO ATUAL</button>
         </form>
 
         <?php if (isset($_GET['buscar'])): ?>
@@ -336,6 +335,25 @@ if (isset($_GET['buscar'])) {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+
+        function abrirNoMaps() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(pos) {
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+
+            // Link direto pro Google Maps
+            const url = `https://www.google.com/maps?q=${lat},${lng}`;
+
+            window.location.href = url;
+        }, function(erro) {
+            alert("Não consegui pegar sua localização.");
+        });
+    } else {
+        alert("Seu navegador não suporta geolocalização.");
+    }
+}
+
         // Máscara para telefone
         document.getElementById('telefone').addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');

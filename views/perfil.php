@@ -342,6 +342,7 @@ $reservas = $stmtReservas->fetchAll(PDO::FETCH_ASSOC);
         
         .content {
             padding: 20px;
+            margin-bottom: 90px;
         }
         
         .sidebar img {
@@ -352,6 +353,7 @@ $reservas = $stmtReservas->fetchAll(PDO::FETCH_ASSOC);
         .menu a {
             padding: 12px 15px;
         }
+        .content
     }
 
     @media (max-width: 480px) {

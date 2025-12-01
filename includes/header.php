@@ -81,7 +81,7 @@
       <a href="index.php"><i class="fa fa-home"></i></a>
       <a href="reserva.php"><i class="fa fa-map-marker-alt"></i></a>
       <a href="#valores"><i class="fa fa-info-circle"></i></a>
-      <a href=""><i class="fa fa-bars" aria-hidden="true"></i></a>
+      <a href="menu.html"><i class="fa fa-bars" aria-hidden="true"></i></a>
     </div>
   </div>
 </header>

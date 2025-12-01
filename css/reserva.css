@@ -211,6 +211,10 @@ color: white;
     color: #333;
     width: 100%;
     appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    
 }
 
 /* seta do select igual */

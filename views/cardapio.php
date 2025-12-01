@@ -168,7 +168,7 @@ $categorias = $stmtCategorias->fetchAll(PDO::FETCH_COLUMN);
                 if (intervalId) clearInterval(intervalId);
                 intervalId = setInterval(() => {
                     nextSlide();
-                }, 5000);
+                }, 3000);
             }
 
             function setup() {

@@ -21,7 +21,7 @@ if ($result->num_rows > 0) {
 
     // SE FOR ADMIN → manda para dashboard
     if ($tipo === 'admin') {
-        header("Location: dashboard.php");
+        header("Location: ../dashboard.php");
         exit;
     }
 
@@ -33,6 +33,18 @@ if ($result->num_rows > 0) {
 
 include '../includes/header.php';
 ?>
+
+
+<style>
+  .cardapio-menu-mob{
+    display: none;
+  }
+  @media (max-width: 768px) {
+.cardapio-menu-mob{
+  display: block;
+}
+}
+</style>
 <a href="carrinho.php" class="btn-carrinho-flutuante">
     🛒
 </a>
@@ -103,12 +115,12 @@ include '../includes/header.php';
     <h2>Cardápio</h2>
 
     <div class="cardapio-imgs">
-      <a class="img-card" href=""><img src="../assets/img/cardapio/pratos.png" alt=""></a>
-      <a class="img-card" href=""><img src="../assets/img/cardapio/espetinhos.png" alt=""></a>
-      <a class="img-card" href=""><img src="../assets/img/cardapio/porcoes.png" alt=""></a>
-      <a class="img-card" href=""><img src="../assets/img/cardapio/drinks.png" alt=""></a>
-      <a class="img-card" href=""><img src="../assets/img/cardapio/sobremesas.png" alt=""></a>
-      <a class="img-card" href=""><img src="../assets/img/cardapio/rodizio.png" alt=""></a>
+      <a class="img-card" href="cardapio.php"><img src="../assets/img/cardapio/pratos.png" alt=""></a>
+      <a class="img-card" href="cardapio.php"><img src="../assets/img/cardapio/espetinhos.png" alt=""></a>
+      <a class="img-card" href="cardapio.php"><img src="../assets/img/cardapio/porcoes.png" alt=""></a>
+      <a class="img-card" href="cardapio.php"><img src="../assets/img/cardapio/drinks.png" alt=""></a>
+      <a class="img-card" href="cardapio.php"><img src="../assets/img/cardapio/sobremesas.png" alt=""></a>
+      <a class="img-card" href="cardapio.php"><img src="../assets/img/cardapio/rodizio.png" alt=""></a>
     </div>
 
     <div class="cardapio-tit">
