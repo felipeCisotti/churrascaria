@@ -1,19 +1,26 @@
-
 <?php
-include '../includes/header.php';
-
+include '../includes/connect.php';
 session_start();
-if (isset($_SESSION['id'])) {
-  header("Location: cadastrado.php");
-  exit;
-}
+include '../includes/header.php';
 ?>
 
+
+<style>
+  .cardapio-menu-mob{
+    display: none;
+  }
+  @media (max-width: 768px) {
+.cardapio-menu-mob{
+  display: block;
+}
+}
+</style>
 <a href="carrinho.php" class="btn-carrinho-flutuante">
     🛒
 </a>
-<div class="corrossel">
-<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+
+<section class="carousel-desktop">
+<div id="carouselExample" class="carousel slide">
   <div class="carousel-inner">
     <div class="carousel-item active">
       <img src="../assets/img/b1.png" class="d-block w-100" alt="...">
@@ -25,8 +32,18 @@ if (isset($_SESSION['id'])) {
       <img src="../assets/img/b3.png" class="d-block w-100" alt="...">
     </div>
   </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
 </div>
-</div>
+</section>
+
+<section class="celular">
 
 <div class="mobile">
 
@@ -38,15 +55,16 @@ if (isset($_SESSION['id'])) {
 
   <div class="categoria-mob">
     <div class="cat-itens">
-      <a href="cardapio.php">Todos</a>
-      <a href="cardapio.php">Carne</a>
-      <a href="cardapio.php">Bebidas</a>
+      <a href="">Todos</a>
+      <a href="">Carne</a>
+      <a href="">Bebidas</a>
     </div>
   </div>
 
+  <div class="carocel-mobile">
   <div class="car-mob">
     <div class="caroussel">
-      <div class="slides" id="slides-mobile">
+      <div class="slider" id="slides-mobile">
         <div class="slide"><img src="../assets/img/c1.png" alt=""></div>
         <div class="slide"><img src="../assets/img/c2.png" alt=""></div>
         <div class="slide"><img src="../assets/img/c3.png" alt=""></div>
@@ -55,6 +73,7 @@ if (isset($_SESSION['id'])) {
       </div>
     </div>
     <div class="dots" id="dots-mobile"></div>
+  </div>
   </div>
 
   <div class="cardapio-menu-mob">
@@ -70,20 +89,22 @@ if (isset($_SESSION['id'])) {
     </div>
   </div>
 
+
 </div>
 
+</section>
 <div class="desktop">
 
   <div class="cardapio-menu">
     <h2>Cardápio</h2>
 
     <div class="cardapio-imgs">
-      <a class="img-card" href=""><img src="../assets/img/cardapio/pratos.png" alt=""></a>
-      <a class="img-card" href=""><img src="../assets/img/cardapio/espetinhos.png" alt=""></a>
-      <a class="img-card" href=""><img src="../assets/img/cardapio/porcoes.png" alt=""></a>
-      <a class="img-card" href=""><img src="../assets/img/cardapio/drinks.png" alt=""></a>
-      <a class="img-card" href=""><img src="../assets/img/cardapio/sobremesas.png" alt=""></a>
-      <a class="img-card" href=""><img src="../assets/img/cardapio/rodizio.png" alt=""></a>
+      <a class="img-card" href="cardapio.php"><img src="../assets/img/cardapio/pratos.png" alt=""></a>
+      <a class="img-card" href="cardapio.php"><img src="../assets/img/cardapio/espetinhos.png" alt=""></a>
+      <a class="img-card" href="cardapio.php"><img src="../assets/img/cardapio/porcoes.png" alt=""></a>
+      <a class="img-card" href="cardapio.php"><img src="../assets/img/cardapio/drinks.png" alt=""></a>
+      <a class="img-card" href="cardapio.php"><img src="../assets/img/cardapio/sobremesas.png" alt=""></a>
+      <a class="img-card" href="cardapio.php"><img src="../assets/img/cardapio/rodizio.png" alt=""></a>
     </div>
 
     <div class="cardapio-tit">
@@ -98,13 +119,13 @@ if (isset($_SESSION['id'])) {
 
 
   <div class="car">
-<div class="caroussel">
-<div class="slides" id="slides">
-<div class="sliders"><img class="img-car" src="../assets/img/c1.png" alt=""></div>
-<div class="sliders"><img class="img-car" src="../assets/img/c2.png" alt=""></div>
-<div class="sliders"><img  class="img-car"src="../assets/img/c3.png" alt=""></div>
-<div class="sliders"><img class="img-car"   src="../assets/img/c4.png" alt=""></div>
-<div class="sliders"><img src="../assets/img/c5.png" alt=""></div>
+<div class="caroussel-desktop">
+<div class="slidesr" id="slides">
+<div class="slidets"><img src="../assets/img/c1.png" alt=""></div>
+<div class="slidets"><img src="../assets/img/c2.png" alt=""></div>
+<div class="slidets"><img src="../assets/img/c3.png" alt=""></div>
+<div class="slidets"><img src="../assets/img/c4.png" alt=""></div>
+<div class="slidets"><img src="../assets/img/c5.png" alt=""></div>
 </div>
 <button class="control prev" id="prev">❮</button>
 <button class="control next" id="next">❯</button>
@@ -130,7 +151,7 @@ if (isset($_SESSION['id'])) {
   </div>
 
   <div class="valores">
-    <div class="nume">3</div>
+    <div class="nume">4</div>
     <div class="texto-valores">
       <h5>Serviço no Ponto</h5>
       Servimos as carnes imediatamente após o preparo, no ponto ideal de cada uma.
@@ -138,7 +159,7 @@ if (isset($_SESSION['id'])) {
   </div>
 
   <div class="valores">
-    <div class="nume">4</div>
+    <div class="nume">3</div>
     <div class="texto-valores">
       <h5>Assamento Perfeito</h5>
       Controlamos temperatura e distância do fogo para cada tipo de corte.
@@ -263,3 +284,8 @@ slides.addEventListener("touchend", e => {
 
 setup();
 </script>
+
+
+<?php
+include '../includes/footer.php';
+?>

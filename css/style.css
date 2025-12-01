@@ -134,6 +134,9 @@
   border-radius: 20px;
 }
 
+.mobile{
+
+}
 .lateral {
   background-color: var(--marrom);
   width: 270px;
@@ -609,17 +612,20 @@ footer {
 
 
 
-.slidesr {
-  display: flex;
-  transition: transform 0.5s ease;
+.slidesr,
+.sliders {
+display: flex;  
+transition: transform 0.5s ease;
 }
 
+.sliders,
 .slidesr {
   flex: 0 0 33.333%;
   box-sizing: border-box;
   padding: 10px;
 }
 
+.sliders,
 .slidesr img {
   width: 489px;
   height: 383px;
