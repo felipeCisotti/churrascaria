@@ -45,7 +45,11 @@
 }
 
 .car {
+<<<<<<< HEAD
     position: relative; 
+=======
+    position: relative;
+>>>>>>> e85f4f196cf87307c4d8005950ab5575ad61e454
 }
 
 
@@ -81,7 +85,10 @@
     flex-direction: column;
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> e85f4f196cf87307c4d8005950ab5575ad61e454
 .produto-card {
     width: 100%;
     max-width: 420px;
