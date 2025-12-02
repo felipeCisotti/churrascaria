@@ -45,7 +45,7 @@
 }
 
 .car {
-    position: relative; /* necessário para posicionar os botões */
+    position: relative;
 }
 
 
@@ -65,7 +65,7 @@
     flex: 0 0 calc(33.333% - 14px);
     min-width: 0;
     display: flex;
-    justify-content: center; /* centraliza o conteúdo do slide */
+    justify-content: center; 
 }
 
 .produto-card {
@@ -81,7 +81,6 @@
     flex-direction: column;
 }
 
-/* Limita a largura dos cards para não esticar e fica centralizado pelo .slide */
 .produto-card {
     width: 100%;
     max-width: 420px;
