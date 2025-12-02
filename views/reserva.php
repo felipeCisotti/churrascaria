@@ -2,7 +2,6 @@
 session_start();
 include '../includes/connect.php';
 
-// Processar reserva
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fazer_reserva'])) {
     $usuario_id = isset($_SESSION['id']) ? $_SESSION['id'] : null;
     $nome = $_POST['nome'];
@@ -14,9 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fazer_reserva'])) {
     $horario = $_POST['horario'];
     $qtd_pessoas = $_POST['qtd_pessoas'];
 
-    // Se usuário não está logado, criar um usuário temporário ou redirecionar para login
     if (!$usuario_id) {
-        // Verificar se email já existe
         $sqlCheckUser = "SELECT id FROM usuarios WHERE email = ?";
         $stmtCheck = $pdo->prepare($sqlCheckUser);
         $stmtCheck->execute([$email]);
@@ -25,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fazer_reserva'])) {
         if ($existingUser) {
             $usuario_id = $existingUser['id'];
         } else {
-            // Criar usuário temporário
             $senha_temporaria = password_hash(uniqid(), PASSWORD_DEFAULT);
             $sqlInsertUser = "INSERT INTO usuarios (nome, email, telefone, senha, tipo) VALUES (?, ?, ?, ?, 'cliente')";
             $stmtUser = $pdo->prepare($sqlInsertUser);
@@ -41,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fazer_reserva'])) {
         $observacoes = "Cidade: $cidade, Estado: $estado, Telefone: $telefone";
         
         if ($stmtInsert->execute([$usuario_id, $data_reserva, $horario, $qtd_pessoas, $observacoes])) {
-            $mensagem = "Reserva realizada com sucesso! Entraremos em contato para confirmação.";
+            $mensagem = "Reserva realizada com sucesso! Entraremos em contato para confirmaÃ§Ã£o.";
             $tipoMensagem = "success";
         } else {
             $mensagem = "Erro ao realizar reserva. Tente novamente.";
@@ -50,7 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fazer_reserva'])) {
     }
 }
 
-// Buscar restaurantes disponíveis
 $sqlRestaurantes = "SELECT * FROM restaurantes ORDER BY cidade, estado";
 $stmtRestaurantes = $pdo->query($sqlRestaurantes);
 $restaurantes = $stmtRestaurantes->fetchAll();
@@ -121,18 +116,18 @@ $restaurantes = $stmtRestaurantes->fetchAll();
                                 <label for="estado">ESTADO</label>
                                 <select class="form-control" id="estado" name="estado" required>
                                     <option value="">Selecione o estado</option>
-                                    <option value="SP">São Paulo</option>
+                                    <option value="SP">SÃ£o Paulo</option>
                                     <option value="RJ">Rio de Janeiro</option>
                                     <option value="MG">Minas Gerais</option>
-                                    <option value="ES">Espírito Santo</option>
-                                    <option value="PR">Paraná</option>
+                                    <option value="ES">EspÃ­rito Santo</option>
+                                    <option value="PR">ParanÃ¡</option>
                                     <option value="SC">Santa Catarina</option>
                                     <option value="RS">Rio Grande do Sul</option>
                                 </select>
                             </div>
                         </div>
                     </div>
-                    <!-- Data e Horário -->
+                    
                     <div class="junto">
                         <div class="form-row">
                             <div class="form-group">
@@ -141,9 +136,9 @@ $restaurantes = $stmtRestaurantes->fetchAll();
                                        min="<?php echo date('Y-m-d'); ?>" required>
                             </div>
                             <div class="form-group">
-                                <label for="horario">HORÁRIO</label>
+                                <label for="horario">HORÃRIO</label>
                                 <select class="form-control" id="horario" name="horario" required>
-                                    <option value="">Selecione o horário</option>
+                                    <option value="">Selecione o horÃ¡rio</option>
                                     <option value="11:00">11:00</option>
                                     <option value="11:30">11:30</option>
                                     <option value="12:00">12:00</option>
@@ -161,7 +156,7 @@ $restaurantes = $stmtRestaurantes->fetchAll();
                                 </select>
                             </div>
                         </div>
-                        <!-- Quantidade de Pessoas -->
+                        
                         <div class="form-group">
                             <label for="qtd_pessoas">PESSOAS</label>
                             <select class="form-control" id="qtd_pessoas" name="qtd_pessoas" required>
@@ -172,7 +167,7 @@ $restaurantes = $stmtRestaurantes->fetchAll();
                             </select>
                         </div>
                                 </div>
-                    <!-- Informações Pessoais -->
+                    
                     <div class="form-group">
                         <label for="telefone">TELEFONE</label>
                         <input type="tel" class="form-control" id="telefone" name="telefone"
@@ -203,8 +198,8 @@ $restaurantes = $stmtRestaurantes->fetchAll();
                 <div class="card border-0">
                     <div class="card-body">
                         <i class="fas fa-clock fa-3x text-danger mb-3"></i>
-                        <h5>Horários de Funcionamento</h5>
-                        <p>Segunda a Sábado: 11h às 23h<br>Domingo: 11h às 17h</p>
+                        <h5>HorÃ¡rios de Funcionamento</h5>
+                        <p>Segunda a SÃ¡bado: 11h Ã s 23h<br>Domingo: 11h Ã s 17h</p>
                     </div>
                 </div>
             </div>
@@ -213,7 +208,7 @@ $restaurantes = $stmtRestaurantes->fetchAll();
                     <div class="card-body">
                         <i class="fas fa-users fa-3x text-danger mb-3"></i>
                         <h5>Capacidade</h5>
-                        <p>Grupos de até 20 pessoas<br>Ambiente familiar</p>
+                        <p>Grupos de atÃ© 20 pessoas<br>Ambiente familiar</p>
                     </div>
                 </div>
             </div>
@@ -221,8 +216,8 @@ $restaurantes = $stmtRestaurantes->fetchAll();
                 <div class="card border-0">
                     <div class="card-body">
                         <i class="fas fa-info-circle fa-3x text-danger mb-3"></i>
-                        <h5>Informações</h5>
-                        <p>Reserva com 2h de antecedência<br>Cancelamento gratuito</p>
+                        <h5>InformaÃ§Ãµes</h5>
+                        <p>Reserva com 2h de antecedÃªncia<br>Cancelamento gratuito</p>
                     </div>
                 </div>
             </div>
@@ -238,20 +233,17 @@ $dbname = "churrascaria";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
-    die("Falha na conexão: " . $conn->connect_error);
+    die("Falha na conexÃ£o: " . $conn->connect_error);
 }
 
-// Buscar estados únicos
 $estados = $conn->query("SELECT DISTINCT estado FROM restaurantes ORDER BY estado");
 
-// Buscar cidades com base no estado
 $cidades = [];
 if (isset($_GET['estado']) && $_GET['estado'] !== '') {
     $estadoSelecionado = $conn->real_escape_string($_GET['estado']);
     $cidades = $conn->query("SELECT DISTINCT cidade FROM restaurantes WHERE estado='$estadoSelecionado' ORDER BY cidade");
 }
 
-// Buscar restaurantes com base na cidade e estado
 $resultados = [];
 if (isset($_GET['buscar'])) {
     $estado = $conn->real_escape_string($_GET['estado']);
@@ -280,7 +272,7 @@ if (isset($_GET['buscar'])) {
 <div class=" encontre">
     <div class="left">
         <div class="left-tex">
-            <h1>Encontre aqui o <span style="color:#f7a01b; font-weight: bold;">Restaurante</span> mais próximo!</h1>
+            <h1>Encontre aqui o <span style="color:#f7a01b; font-weight: bold;">Restaurante</span> mais prÃ³ximo!</h1>
             <p>Descubra todas as nossas unidades e encontre a sua preferida.<br> Planeje sua visita e aproveite o momento!</p>
         </div> 
         
@@ -304,7 +296,7 @@ if (isset($_GET['buscar'])) {
             </select>
             
             <button class="busc" type="submit" name="buscar">BUSCAR RESTAURANTES</button>
-            <button type="button" onclick="abrirNoMaps()" class="btn-local">OU USE SUA LOCALIZAÇÃO ATUAL</button>
+            <button type="button" onclick="abrirNoMaps()" class="btn-local">OU USE SUA LOCALIZAÃ‡ÃƒO ATUAL</button>
         </form>
 
         <?php if (isset($_GET['buscar'])): ?>
@@ -319,7 +311,7 @@ if (isset($_GET['buscar'])) {
                         </div>
                     <?php endwhile; ?>
                 <?php else: ?>
-                    <p>Nenhum restaurante encontrado nessa região.</p>
+                    <p>Nenhum restaurante encontrado nessa regiÃ£o.</p>
                 <?php endif; ?>
             </div>
         <?php endif; ?>
@@ -333,7 +325,7 @@ if (isset($_GET['buscar'])) {
 </html>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https:
     <script>
 
         function abrirNoMaps() {
@@ -342,19 +334,17 @@ if (isset($_GET['buscar'])) {
             const lat = pos.coords.latitude;
             const lng = pos.coords.longitude;
 
-            // Link direto pro Google Maps
-            const url = `https://www.google.com/maps?q=${lat},${lng}`;
+            const url = `https:
 
             window.location.href = url;
         }, function(erro) {
-            alert("Não consegui pegar sua localização.");
+            alert("NÃ£o consegui pegar sua localizaÃ§Ã£o.");
         });
     } else {
-        alert("Seu navegador não suporta geolocalização.");
+        alert("Seu navegador nÃ£o suporta geolocalizaÃ§Ã£o.");
     }
 }
 
-        // Máscara para telefone
         document.getElementById('telefone').addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
             if (value.length <= 11) {
@@ -364,23 +354,21 @@ if (isset($_GET['buscar'])) {
             }
         });
 
-        // Validação de data (não permitir datas passadas)
         document.getElementById('data_reserva').addEventListener('change', function() {
             const selectedDate = new Date(this.value);
             const today = new Date();
             today.setHours(0, 0, 0, 0);
         });
 
-        // Preenchimento automático do estado baseado na cidade selecionada
         const cidadeEstadoMap = {
-            'São Paulo': 'SP',
+            'SÃ£o Paulo': 'SP',
             'Campinas': 'SP',
             'Rio de Janeiro': 'RJ',
-            'Niterói': 'RJ',
+            'NiterÃ³i': 'RJ',
             'Belo Horizonte': 'MG',
-            'Vitória': 'ES',
+            'VitÃ³ria': 'ES',
             'Curitiba': 'PR',
-            'Florianópolis': 'SC',
+            'FlorianÃ³polis': 'SC',
             'Porto Alegre': 'RS'
         };
 
@@ -393,14 +381,13 @@ if (isset($_GET['buscar'])) {
             }
         }); 
 
-        // Validação do formulário antes do envio
         document.querySelector('form').addEventListener('submit', function(e) {
             const telefone = document.getElementById('telefone').value;
             const telefoneRegex = /^\(\d{2}\) \d{5}-\d{4}$/;
             
             if (!telefoneRegex.test(telefone)) {
                 e.preventDefault();
-                alert('Por favor, insira um telefone válido no formato (11) 99999-9999');
+                alert('Por favor, insira um telefone vÃ¡lido no formato (11) 99999-9999');
                 return false;
             }
         });

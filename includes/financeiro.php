@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cadastrar_faturamento
             $tipoMensagem = "error";
         }
     } else {
-        $mensagem = "Data inválida.";
+        $mensagem = "Data invÃ¡lida.";
         $tipoMensagem = "error";
     }
 }
@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['editar_faturamento'])
             $tipoMensagem = "error";
         }
     } else {
-        $mensagem = "Dados inválidos para atualização.";
+        $mensagem = "Dados invÃ¡lidos para atualizaÃ§Ã£o.";
         $tipoMensagem = "error";
     }
 }
@@ -85,7 +85,7 @@ if (isset($_GET['excluir'])) {
             $sql = "DELETE FROM faturamento WHERE id = ?";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([$id]);
-            $mensagem = "Registro excluído.";
+            $mensagem = "Registro excluÃ­do.";
             $tipoMensagem = "success";
             header("Location: financeiro.php");
             exit;
@@ -104,7 +104,7 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv') {
 
     header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment; filename=faturamento_' . date('Ymd_His') . '.csv');
-    $out = fopen('php://output', 'w');
+    $out = fopen('php:
     fputcsv($out, ['id', 'data', 'total_vendas', 'total_pedidos']);
     foreach ($rows as $r)
         fputcsv($out, $r);
@@ -161,8 +161,8 @@ $soma_pedidos = (int) ($counters['soma_pedidos'] ?? 0);
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Faturamento - Admin</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https:
+    <link href="https:
     <link rel="stylesheet" href="../css/dashboard.css">
     <style>
         .app-btn {
@@ -222,7 +222,7 @@ $soma_pedidos = (int) ($counters['soma_pedidos'] ?? 0);
             </a>
             <a href="cardapio_dash.php" class="menu-item">
                 <i class="fa-solid fa-utensils"></i>
-                <span>Cardápio</span>
+                <span>CardÃ¡pio</span>
             </a>
             <a href="clientes.php" class="menu-item">
                 <i class="fas fa-users"></i>
@@ -242,7 +242,7 @@ $soma_pedidos = (int) ($counters['soma_pedidos'] ?? 0);
             </a>
             <a href=" relatorios.php" class="menu-item">
                 <i class="fa-solid fa-chart-line"></i>
-                <span>Relatórios</span>
+                <span>RelatÃ³rios</span>
             </a>
 
             <div class="menu-label">Logout</div>
@@ -328,7 +328,7 @@ $soma_pedidos = (int) ($counters['soma_pedidos'] ?? 0);
                                         <th>Data</th>
                                         <th>Vendas (R$)</th>
                                         <th>Pedidos</th>
-                                        <th>Ações</th>
+                                        <th>AÃ§Ãµes</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -366,7 +366,7 @@ $soma_pedidos = (int) ($counters['soma_pedidos'] ?? 0);
         </div>
     </main>
 
-    <!-- Modal Novo / Editar -->
+    
     <div class="modal fade" id="modalFaturamento" tabindex="-1" aria-labelledby="modalFaturamentoLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered">
@@ -404,13 +404,13 @@ $soma_pedidos = (int) ($counters['soma_pedidos'] ?? 0);
         </div>
     </div>
 
-    <!-- Modal excluir -->
+    
     <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body">
-                    <p>Confirma exclusão deste registro?</p>
+                    <p>Confirma exclusÃ£o deste registro?</p>
                     <div class="text-end">
                         <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
                         <a id="deleteConfirmBtn" class="btn btn-danger btn-sm" href="#">Excluir</a>
@@ -420,14 +420,14 @@ $soma_pedidos = (int) ($counters['soma_pedidos'] ?? 0);
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https:
     <script>
-        // Menu toggle
+        
         document.getElementById('menuToggle').addEventListener('click', function () {
             document.getElementById('sidebar').classList.toggle('open');
         });
 
-        // Busca local
+        
         document.getElementById('searchInput').addEventListener('input', function (e) {
             const term = e.target.value.toLowerCase().trim();
             document.querySelectorAll('#faturTable tbody tr').forEach(row => {
@@ -446,7 +446,7 @@ $soma_pedidos = (int) ($counters['soma_pedidos'] ?? 0);
             new bootstrap.Modal(document.getElementById('modalFaturamento')).show();
         }
 
-        // Ao fechar modal, resetar para criação
+        
         document.getElementById('modalFaturamento').addEventListener('hidden.bs.modal', function () {
             document.getElementById('formFatur').reset();
             document.getElementById('faturId').value = '';
@@ -460,7 +460,7 @@ $soma_pedidos = (int) ($counters['soma_pedidos'] ?? 0);
             new bootstrap.Modal(document.getElementById('confirmDeleteModal')).show();
         }
 
-        // Formatação input vendas - aceita vírgula
+        
         document.getElementById('faturVendas').addEventListener('input', function (e) {
             this.value = this.value.replace(/[^0-9,\.]/g, '').replace(/\./g, ',');
         });

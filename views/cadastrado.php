@@ -19,7 +19,7 @@ if ($result->num_rows > 0) {
     $usuario = $result->fetch_assoc();
     $tipo = $usuario['tipo'];
 
-    // SE FOR ADMIN → manda para dashboard
+    
     if ($tipo === 'admin') {
         header("Location: ../dashboard.php");
         exit;
@@ -46,7 +46,7 @@ include '../includes/header.php';
 }
 </style>
 <a href="carrinho.php" class="btn-carrinho-flutuante">
-    🛒
+    ðŸ›’
 </a>
 
 <section class="carousel-desktop">
@@ -107,7 +107,7 @@ include '../includes/header.php';
   </div>
 
   <div class="cardapio-menu-mob">
-    <h2>Cardápio</h2>
+    <h2>CardÃ¡pio</h2>
 
     <div class="slider-categorias">
       <a class="img-card-mob" href="cardapio.php"><img src="../assets/img/cardapio/pratos.png" alt=""></a>
@@ -126,7 +126,7 @@ include '../includes/header.php';
 <div class="desktop">
 
   <div class="cardapio-menu">
-    <h2>Cardápio</h2>
+    <h2>CardÃ¡pio</h2>
 
     <div class="cardapio-imgs">
       <a class="img-card" href="cardapio.php"><img src="../assets/img/cardapio/pratos.png" alt=""></a>
@@ -140,10 +140,10 @@ include '../includes/header.php';
     <div class="cardapio-tit">
       <h3>Pratos</h3>
       <h3>Espetinhos</h3>
-      <h3>Porções</h3>
+      <h3>PorÃ§Ãµes</h3>
       <h3>Drinks</h3>
       <h3>Sobremesas</h3>
-      <h3>Rodízio</h3>
+      <h3>RodÃ­zio</h3>
     </div>
   </div>
 
@@ -157,8 +157,8 @@ include '../includes/header.php';
 <div class="slidets"><img src="../assets/img/c4.png" alt=""></div>
 <div class="slidets"><img src="../assets/img/c5.png" alt=""></div>
 </div>
-<button class="control prev" id="prev">❮</button>
-<button class="control next" id="next">❯</button>
+<button class="control prev" id="prev">â®</button>
+<button class="control next" id="next">â¯</button>
 </div>
 <div class="dots" id="dots"></div>
 </div>
@@ -167,8 +167,8 @@ include '../includes/header.php';
   <div class="valores">
     <div class="nume">1</div>
     <div class="texto-valores">
-      <h5>Seleção Rigorosa</h5>
-      Escolhemos pessoalmente cada peça de carne, avaliando marmoreio, cor e textura.
+      <h5>SeleÃ§Ã£o Rigorosa</h5>
+      Escolhemos pessoalmente cada peÃ§a de carne, avaliando marmoreio, cor e textura.
     </div>
   </div>
 
@@ -176,15 +176,15 @@ include '../includes/header.php';
     <div class="nume">2</div>
     <div class="texto-valores">
       <h5>Preparo Artesanal</h5>
-      As carnes são preparadas com técnicas tradicionais, respeitando o sabor natural.
+      As carnes sÃ£o preparadas com tÃ©cnicas tradicionais, respeitando o sabor natural.
     </div>
   </div>
 
   <div class="valores">
     <div class="nume">4</div>
     <div class="texto-valores">
-      <h5>Serviço no Ponto</h5>
-      Servimos as carnes imediatamente após o preparo, no ponto ideal de cada uma.
+      <h5>ServiÃ§o no Ponto</h5>
+      Servimos as carnes imediatamente apÃ³s o preparo, no ponto ideal de cada uma.
     </div>
   </div>
 
@@ -192,7 +192,7 @@ include '../includes/header.php';
     <div class="nume">3</div>
     <div class="texto-valores">
       <h5>Assamento Perfeito</h5>
-      Controlamos temperatura e distância do fogo para cada tipo de corte.
+      Controlamos temperatura e distÃ¢ncia do fogo para cada tipo de corte.
     </div>
   </div>
 </div>
@@ -208,7 +208,7 @@ let current = 0;
 let slidesPerView = 1;
 let intervalId = null;
 
-// Largura fixa dos cards
+
 const CARD_WIDTH = 264;
 const GAP = 16;
 
@@ -298,7 +298,7 @@ window.addEventListener('resize', () => {
   }, 150);
 });
 
-// Swipe
+
 let startX = 0;
 slides.addEventListener("touchstart", e => {
   startX = e.touches[0].clientX;

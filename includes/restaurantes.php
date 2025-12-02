@@ -34,13 +34,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$nome, $estado, $cidade]);
 
-    // Redireciona para limpar o POST e evitar duplicação
+    
     header("Location: restaurantes.php?sucesso=1");
     exit;
 }
 
 
-// Processar exclusão de usuário
+
 
 if (isset($_GET['excluir'])) {
     $id = (int) $_GET['excluir'];
@@ -49,27 +49,27 @@ if (isset($_GET['excluir'])) {
     $stmtDelete = $pdo->prepare($sqlDelete);
 
     if ($stmtDelete->execute([$id])) {
-        $mensagem = "Restaurante excluído com sucesso!";
+        $mensagem = "Restaurante excluÃ­do com sucesso!";
         $tipoMensagem = "success";
     } else {
         $mensagem = "Erro ao excluir Restaurante!";
         $tipoMensagem = "error";
     }
 
-    // Evita que a página seja recarregada com o GET novamente
+    
     header("Location: " . $_SERVER['PHP_SELF']);
     exit;
 }
 
-// Buscar todos os usuários
+
 $sqlRestaurantes = "SELECT * FROM restaurantes ORDER BY nome";
 $stmtRestaurantes = $pdo->query($sqlRestaurantes);
 $restaurantes = $stmtRestaurantes->fetchAll();
 
-// Contadores
+
 $sqlCounters = "SELECT COUNT(*) FROM restaurantes";
 $stmtCounters = $pdo->query($sqlCounters);
-$counters = $stmtCounters->fetchColumn(); // retorna o número diretamente
+$counters = $stmtCounters->fetchColumn(); 
 
 ?>
 
@@ -78,12 +78,12 @@ $counters = $stmtCounters->fetchColumn(); // retorna o número diretamente
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestão de Restaurantes - Admin</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>GestÃ£o de Restaurantes - Admin</title>
+    <link rel="stylesheet" href="https:
+    <link href="https:
     <link rel="stylesheet" href="../css/dashboard.css">
     <style>
-        /* Botões personalizados sem hover */
+        
         .app-btn {
             display: inline-flex;
             align-items: center;
@@ -119,11 +119,11 @@ $counters = $stmtCounters->fetchColumn(); // retorna o número diretamente
             color: white;
         }
 
-        /* Tamanhos */
+        
         .app-btn-sm { padding: 6px 12px; font-size: 0.875rem; }
         .app-btn-lg { padding: 12px 20px; font-size: 1.1rem; }
 
-        /* Forçar visibilidade dos botões */
+        
         .btn, 
         .app-btn,
         .card-footer .btn,
@@ -135,7 +135,7 @@ $counters = $stmtCounters->fetchColumn(); // retorna o número diretamente
             transition: none !important;
         }
 
-        /* Ajustes da tabela */
+        
         .table {
             margin-bottom: 0;
         }
@@ -144,7 +144,7 @@ $counters = $stmtCounters->fetchColumn(); // retorna o número diretamente
             vertical-align: middle;
         }
 
-        /* Badge personalizado */
+        
         .badge-role {
             padding: 6px 12px;
             border-radius: 999px;
@@ -187,7 +187,7 @@ $counters = $stmtCounters->fetchColumn(); // retorna o número diretamente
             </a>
             <a href="cardapio_dash.php" class="menu-item">
                 <i class="fa-solid fa-utensils"></i>
-                <span>Cardápio</span>
+                <span>CardÃ¡pio</span>
             </a>
             <a href="clientes.php" class="menu-item ">
                 <i class="fas fa-users"></i>
@@ -219,11 +219,11 @@ $counters = $stmtCounters->fetchColumn(); // retorna o número diretamente
 
         <div class="dashboard-content">
             <div class="content-header">
-                <h1>Gestão de Restaurantes</h1>
+                <h1>GestÃ£o de Restaurantes</h1>
                 <p>Gerencie os restaurantes.</p>
             </div>
 
-            <!-- Mensagens -->
+            
             <?php if (isset($mensagem)): ?>
                 <div class="alert alert-<?php echo $tipoMensagem === 'success' ? 'success' : 'danger'; ?> alert-dismissible fade show" role="alert">
                     <?php echo $mensagem; ?>
@@ -231,7 +231,7 @@ $counters = $stmtCounters->fetchColumn(); // retorna o número diretamente
                 </div>
             <?php endif; ?>
 
-            <!-- Estatísticas -->
+            
             <div class="row mb-4">
                 <div class="col-md-3">
                     <div class="card">
@@ -248,7 +248,7 @@ $counters = $stmtCounters->fetchColumn(); // retorna o número diretamente
                 <div class="col-md-3">
                     <div class="card">
                         <div class="card-body text-center">
-                            <!-- Botão Novo Usuário -->
+                            
                             <button class="app-btn app-btn-primary app-btn-lg" data-bs-toggle="modal" data-bs-target="#modalUsuario">
                                 <i class="fas fa-plus"></i>
                                 <span>Novo Restaurante</span>
@@ -258,7 +258,7 @@ $counters = $stmtCounters->fetchColumn(); // retorna o número diretamente
                 </div>
             </div>
 
-            <!-- Tabela de Usuários -->
+            
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
@@ -268,7 +268,7 @@ $counters = $stmtCounters->fetchColumn(); // retorna o número diretamente
                                     <th>Nome</th>
                                     <th>Estado</th>
                                     <th>Cidade</th>
-                                    <th>Ações</th>
+                                    <th>AÃ§Ãµes</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -296,13 +296,13 @@ $counters = $stmtCounters->fetchColumn(); // retorna o número diretamente
         </div>
     </main>
 
-    <!-- Modal para Cadastro de Usuário -->
+    
     <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form action="" method="post">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalUsuarioLabel">Cadastrar Novo Usuário</h5>
+                        <h5 class="modal-title" id="modalUsuarioLabel">Cadastrar Novo UsuÃ¡rio</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                     </div>
                     <div class="modal-body">
@@ -320,7 +320,7 @@ $counters = $stmtCounters->fetchColumn(); // retorna o número diretamente
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <!-- No modal -->
+                        
                         <button type="button" class="app-btn app-btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                         <button type="submit" class="app-btn app-btn-primary" name="cadastrar_restaurantes">
                             <i class="fas fa-save"></i> Cadastrar
@@ -331,16 +331,16 @@ $counters = $stmtCounters->fetchColumn(); // retorna o número diretamente
         </div>
     </div>
 
-    <!-- Modal de confirmação de exclusão -->
+    
     <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="confirmDeleteLabel">Confirmar exclusão</h5>
+                    <h5 class="modal-title" id="confirmDeleteLabel">Confirmar exclusÃ£o</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Tem certeza que deseja excluir o usuário <strong id="deleteUsuarioNome"></strong>?</p>
+                    <p>Tem certeza que deseja excluir o usuÃ¡rio <strong id="deleteUsuarioNome"></strong>?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -350,14 +350,14 @@ $counters = $stmtCounters->fetchColumn(); // retorna o número diretamente
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https:
     <script>
-        // Menu toggle
+        
         document.getElementById('menuToggle').addEventListener('click', function() {
             document.getElementById('sidebar').classList.toggle('open');
         });
 
-        // Busca aprimorada
+        
         document.getElementById('searchInput').addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase().trim();
             const rows = document.querySelectorAll('tbody tr');
@@ -375,7 +375,7 @@ $counters = $stmtCounters->fetchColumn(); // retorna o número diretamente
             });
         });
 
-        // Confirmar exclusão
+        
         function confirmarExclusao(id, nome) {
             document.getElementById('deleteUsuarioNome').textContent = nome;
             const btn = document.getElementById('confirmDeleteBtn');
@@ -388,12 +388,12 @@ $counters = $stmtCounters->fetchColumn(); // retorna o número diretamente
             window.location.href = `restaurantes.php?excluir=${id}`;
         });
 
-        // Limpar campos do modal ao fechar
+        
         document.getElementById('modalUsuario').addEventListener('hidden.bs.modal', function () {
             this.querySelector('form').reset();
         });
 
-        // Validação do formulário
+        
         document.querySelector('#modalUsuario form').addEventListener('submit', function(e) {
             const senha = document.getElementById('senha').value;
             if (senha.length < 6) {

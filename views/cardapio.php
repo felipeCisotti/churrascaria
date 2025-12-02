@@ -97,11 +97,10 @@ $categorias = $stmtCategorias->fetchAll(PDO::FETCH_COLUMN);
         </div>
     <?php endforeach; ?>
 
-    <script src="https://kit.fontawesome.com/03a8c367de.js" crossorigin="anonymous"></script>
+    <script src="https:
 
     <script>
 
-        // Inicializar todos carrosséis
         document.addEventListener('DOMContentLoaded', function () {
             <?php foreach ($categorias as $categoria):
                 $catID = preg_replace('/[^a-zA-Z0-9]/', '', strtolower($categoria)); ?>
@@ -183,13 +182,11 @@ $categorias = $stmtCategorias->fetchAll(PDO::FETCH_COLUMN);
             function setup() {
                 slidesPerView = getSlidesPerView();
                 dots = buildDots();
-                // adjust current if it exceeds bounds
                 if (current >= totalSlides) current = 0;
                 moveTo(Math.floor(current / slidesPerView));
                 startAutoPlay();
             }
 
-            // debounce resize
             let resizeTimeout;
             window.addEventListener('resize', () => {
                 clearTimeout(resizeTimeout);
@@ -197,7 +194,6 @@ $categorias = $stmtCategorias->fetchAll(PDO::FETCH_COLUMN);
                     const newSPV = getSlidesPerView();
                     if (newSPV !== slidesPerView) {
                         slidesPerView = newSPV;
-                        // rebuild dots and reset position to avoid partial slides
                         current = 0;
                         dots = buildDots();
                         moveTo(0);
@@ -206,10 +202,9 @@ $categorias = $stmtCategorias->fetchAll(PDO::FETCH_COLUMN);
                 }, 150);
             });
 
-            // Suporte a swipe (touch) para mobile
             let touchStartX = 0;
             let touchEndX = 0;
-            const touchThreshold = 50; // pixels
+            const touchThreshold = 50;
 
             slides.addEventListener('touchstart', (e) => {
                 touchStartX = e.touches[0].clientX;
@@ -235,7 +230,7 @@ $categorias = $stmtCategorias->fetchAll(PDO::FETCH_COLUMN);
             setup();
         }
 
-        // Funções de carrinho
+        
 
         document.querySelectorAll('.add-carrinho').forEach(icon => {
             icon.addEventListener('click', function (e) {
@@ -253,7 +248,7 @@ $categorias = $stmtCategorias->fetchAll(PDO::FETCH_COLUMN);
                 .then(response => response.json())
                 .then(data => {
                     if (!data.logado) {
-                        if (confirm('Você precisa estar logado para adicionar itens ao carrinho. Deseja fazer login?')) {
+                        if (confirm('VocÃª precisa estar logado para adicionar itens ao carrinho. Deseja fazer login?')) {
                             window.location.href = 'login.php';
                         }
                         return;

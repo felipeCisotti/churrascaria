@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $senha = $_POST["senha"] ?? '';
 
     if ($senha === '') {
-        echo "Email/Usuário ou senha inválidos.";
+        echo "Email/UsuÃ¡rio ou senha invÃ¡lidos.";
         exit;
     }
 
@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $loginField = 'nome';
         $loginValue = $nome;
     } else {
-        echo "Email/Usuário ou senha inválidos.";
+        echo "Email/UsuÃ¡rio ou senha invÃ¡lidos.";
         exit;
     }
 
@@ -38,10 +38,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($stmt->fetch()) {
                     $loginOk = false;
 
-                    // Primeiro, tente verificar como hash (bcrypt/argon2)
+                    
                     if (!empty($stored_password) && password_verify($senha, $stored_password)) {
                         $loginOk = true;
-                        // Opcional: rehash se o algoritmo/custo mudou
+                        
                         if (password_needs_rehash($stored_password, PASSWORD_DEFAULT)) {
                             if ($update = $connect->prepare("UPDATE usuarios SET senha = ? WHERE id = ?")) {
                                 $newHash = password_hash($senha, PASSWORD_DEFAULT);
@@ -51,11 +51,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             }
                         }
                     } else {
-                        // Fallback: se a senha armazenada não parece um hash, comparar texto puro
+                        
                         $looksHashed = (substr($stored_password, 0, 4) === '$2y$') || (substr($stored_password, 0, 8) === '$argon2');
                         if (!$looksHashed && hash_equals((string)$stored_password, (string)$senha)) {
                             $loginOk = true;
-                            // Ao logar com senha em texto, atualiza para hash seguro
+                            
                             if ($update = $connect->prepare("UPDATE usuarios SET senha = ? WHERE id = ?")) {
                                 $newHash = password_hash($senha, PASSWORD_DEFAULT);
                                 $update->bind_param("si", $newHash, $id);
@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             exit;
                         }
                     } else {
-                        echo "A senha que você digitou não é válida.";
+                        echo "A senha que vocÃª digitou nÃ£o Ã© vÃ¡lida.";
                     }
                 }
             } else {

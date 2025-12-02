@@ -29,7 +29,7 @@
                     <input type="tel" id="telefone" name="telefone" maxlength="20">
                 </div>
                 <div class="form-group">
-                    <label for="tipo">Tipo de usuário:</label>
+                    <label for="tipo">Tipo de usuÃ¡rio:</label>
                     <select id="tipo" name="tipo">
                         <option value="cliente" selected>Cliente</option>
                         <option value="admin">Administrador</option>
@@ -39,7 +39,7 @@
                     <input type="submit" value="Cadastrar">
                 </div>
                 <div class="register-link">
-                    <p>Já tem uma conta? <a href="login.php">Faça login aqui</a>.</p>
+                    <p>JÃ¡ tem uma conta? <a href="login.php">FaÃ§a login aqui</a>.</p>
                 </div>
             </form>
         </div>

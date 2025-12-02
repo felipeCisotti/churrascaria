@@ -31,7 +31,7 @@
                             </div>
                     
                             <div class="register-link">
-                                Não possui login? <a href="register.php">Cadastre-se</a>
+                                NÃ£o possui login? <a href="register.php">Cadastre-se</a>
                             </div>
                         </form>
                     </div>

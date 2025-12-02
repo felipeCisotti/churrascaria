@@ -24,7 +24,7 @@ include("connect.php");
 
 $userName = isset($_SESSION["nome"]) ? htmlspecialchars($_SESSION["nome"]) : "Admin";
 
-// Processar atualização de status
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pedido_id']) && isset($_POST['novo_status'])) {
     $pedido_id = $_POST['pedido_id'];
     $novo_status = $_POST['novo_status'];
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pedido_id']) && isset
     }
 }
 
-// Buscar todos os pedidos
+
 $sqlPedidos = "SELECT p.*, u.nome as usuario_nome, u.email as usuario_email 
                FROM pedidos p 
                JOIN usuarios u ON p.usuario_id = u.id 
@@ -49,7 +49,7 @@ $sqlPedidos = "SELECT p.*, u.nome as usuario_nome, u.email as usuario_email
 $stmtPedidos = $pdo->query($sqlPedidos);
 $pedidos = $stmtPedidos->fetchAll();
 
-// Contadores para filtros
+
 $sqlCounters = "SELECT 
     COUNT(*) as total,
     SUM(CASE WHEN status = 'pendente' THEN 1 ELSE 0 END) as pendentes,
@@ -62,7 +62,7 @@ $sqlCounters = "SELECT
 $stmtCounters = $pdo->query($sqlCounters);
 $counters = $stmtCounters->fetch();
 
-// Filtro por status
+
 $filtro_status = isset($_GET['status']) ? $_GET['status'] : 'todos';
 if ($filtro_status !== 'todos') {
     $sqlPedidos = "SELECT p.*, u.nome as usuario_nome, u.email as usuario_email 
@@ -82,9 +82,9 @@ if ($filtro_status !== 'todos') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestão de Pedidos - Admin</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>GestÃ£o de Pedidos - Admin</title>
+    <link rel="stylesheet" href="https:
+    <link href="https:
     <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 
@@ -112,7 +112,7 @@ if ($filtro_status !== 'todos') {
             </a>
             <a href="cardapio_dash.php" class="menu-item">
                 <i class="fa-solid fa-utensils"></i>
-                <span>Cardápio</span>
+                <span>CardÃ¡pio</span>
             </a>
             <a href="clientes.php" class="menu-item">
                 <i class="fas fa-users"></i>
@@ -151,11 +151,11 @@ if ($filtro_status !== 'todos') {
 
         <div class="dashboard-content">
             <div class="content-header">
-                <h1>Gestão de Pedidos</h1>
+                <h1>GestÃ£o de Pedidos</h1>
                 <p>Gerencie todos os pedidos do sistema</p>
             </div>
 
-            <!-- Mensagens -->
+            
             <?php if (isset($mensagem)): ?>
                 <div class="alert alert-<?php echo $tipoMensagem === 'success' ? 'success' : 'danger'; ?> alert-dismissible fade show"
                     role="alert">
@@ -164,7 +164,7 @@ if ($filtro_status !== 'todos') {
                 </div>
             <?php endif; ?>
 
-            <!-- Filtros por Status -->
+            
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Filtrar por Status</h5>
@@ -208,7 +208,7 @@ onclick="window.location.href='pedidos_dash.php?status=cancelado'"
                 </div>
             </div>
 
-            <!-- Lista de Pedidos -->
+            
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Pedidos
@@ -228,7 +228,7 @@ onclick="window.location.href='pedidos_dash.php?status=cancelado'"
                                         <th>Status</th>
                                         <th>Data</th>
                                         <th>Pagamento</th>
-                                        <th>Ações</th>
+                                        <th>AÃ§Ãµes</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -265,7 +265,7 @@ onclick="window.location.href='pedidos_dash.php?status=cancelado'"
                                                         <i class="fas fa-eye"></i>
                                                     </button>
 
-                                                    <!-- Dropdown para alterar status -->
+                                                    
                                                     <div class="dropdown">
                                                         <button class="btn btn- btn-sm btn-outline-secondary dropdown-toggle"
                                                             type="button" data-bs-toggle="dropdown" title="Alterar Status">
@@ -279,7 +279,7 @@ onclick="window.location.href='pedidos_dash.php?status=cancelado'"
                                                                     <input type="hidden" name="novo_status" value="pendente">
                                                                     <button type="submit"
                                                                         class="dropdown-item <?php echo $pedido['status'] === 'pendente' ? 'active' : ''; ?>">
-                                                                        🟡 Pendente
+                                                                        ðŸŸ¡ Pendente
                                                                     </button>
                                                                 </form>
                                                             </li>
@@ -290,7 +290,7 @@ onclick="window.location.href='pedidos_dash.php?status=cancelado'"
                                                                     <input type="hidden" name="novo_status" value="confirmado">
                                                                     <button type="submit"
                                                                         class="dropdown-item <?php echo $pedido['status'] === 'confirmado' ? 'active' : ''; ?>">
-                                                                        🔵 Confirmado
+                                                                        ðŸ”µ Confirmado
                                                                     </button>
                                                                 </form>
                                                             </li>
@@ -301,7 +301,7 @@ onclick="window.location.href='pedidos_dash.php?status=cancelado'"
                                                                     <input type="hidden" name="novo_status" value="em_preparo">
                                                                     <button type="submit"
                                                                         class="dropdown-item <?php echo $pedido['status'] === 'em_preparo' ? 'active' : ''; ?>">
-                                                                        🟠 Em Preparo
+                                                                        ðŸŸ  Em Preparo
                                                                     </button>
                                                                 </form>
                                                             </li>
@@ -312,7 +312,7 @@ onclick="window.location.href='pedidos_dash.php?status=cancelado'"
                                                                     <input type="hidden" name="novo_status" value="a_caminho">
                                                                     <button type="submit"
                                                                         class="dropdown-item <?php echo $pedido['status'] === 'a_caminho' ? 'active' : ''; ?>">
-                                                                        🚚 A Caminho
+                                                                        ðŸšš A Caminho
                                                                     </button>
                                                                 </form>
                                                             </li>
@@ -323,7 +323,7 @@ onclick="window.location.href='pedidos_dash.php?status=cancelado'"
                                                                     <input type="hidden" name="novo_status" value="entregue">
                                                                     <button type="submit"
                                                                         class="dropdown-item <?php echo $pedido['status'] === 'entregue' ? 'active' : ''; ?>">
-                                                                        ✅ Entregue
+                                                                        âœ… Entregue
                                                                     </button>
                                                                 </form>
                                                             </li>
@@ -338,7 +338,7 @@ onclick="window.location.href='pedidos_dash.php?status=cancelado'"
                                                                     <button type="submit"
                                                                         class="dropdown-item text-danger <?php echo $pedido['status'] === 'cancelado' ? 'active' : ''; ?>"
                                                                         onclick="return confirm('Tem certeza que deseja cancelar este pedido?')">
-                                                                        ❌ Cancelar
+                                                                        âŒ Cancelar
                                                                     </button>
                                                                 </form>
                                                             </li>
@@ -358,8 +358,8 @@ onclick="window.location.href='pedidos_dash.php?status=cancelado'"
                             <h5>Nenhum pedido encontrado</h5>
                             <p class="text-muted">
                                 <?php echo $filtro_status !== 'todos' ?
-                                    'Não há pedidos com status "' . ucfirst($filtro_status) . '"' :
-                                    'Não há pedidos cadastrados no sistema'; ?>
+                                    'NÃ£o hÃ¡ pedidos com status "' . ucfirst($filtro_status) . '"' :
+                                    'NÃ£o hÃ¡ pedidos cadastrados no sistema'; ?>
                             </p>
                         </div>
                     <?php endif; ?>
@@ -370,14 +370,14 @@ onclick="window.location.href='pedidos_dash.php?status=cancelado'"
 
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https:
     <script>
-        // Menu toggle
+        
         document.getElementById('menuToggle').addEventListener('click', function () {
             document.getElementById('sidebar').classList.toggle('open');
         });
 
-        // Busca em tempo real
+        
         document.getElementById('searchInput').addEventListener('input', function (e) {
             const searchTerm = e.target.value.toLowerCase();
             const rows = document.querySelectorAll('#pedidosTable tbody tr');
@@ -388,14 +388,14 @@ onclick="window.location.href='pedidos_dash.php?status=cancelado'"
             });
         });
 
-        // Função para ver detalhes do pedido
+        
         function verDetalhes(pedidoId) {
-            alert('Abrindo detalhes do pedido #' + pedidoId + '\n\nEsta funcionalidade pode ser expandida para mostrar:\n- Itens do pedido\n- Endereço de entrega\n- Histórico de status\n- Informações de contato');
-            // Aqui você pode implementar um modal ou redirecionar para página de detalhes
-            // window.location.href = 'detalhes_pedido.php?id=' + pedidoId;
+            alert('Abrindo detalhes do pedido #' + pedidoId + '\n\nEsta funcionalidade pode ser expandida para mostrar:\n- Itens do pedido\n- EndereÃ§o de entrega\n- HistÃ³rico de status\n- InformaÃ§Ãµes de contato');
+            
+            
         }
 
-        // Fechar sidebar ao clicar fora (mobile)
+        
         document.addEventListener('click', function (event) {
             const sidebar = document.getElementById('sidebar');
             const menuToggle = document.getElementById('menuToggle');
@@ -411,7 +411,7 @@ onclick="window.location.href='pedidos_dash.php?status=cancelado'"
 
     <?php foreach ($pedidos as $pedido): ?>
 
-        <!-- Modal exclusivo por pedido -->
+        
         <div class="modal fade" id="modalPedido<?php echo $pedido['id']; ?>" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">

@@ -24,7 +24,7 @@ include("connect.php");
 
 $userName = isset($_SESSION["nome"]) ? htmlspecialchars($_SESSION["nome"]) : "Admin";
 
-// Processar nova reserva
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cadastrar_reserva'])) {
     $usuario_id = $_POST['usuario_id'];
     $data_reserva = $_POST['data_reserva'];
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cadastrar_reserva']))
     }
 }
 
-// Processar atualização de status
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['atualizar_status'])) {
     $reserva_id = $_POST['reserva_id'];
     $novo_status = $_POST['novo_status'];
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['atualizar_status'])) 
     }
 }
 
-// Processar exclusão de reserva
+
 if (isset($_GET['excluir'])) {
     $id = (int) $_GET['excluir'];
     
@@ -69,7 +69,7 @@ if (isset($_GET['excluir'])) {
     $stmtDelete = $pdo->prepare($sqlDelete);
     
     if ($stmtDelete->execute([$id])) {
-        $mensagem = "Reserva excluída com sucesso!";
+        $mensagem = "Reserva excluÃ­da com sucesso!";
         $tipoMensagem = "success";
     } else {
         $mensagem = "Erro ao excluir reserva";
@@ -77,7 +77,7 @@ if (isset($_GET['excluir'])) {
     }
 }
 
-// Buscar todas as reservas
+
 $sqlReservas = "SELECT r.*, u.nome as usuario_nome, u.email as usuario_email, u.telefone as usuario_telefone    
                 FROM reservas r 
                 JOIN usuarios u ON r.usuario_id = u.id 
@@ -85,12 +85,12 @@ $sqlReservas = "SELECT r.*, u.nome as usuario_nome, u.email as usuario_email, u.
 $stmtReservas = $pdo->query($sqlReservas);
 $reservas = $stmtReservas->fetchAll();
 
-// Buscar usuários para o select
+
 $sqlUsuarios = "SELECT id, nome, email FROM usuarios ORDER BY nome";
 $stmtUsuarios = $pdo->query($sqlUsuarios);
 $usuarios = $stmtUsuarios->fetchAll();
 
-// Contadores
+
 $sqlCounters = "SELECT 
     COUNT(*) as total,
     SUM(CASE WHEN status = 'pendente' THEN 1 ELSE 0 END) as pendentes,
@@ -100,7 +100,7 @@ $sqlCounters = "SELECT
 $stmtCounters = $pdo->query($sqlCounters);
 $counters = $stmtCounters->fetch();
 
-// Filtro por status
+
 $filtro_status = isset($_GET['status']) ? $_GET['status'] : 'todas';
 if ($filtro_status !== 'todas') {
     $sqlReservas = "SELECT r.*, u.nome as usuario_nome, u.email as usuario_email, u.telefone as usuario_telefone 
@@ -119,9 +119,9 @@ if ($filtro_status !== 'todas') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestão de Reservas - Admin</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>GestÃ£o de Reservas - Admin</title>
+    <link rel="stylesheet" href="https:
+    <link href="https:
     <link rel="stylesheet" href="../css/dashboard.css">
     <style>
         .app-btn {
@@ -265,7 +265,7 @@ if ($filtro_status !== 'todas') {
             </a>
             <a href="cardapio_dash.php" class="menu-item">
                 <i class="fa-solid fa-utensils"></i>
-                <span>Cardápio</span>
+                <span>CardÃ¡pio</span>
             </a>
             <a href="clientes.php" class="menu-item">
                 <i class="fas fa-users"></i>
@@ -304,11 +304,11 @@ if ($filtro_status !== 'todas') {
 
         <div class="dashboard-content">
             <div class="content-header">
-                <h1>Gestão de Reservas</h1>
+                <h1>GestÃ£o de Reservas</h1>
                 <p>Gerencie as reservas do restaurante</p>
             </div>
 
-            <!-- Mensagens -->
+            
             <?php if (isset($mensagem)): ?>
                 <div class="alert alert-<?php echo $tipoMensagem === 'success' ? 'success' : 'danger'; ?> alert-dismissible fade show" role="alert">
                     <?php echo $mensagem; ?>
@@ -316,7 +316,7 @@ if ($filtro_status !== 'todas') {
                 </div>
             <?php endif; ?>
 
-            <!-- Estatísticas -->
+            
             <div class="row mb-4">
                 <div class="col-md-3">
                     <div class="card">
@@ -352,7 +352,7 @@ if ($filtro_status !== 'todas') {
                 </div>
             </div>
 
-            <!-- Filtros por Status -->
+            
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Filtrar por Status</h5>
@@ -377,7 +377,7 @@ if ($filtro_status !== 'todas') {
                 </div>
             </div>
 
-            <!-- Lista de Reservas -->
+            
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Reservas <?php echo $filtro_status !== 'todas' ? '- ' . ucfirst($filtro_status) : ''; ?></h5>
@@ -392,10 +392,10 @@ if ($filtro_status !== 'todas') {
                                         <th>ID</th>
                                         <th>Cliente</th>
                                         <th>Data</th>
-                                        <th>Horário</th>
+                                        <th>HorÃ¡rio</th>
                                         <th>Pessoas</th>
                                         <th>Status</th>
-                                        <th>Ações</th>
+                                        <th>AÃ§Ãµes</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -432,14 +432,14 @@ if ($filtro_status !== 'todas') {
                                             </td>
                                             <td>
                                                 <div  style=" background-color: #ab0000ff; .btn-group::hover: background-color: #ff8b8ba4" class="btn-group">
-                                                    <!-- Botão para ver detalhes -->
+                                                    
                                                     <button type="button" class="deta btn btn-sm btn-outline-primary"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#modalReserva<?php echo $reserva['id']; ?>">
                                                         <i class="fas fa-eye"></i>
                                                     </button>
                                                     
-                                                    <!-- Dropdown para alterar status -->
+                                                    
                                                     <div  style=" background-color: #ab0000ff;" class="dropdown">
                                                         <button class="btn btn-sm btn-outline-secondary dropdown-toggle" 
                                                                 type="button" data-bs-toggle="dropdown"
@@ -483,7 +483,7 @@ if ($filtro_status !== 'todas') {
                                                         </ul>
                                                     </div>
                                                     
-                                                    <!-- Botão para excluir -->
+                                                    
                                                     <button class="exc btn btn-sm btn-danger" 
                                                             onclick="confirmarExclusao(<?php echo $reserva['id']; ?>, '<?php echo htmlspecialchars($reserva['usuario_nome']); ?>')"
                                                             title="Excluir">
@@ -502,8 +502,8 @@ if ($filtro_status !== 'todas') {
                             <h5>Nenhuma reserva encontrada</h5>
                             <p class="text-muted">
                                 <?php echo $filtro_status !== 'todas' ? 
-                                    'Não há reservas com status "' . ucfirst($filtro_status) . '"' : 
-                                    'Não há reservas cadastradas no sistema'; ?>
+                                    'NÃ£o hÃ¡ reservas com status "' . ucfirst($filtro_status) . '"' : 
+                                    'NÃ£o hÃ¡ reservas cadastradas no sistema'; ?>
                             </p>
                             <button class="app-btn app-btn-primary" data-bs-toggle="modal" data-bs-target="#modalReserva">
                                 <i class="fas fa-plus"></i> Fazer Primeira Reserva
@@ -515,7 +515,7 @@ if ($filtro_status !== 'todas') {
         </div>
     </main>
 
-    <!-- Modal para Nova Reserva -->
+    
     <div class="modal fade" id="modalReserva" tabindex="-1" aria-labelledby="modalReservaLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -542,7 +542,7 @@ if ($filtro_status !== 'todas') {
                                 <input type="date" class="form-control" id="data_reserva" name="data_reserva" required min="<?php echo date('Y-m-d'); ?>">
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="horario" class="form-label">Horário</label>
+                                <label for="horario" class="form-label">HorÃ¡rio</label>
                                 <input type="time" class="form-control" id="horario" name="horario" required>
                             </div>
                         </div>
@@ -551,8 +551,8 @@ if ($filtro_status !== 'todas') {
                             <input type="number" class="form-control" id="qtd_pessoas" name="qtd_pessoas" min="1" max="20" required>
                         </div>
                         <div class="mb-3">
-                            <label for="observacoes" class="form-label">Observações</label>
-                            <textarea class="form-control" id="observacoes" name="observacoes" rows="3" placeholder="Observações especiais, alergias, etc."></textarea>
+                            <label for="observacoes" class="form-label">ObservaÃ§Ãµes</label>
+                            <textarea class="form-control" id="observacoes" name="observacoes" rows="3" placeholder="ObservaÃ§Ãµes especiais, alergias, etc."></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -566,12 +566,12 @@ if ($filtro_status !== 'todas') {
         </div>
     </div>
 
-    <!-- Modal de confirmação de exclusão -->
+    
     <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="confirmDeleteLabel">Confirmar exclusão</h5>
+                    <h5 class="modal-title" id="confirmDeleteLabel">Confirmar exclusÃ£o</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
                 <div class="modal-body">
@@ -585,14 +585,14 @@ if ($filtro_status !== 'todas') {
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https:
     <script>
-        // Menu toggle
+        
         document.getElementById('menuToggle').addEventListener('click', function() {
             document.getElementById('sidebar').classList.toggle('open');
         });
 
-        // Busca aprimorada
+        
         document.getElementById('searchInput').addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase().trim();
             const rows = document.querySelectorAll('tbody tr');
@@ -612,7 +612,7 @@ if ($filtro_status !== 'todas') {
             });
         });
 
-        // Confirmar exclusão
+        
         function confirmarExclusao(id, nome) {
             document.getElementById('deleteReservaNome').textContent = nome;
             const btn = document.getElementById('confirmDeleteBtn');
@@ -625,29 +625,29 @@ if ($filtro_status !== 'todas') {
             window.location.href = `reservas.php?excluir=${id}`;
         });
 
-        // Função para ver detalhes da reserva
+        
         function verDetalhes(reservaId) {
-            alert('Abrindo detalhes da reserva #' + reservaId + '\n\nEsta funcionalidade pode ser expandida para mostrar:\n- Informações completas do cliente\n- Histórico de reservas\n- Observações especiais');
+            alert('Abrindo detalhes da reserva #' + reservaId + '\n\nEsta funcionalidade pode ser expandida para mostrar:\n- InformaÃ§Ãµes completas do cliente\n- HistÃ³rico de reservas\n- ObservaÃ§Ãµes especiais');
         }
 
-        // Limpar campos do modal ao fechar
+        
         document.getElementById('modalReserva').addEventListener('hidden.bs.modal', function () {
             this.querySelector('form').reset();
         });
 
-        // Validação da data (não permitir datas passadas)
+        
         document.getElementById('data_reserva').addEventListener('change', function() {
             const selectedDate = new Date(this.value);
             const today = new Date();
             today.setHours(0, 0, 0, 0);
             
             if (selectedDate < today) {
-                alert('Não é possível fazer reservas para datas passadas.');
+                alert('NÃ£o Ã© possÃ­vel fazer reservas para datas passadas.');
                 this.value = '';
             }
         });
 
-        // Fechar sidebar ao clicar fora (mobile)
+        
         document.addEventListener('click', function (event) {
             const sidebar = document.getElementById('sidebar');
             const menuToggle = document.getElementById('menuToggle');
@@ -663,7 +663,7 @@ if ($filtro_status !== 'todas') {
 
 <?php foreach ($reservas as $reserva): ?>
 
-<!-- Modal exclusivo por reserva -->
+
 
 <div class="modal fade" id="modalReserva<?php echo $reserva['id']; ?>" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
@@ -689,11 +689,11 @@ if ($filtro_status !== 'todas') {
                 <?php echo date('d/m/Y', strtotime($reserva['data_reserva'])); ?>
             </p>
 
-            <p><strong>Horário:</strong>
+            <p><strong>HorÃ¡rio:</strong>
                 <?php echo date('H:i', strtotime($reserva['horario'])); ?>
             </p>
 
-            <p><strong>Observações:</strong>
+            <p><strong>ObservaÃ§Ãµes:</strong>
                 <?php echo !empty($reserva['observacoes']) ? htmlspecialchars($reserva['observacoes']) : 'Nenhuma'; ?>
             </p>
 

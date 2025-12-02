@@ -1,16 +1,13 @@
 <?php
 session_start();
 
-// ajuste o caminho do include conforme sua estrutura
-// se seu connect.php estiver em includes/connect.php use '../includes/connect.php'
-include 'connect.php'; // ou include '../includes/connect.php';
+include 'connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: pedidos.php');
     exit;
 }
 
-// validações básicas
 if (!isset($_POST['id']) || !isset($_POST['status'])) {
     header('Location: pedidos.php?erro=parametros');
     exit;
@@ -38,12 +35,9 @@ if (!in_array($status, $statusValidos, true)) {
     exit;
 }
 
-// atualiza no banco usando $pdo (substitua se sua variável de conexão for diferente)
 try {
-    // Verifica se $pdo existe
     if (!isset($pdo) || !$pdo) {
-        // alternativa: se seu connect.php define $conn, troque $pdo por $conn abaixo
-        throw new Exception('Conexão com o banco não encontrada (variável $pdo ausente).');
+        throw new Exception('ConexÃ£o com o banco nÃ£o encontrada (variÃ¡vel $pdo ausente).');
     }
 
     $sql = "UPDATE pedidos SET status = :status WHERE id = :id";
@@ -52,7 +46,6 @@ try {
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
     if ($stmt->execute()) {
-        // redireciona de volta para a página anterior, se disponível
         $back = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'pedidos.php';
         header('Location: ' . $back . '?sucesso=1');
         exit;
@@ -62,7 +55,6 @@ try {
         exit;
     }
 } catch (Exception $e) {
-    // log do erro para debug (opcional)
     error_log('Erro atualizar_status.php: ' . $e->getMessage());
     $back = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'pedidos.php';
     header('Location: ' . $back . '?erro=exception');

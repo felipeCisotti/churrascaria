@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST["email"] ?? '');
     $senha = $_POST["senha"] ?? '';
     $telefone = trim($_POST["telefone"] ?? '');
-    // aceita apenas 'admin' ou 'cliente' (validação server-side)
+    
     $tipo_post = $_POST['tipo'] ?? 'cliente';
     $tipo = ($tipo_post === 'admin') ? 'admin' : 'cliente';
 

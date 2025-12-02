@@ -352,8 +352,8 @@ footer {
 
 
 .mob-bottom a {
-    color: #b20202;    /* cor dos ícones */
-    font-size: 26px;   /* tamanho igual ao da imagem */
+    color: #b20202;
+    font-size: 26px;
     text-decoration: none;
 }
 
@@ -364,24 +364,23 @@ footer {
   align-items: center;
 }
 
-/* O container do carrossel precisa ter largura fixa */
+
 .car-mob .caroussel {
   overflow: hidden;
   width: 100%;
-  max-width: 300px;   /* LIMITA A LARGURA E CENTRALIZA O SLIDE */
+  max-width: 300px;
   margin: 0 auto;
   position: relative;
 }
 
-/* Slides alinhados certinho */
+
 #slides-mobile {
   display: flex;
   transition: transform 0.3s ease-in-out;
 }
 
-/* Slide precisa ocupar exatamente a largura do container */
 .car-mob .slide {
-  min-width: 100%;  /* 🔥 Agora fica 1 por vez */
+  min-width: 100%;
   display: flex;
   justify-content: center;
 }
@@ -394,7 +393,6 @@ footer {
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
-/* Dots */
 .dots {
   margin-top: 12px;
   display: flex;
@@ -753,13 +751,7 @@ background-color: white;
 }
 
 
-/*.container-log{
-    display: flex;
-    justify-content: flex-end;
-    align-items: first baseline;
-    height: 100vh;
-    background-color: var(--fundo);
-}*/
+
 
 .container-log {
   display: flex;
@@ -1162,7 +1154,7 @@ option:focus {
   color: #721c24;
   border: 1px solid #f5c6cb;
 }
-/* Placeholder branco (suporte cross-browser) */
+
 input::placeholder {
   color: #ffffff;
   opacity: 1;
@@ -1177,7 +1169,6 @@ input::-ms-input-placeholder {
   color: #ffffff;
 }
 
-/* Se quiser incluir textarea também */
 textarea::placeholder {
   color: #ffffff;
   opacity: 1;

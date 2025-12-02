@@ -24,7 +24,6 @@ include ("includes/connect.php");
 
 $userName = isset($_SESSION["nome"]) ? htmlspecialchars($_SESSION["nome"]) : "Admin";
 
-// Consultas existentes
 $sqlUsers = "SELECT COUNT(*) FROM usuarios";
 $stmtUsers = $pdo->query($sqlUsers);
 $totalUser = $stmtUsers->fetchColumn();
@@ -37,23 +36,18 @@ $sqlPedidos = "SELECT COUNT(*) FROM pedidos";
 $stmtPedidos = $pdo->query($sqlPedidos);
 $totalPedidos = $stmtPedidos->fetchColumn();
 
-// NOVAS CONSULTAS PARA AVALIAÇÕES E FATURAMENTO
-// Faturamento de hoje
 $sqlFaturamentoHoje = "SELECT COALESCE(SUM(total), 0) FROM pedidos WHERE DATE(data_pedido) = CURDATE() AND status = 'entregue'";
 $stmtFaturamento = $pdo->query($sqlFaturamentoHoje);
 $faturamentoHoje = $stmtFaturamento->fetchColumn();
 
-// Média de avaliações
 $sqlMediaAvaliacoes = "SELECT COALESCE(AVG(avaliacao_media), 0) FROM produtos WHERE avaliacao_media > 0";
 $stmtMedia = $pdo->query($sqlMediaAvaliacoes);
 $mediaAvaliacoes = $stmtMedia->fetchColumn();
 
-// Pedidos de hoje
 $sqlPedidosHoje = "SELECT COUNT(*) FROM pedidos WHERE DATE(data_pedido) = CURDATE()";
 $stmtPedidosHoje = $pdo->query($sqlPedidosHoje);
 $pedidosHoje = $stmtPedidosHoje->fetchColumn();
 
-// Total de avaliações
 $sqlTotalAvaliacoes = "SELECT COUNT(*) FROM avaliacoes";
 $stmtTotalAval = $pdo->query($sqlTotalAvaliacoes);
 $totalAvaliacoes = $stmtTotalAval->fetchColumn();
@@ -67,8 +61,8 @@ $totalAvaliacoes = $stmtTotalAval->fetchColumn();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https:
+    <link href="https:
     <link rel="stylesheet" href="css/dashboard.css">
 </head>
 
@@ -96,7 +90,7 @@ $totalAvaliacoes = $stmtTotalAval->fetchColumn();
             </a>
             <a href="includes/cardapio_dash.php" class="menu-item">
                 <i class="fa-solid fa-utensils"></i>
-                <span>Cardápio</span>
+                <span>CardÃ¡pio</span>
             </a>
             <a href="includes/clientes.php" class="menu-item">
                 <i class="fas fa-users"></i>
@@ -136,7 +130,7 @@ $totalAvaliacoes = $stmtTotalAval->fetchColumn();
         <div class="dashboard-content">
             <div class="content-header">
                 <h1>Dashboard</h1>
-                <p>Visão geral do restaurante</p>
+                <p>VisÃ£o geral do restaurante</p>
             </div>
 
             <div class="card-grid">
@@ -185,7 +179,7 @@ $totalAvaliacoes = $stmtTotalAval->fetchColumn();
                     
                     if (count($pedidos) > 0) {
                         echo "<table class='ped-table table table-striped'>";
-                        echo "<thead><tr><th>ID</th><th>Usuário</th><th>Total</th><th>Status</th><th>Data</th><th>Ações</th></tr></thead>";
+                        echo "<thead><tr><th>ID</th><th>UsuÃ¡rio</th><th>Total</th><th>Status</th><th>Data</th><th>AÃ§Ãµes</th></tr></thead>";
                         echo "<tbody>";
                         foreach ($pedidos as $pedido) {
                             echo "<tr>";
@@ -224,9 +218,8 @@ $totalAvaliacoes = $stmtTotalAval->fetchColumn();
         </div>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https:
     <script>
-        // Seus scripts existentes...
         document.getElementById('menuToggle').addEventListener('click', function () {
             document.getElementById('sidebar').classList.toggle('open');
         });

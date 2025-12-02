@@ -4,7 +4,7 @@ require_once "connect.php";
 
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header('Content-Type: application/json');
-    echo json_encode(['success' => false, 'message' => 'Usuário não logado']);
+    echo json_encode(['success' => false, 'message' => 'UsuÃ¡rio nÃ£o logado']);
     exit;
 }
 
@@ -20,34 +20,34 @@ $cidade = trim($_POST['cidade']);
 $estado = trim($_POST['estado']);
 $principal = isset($_POST['principal']) ? 1 : 0;
 
-// Validações
+
 if (empty($titulo) || empty($cep) || empty($logradouro) || empty($numero) || empty($bairro) || empty($cidade) || empty($estado)) {
-    echo json_encode(['success' => false, 'message' => 'Preencha todos os campos obrigatórios']);
+    echo json_encode(['success' => false, 'message' => 'Preencha todos os campos obrigatÃ³rios']);
     exit;
 }
 
 try {
     if ($principal) {
-        // Remover principal de outros endereços
+        
         $sqlUpdate = "UPDATE enderecos SET principal = 0 WHERE usuario_id = ?";
         $stmtUpdate = $pdo->prepare($sqlUpdate);
         $stmtUpdate->execute([$usuario_id]);
     }
     
     if ($endereco_id) {
-        // Atualizar endereço existente
+        
         $sql = "UPDATE enderecos SET titulo = ?, cep = ?, logradouro = ?, numero = ?, complemento = ?, bairro = ?, cidade = ?, estado = ?, principal = ? WHERE id = ? AND usuario_id = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$titulo, $cep, $logradouro, $numero, $complemento, $bairro, $cidade, $estado, $principal, $endereco_id, $usuario_id]);
     } else {
-        // Inserir novo endereço
+        
         $sql = "INSERT INTO enderecos (usuario_id, titulo, cep, logradouro, numero, complemento, bairro, cidade, estado, principal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$usuario_id, $titulo, $cep, $logradouro, $numero, $complemento, $bairro, $cidade, $estado, $principal]);
     }
     
-    echo json_encode(['success' => true, 'message' => 'Endereço salvo com sucesso']);
+    echo json_encode(['success' => true, 'message' => 'EndereÃ§o salvo com sucesso']);
 } catch (Exception $e) {
-    echo json_encode(['success' => false, 'message' => 'Erro ao salvar endereço: ' . $e->getMessage()]);
+    echo json_encode(['success' => false, 'message' => 'Erro ao salvar endereÃ§o: ' . $e->getMessage()]);
 }
 ?>

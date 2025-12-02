@@ -2,7 +2,6 @@
 include("../includes/connect.php");
 session_start();
 
-// Verifica login
 if (!isset($_SESSION['id'])) {
     header("Location: login.php");
     exit;
@@ -183,7 +182,6 @@ $reservas = $stmtReservas->fetchAll(PDO::FETCH_ASSOC);
         transform: translateX(5px);
     }
 
-    /* CONTEÚDO */
     .content {
         flex: 1;
         min-width: 300px;
@@ -220,7 +218,6 @@ $reservas = $stmtReservas->fetchAll(PDO::FETCH_ASSOC);
         font-size: 1.8em;
     }
 
-    /* PEDIDOS */
     .order {
         border: 1px solid var(--vermelho);
         padding: 20px;
@@ -285,7 +282,6 @@ $reservas = $stmtReservas->fetchAll(PDO::FETCH_ASSOC);
         color: var(--danger-color);
     }
 
-    /* FORMULÁRIOS */
     .form-group {
         margin-bottom: 20px;
         padding: 20px;
@@ -329,7 +325,6 @@ $reservas = $stmtReservas->fetchAll(PDO::FETCH_ASSOC);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
-    /* RESPONSIVIDADE */
     @media (max-width: 768px) {
         .container {
             flex-direction: column;
@@ -490,7 +485,6 @@ $reservas = $stmtReservas->fetchAll(PDO::FETCH_ASSOC);
     transform: translateY(-2px);
 }
 
-/* Modal styles */
 .modal {
     display: none;
     position: fixed;
@@ -662,7 +656,6 @@ $reservas = $stmtReservas->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="sidebar">
 
-        <!-- FOTO -->
         <form action="../includes/upload_foto.php" method="POST" enctype="multipart/form-data">
             <label style="cursor:pointer;">
                 <img src="<?php echo $usuario['foto'] ? '../uploads/'.$usuario['foto'] : 'https://via.placeholder.com/130'; ?>">
@@ -686,7 +679,6 @@ $reservas = $stmtReservas->fetchAll(PDO::FETCH_ASSOC);
     <!-- CONTEÚDO -->
     <div class="content">
 
-        <!-- PEDIDOS -->
         <div id="pedidos" class="tab active">
             <h2>Meus Pedidos</h2>
 
@@ -710,7 +702,6 @@ $reservas = $stmtReservas->fetchAll(PDO::FETCH_ASSOC);
             <?php endif; ?>
         </div>
 
-        <!-- MEUS DADOS -->
         <div id="dados" class="tab">
 
             <h2>Meus Dados</h2>
@@ -736,10 +727,8 @@ $reservas = $stmtReservas->fetchAll(PDO::FETCH_ASSOC);
     <h2>Meus Endereços</h2>
     
     <div class="enderecos-container">
-        <!-- Lista de endereços -->
         <div class="enderecos-lista" id="listaEnderecos">
             <?php
-            // Buscar endereços do usuário
             $sqlEnderecos = "SELECT * FROM enderecos WHERE usuario_id = ? ORDER BY principal DESC, id DESC";
             $stmtEnderecos = $pdo->prepare($sqlEnderecos);
             $stmtEnderecos->execute([$usuario_id]);
@@ -927,7 +916,6 @@ $reservas = $stmtReservas->fetchAll(PDO::FETCH_ASSOC);
 </div>
 
 <script>
-// Controla abas
 document.querySelectorAll(".tab-btn").forEach(btn => {
     btn.addEventListener("click", () => {
 
@@ -1027,7 +1015,6 @@ function excluirEndereco(enderecoId) {
     }
 }
 
-// Buscar CEP automaticamente
 document.getElementById('cep').addEventListener('blur', function() {
     const cep = this.value.replace(/\D/g, '');
     
@@ -1049,7 +1036,6 @@ document.getElementById('cep').addEventListener('blur', function() {
     }
 });
 
-// Formatar CEP
 document.getElementById('cep').addEventListener('input', function() {
     let value = this.value.replace(/\D/g, '');
     if (value.length > 5) {

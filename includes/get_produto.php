@@ -11,7 +11,7 @@ header('Content-Type: application/json; charset=utf-8');
 
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 if ($id <= 0) {
-    echo json_encode(['error' => 'ID inválido']);
+    echo json_encode(['error' => 'ID invÃ¡lido']);
     exit;
 }
 
@@ -22,7 +22,7 @@ try {
     $produto = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$produto) {
-        echo json_encode(['error' => 'Produto não encontrado']);
+        echo json_encode(['error' => 'Produto nÃ£o encontrado']);
         exit;
     }
 

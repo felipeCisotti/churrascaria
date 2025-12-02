@@ -1,5 +1,5 @@
 <footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="https:
 
 <div>
     <img class="log-footer" src="../assets/img/2.png" alt="">
@@ -8,7 +8,7 @@
     <div class="listas-footer">
         <ul>
             <li><p>Quem Somos</p></li>
-            <li><p>Glossário</p></li>
+            <li><p>GlossÃ¡rio</p></li>
             <li><p>Destaques</p></li>
         </ul>
         <ul>
@@ -17,7 +17,7 @@
         </ul>
     </div>
     <ul class="im"><li><img src="../assets/img/4.png" alt=""></li>
-        <li class="lateral"><!-- From Uiverse.io by david-mohseni --> 
+        <li class="lateral"> 
 <ul class="wrapper">
   <li class="icon facebook">
     <span class="tooltip">Facebook</span>
@@ -25,7 +25,7 @@
       viewBox="0 0 320 512"
       height="1.2em"
       fill="currentColor"
-      xmlns="http://www.w3.org/2000/svg"
+      xmlns="http:
     >
       <path
         d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"
@@ -38,7 +38,7 @@
       height="1.8em"
       fill="currentColor"
       viewBox="0 0 48 48"
-      xmlns="http://www.w3.org/2000/svg"
+      xmlns="http:
       class="twitter"
     >
       <path
@@ -49,7 +49,7 @@
   <li class="icon instagram">
     <span class="tooltip">Instagram</span>
     <svg
-      xmlns="http://www.w3.org/2000/svg"
+      xmlns="http:
       height="1.2em"
       fill="currentColor"
       class="bi bi-instagram"

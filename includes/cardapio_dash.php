@@ -108,14 +108,14 @@ if (isset($_GET['excluir'])) {
     $id = (int) $_GET['excluir'];
 
     try {
-        // Verifica se está em pedidos
+        
         $sqlCheckPedidos = "SELECT COUNT(*) FROM itens_pedido WHERE produto_id = ?";
         $stmtCheck = $pdo->prepare($sqlCheckPedidos);
         $stmtCheck->execute([$id]);
         $usoEmPedidos = (int) $stmtCheck->fetchColumn();
 
         if ($usoEmPedidos > 0) {
-            $mensagem = "Não é possível excluir este produto pois está vinculado a pedidos.";
+            $mensagem = "NÃƒÂ£o ÃƒÂ© possÃƒÂ­vel excluir este produto pois estÃƒÂ¡ vinculado a pedidos.";
             $tipoMensagem = "error";
 
         } else {
@@ -124,7 +124,7 @@ if (isset($_GET['excluir'])) {
             $stmtDelete = $pdo->prepare($sqlDelete);
 
             if ($stmtDelete->execute([$id])) {
-                $mensagem = "Produto excluído com sucesso!";
+                $mensagem = "Produto excluÃƒÂ­do com sucesso!";
                 $tipoMensagem = "success";
                 header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
                 exit;
@@ -136,7 +136,7 @@ if (isset($_GET['excluir'])) {
         }
 
     } catch (Exception $e) {
-        $mensagem = "Erro ao processar exclusão.";
+        $mensagem = "Erro ao processar exclusÃƒÂ£o.";
         $tipoMensagem = "error";
     }
 }
@@ -176,13 +176,13 @@ $counters = $stmtCounters->fetch();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestão de Produtos - Admin</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>GestÃƒÂ£o de Produtos - Admin</title>
+    <link rel="stylesheet" href="https:
+    <link href="https:
     <link rel="stylesheet" href="../css/dashboard.css">
-    <!-- Estilos adicionais rápidos para melhorar aparência -->
+    
     <style>
-        /* === Botões globais personalizados === */
+        
         .app-btn, button, .btn, .btn-acao {
             display: inline-flex;
             align-items: center;
@@ -194,13 +194,13 @@ $counters = $stmtCounters->fetch();
             line-height: 1;
             border: 1px solid transparent;
             cursor: pointer;
-            transition: none !important; /* sem hover/transform */
+            transition: none !important; 
             box-shadow: 0 6px 18px rgba(17, 24, 39, 0.06);
             background-color: #f6f8fb;
             color: #0f172a;
         }
 
-        /* Variantes */
+        
         .app-btn-primary, .btn-primary {
             background-color: #b90000ff;
             color: #fff;
@@ -222,7 +222,7 @@ $counters = $stmtCounters->fetch();
             border: 1px solid rgba(37,99,235,0.12);
         }
 
-        /* Botão ícone (menu) */
+        
         .app-icon-btn, .menu-toggle {
             width: 44px;
             height: 44px;
@@ -234,11 +234,11 @@ $counters = $stmtCounters->fetch();
             color: #111827;
         }
 
-        /* Pequenas variações de tamanho */
+        
         .btn-sm, .app-btn-sm { padding: 6px 10px; font-size: .85rem; border-radius: 8px; }
         .btn-lg, .app-btn-lg { padding: 12px 18px; font-size: 1rem; border-radius: 12px; }
 
-        /* Forçar visibilidade/funcionalidade em card footer */
+        
         .card-footer .btn, .card-footer .btn-acao {
             opacity: 1 !important;
             visibility: visible !important;
@@ -247,13 +247,13 @@ $counters = $stmtCounters->fetch();
             box-shadow: none !important;
         }
 
-        /* Ajustes responsivos */
+        
         @media (max-width: 576px) {
             .app-btn { width: 100%; justify-content: center; }
             .btn-group.w-100 .btn { width: 49%; }
         }
 
-        /* Cards mais elegantes */
+        
         .produto-card {
             border: 0;
             border-radius: 12px;
@@ -264,7 +264,7 @@ $counters = $stmtCounters->fetch();
         .produto-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); }
         .produto-imagem { height:200px; object-fit:cover; }
 
-        /* Badges e categoria */
+        
         .categoria-badge {
             background-color: #c50000ff;
             color:#fff;
@@ -273,15 +273,15 @@ $counters = $stmtCounters->fetch();
             font-size:.8rem;
         }
 
-        /* Status */
+        
         .status-ativo { color: #198754; font-weight:600; }
         .status-inativo { color: #dc3545; font-weight:600; }
 
-        /* Botões de ação */
+        
         .btn-acao { width:48%; }
         .btn-acao i { margin-right:6px; }
 
-        /* Filtro badges */
+        
         .filter-badge {
             cursor: pointer;
             padding:8px 12px;
@@ -289,17 +289,17 @@ $counters = $stmtCounters->fetch();
             transition: transform .12s ease;
         }
 
-        /* Ajustes mobile */
+        
         @media (max-width: 576px) {
             .produto-imagem { height:160px; }
             .produto-card { margin-bottom: 1rem; }
         }
 
-        /* Preview imagem dentro do modal */
+        
         #previewImagem img { max-height: 180px; border-radius: 8px; }
 
-        /* === Forçar visibilidade dos botões (corrige quando aparecem só no hover) === */
-        /* Torna botões sempre visíveis e clicáveis */
+        
+        
         .card-footer .btn,
         .card-footer .btn-acao,
         .btn,
@@ -313,7 +313,7 @@ $counters = $stmtCounters->fetch();
             transition: none !important;
         }
 
-        /* Neutraliza hover em badges e links usados como botões */
+        
         .filter-badge:hover, .menu-item:hover, a.menu-item:hover {
             transform: none !important;
             box-shadow: none !important;
@@ -345,7 +345,7 @@ $counters = $stmtCounters->fetch();
             </a>
             <a href="cardapio_dash.php" class="menu-item active">
                 <i class="fa-solid fa-utensils"></i>
-                <span>Cardápio</span>
+                <span>CardÃƒÂ¡pio</span>
             </a>
             <a href="clientes.php" class="menu-item">
                 <i class="fas fa-users"></i>
@@ -383,11 +383,11 @@ $counters = $stmtCounters->fetch();
 
         <div class="dashboard-content">
             <div class="content-header">
-                <h1>Gestão de Cardápio</h1>
+                <h1>GestÃƒÂ£o de CardÃƒÂ¡pio</h1>
                 <p>Gerencie os produtos do seu restaurante</p>
             </div>
 
-            <!-- Mensagens -->
+            
             <?php if (isset($mensagem)): ?>
                 <div class="alert alert-<?php echo $tipoMensagem === 'success' ? 'success' : 'danger'; ?> alert-dismissible fade show" role="alert">
                     <?php echo $mensagem; ?>
@@ -395,7 +395,7 @@ $counters = $stmtCounters->fetch();
                 </div>
             <?php endif; ?>
 
-            <!-- Estatísticas e Botão Cadastrar -->
+            
             <div class="row mb-4">
                 <div class="col-md-8">
                     <div class="card">
@@ -422,14 +422,14 @@ $counters = $stmtCounters->fetch();
                         <div class="card-body text-center">
                             <button class="app-btn app-btn-primary app-btn-lg" data-bs-toggle="modal" data-bs-target="#modalProduto">
                                 <i class="fas fa-plus"></i>
-                                <span>Novo Usuário</span>
+                                <span>Novo UsuÃƒÂ¡rio</span>
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Filtros -->
+            
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Filtrar por Categoria</h5>
@@ -448,15 +448,15 @@ $counters = $stmtCounters->fetch();
                 </div>
             </div>
 
-            <!-- Lista de Produtos -->
+            
             <div class="row" id="produtosGrid">
                 <?php if (count($produtos) > 0): ?>
                     <?php foreach ($produtos as $produto): ?>
-                        <div class="col-md-3 mb-4 produto-item"> <!-- Diminuindo a largura do card -->
-                            <div class="card produto-card h-100" style="height: 250px;"> <!-- Diminuindo a altura do card -->
+                        <div class="col-md-3 mb-4 produto-item"> 
+                            <div class="card produto-card h-100" style="height: 250px;"> 
                                 <?php if ($produto['imagem']): ?>
                                     <img src="../assets/img/cardapio/<?php echo htmlspecialchars($produto['imagem']); ?>" 
-     alt="<?php echo htmlspecialchars($produto['nome']); ?>" style="height: 150px; object-fit: cover; border-radius: 10px;"> <!-- Diminuindo a altura da imagem -->
+     alt="<?php echo htmlspecialchars($produto['nome']); ?>" style="height: 150px; object-fit: cover; border-radius: 10px;"> 
                                 <?php else: ?>
                                     <div class="card-img-top produto-imagem bg-light d-flex align-items-center justify-content-center" style="height: 150px;">
                                         <i class="fas fa-utensils fa-3x text-muted"></i>
@@ -501,8 +501,8 @@ $counters = $stmtCounters->fetch();
                             <h4>Nenhum produto encontrado</h4>
                             <p class="text-muted">
                                 <?php echo $filtro_categoria !== 'todas' ? 
-                                    'Não há produtos na categoria "' . htmlspecialchars($filtro_categoria) . '"' : 
-                                    'Não há produtos cadastrados no sistema'; ?>
+                                    'NÃƒÂ£o hÃƒÂ¡ produtos na categoria "' . htmlspecialchars($filtro_categoria) . '"' : 
+                                    'NÃƒÂ£o hÃƒÂ¡ produtos cadastrados no sistema'; ?>
                             </p>
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalProduto">
                                 <i class="fas fa-plus"></i> Cadastrar Primeiro Produto
@@ -514,17 +514,17 @@ $counters = $stmtCounters->fetch();
         </div>
     </main>
 
-    <!-- Modal de confirmação de exclusão -->
+    
     <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header border-0">
-                    <h5 class="modal-title" id="confirmDeleteLabel">Confirmar exclusão</h5>
+                    <h5 class="modal-title" id="confirmDeleteLabel">Confirmar exclusÃƒÂ£o</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
                 <div class="modal-body">
                     <p>Tem certeza que deseja excluir o produto <strong id="deleteProdutoNome"></strong>?</p>
-                    <p class="text-muted small">Esta ação não pode ser desfeita.</p>
+                    <p class="text-muted small">Esta aÃƒÂ§ÃƒÂ£o nÃƒÂ£o pode ser desfeita.</p>
                 </div>
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
@@ -534,7 +534,7 @@ $counters = $stmtCounters->fetch();
         </div>
     </div>
 
-    <!-- Modal para Cadastro/Edição de Produto (substitua o modal atual por este) -->
+    
     <div class="modal fade" id="modalProduto" tabindex="-1" aria-labelledby="modalProdutoLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
@@ -553,11 +553,11 @@ $counters = $stmtCounters->fetch();
                                 <input type="text" class="form-control" id="nomeProd" name="nome" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="precoProd" class="form-label">Preço (R$)</label>
+                                <label for="precoProd" class="form-label">PreÃƒÂ§o (R$)</label>
                                 <input type="number" step="0.01" min="0" class="form-control" id="precoProd" name="preco" required>
                             </div>
                             <div class="col-12">
-                                <label for="descricaoProd" class="form-label">Descrição</label>
+                                <label for="descricaoProd" class="form-label">DescriÃƒÂ§ÃƒÂ£o</label>
                                 <textarea class="form-control" id="descricaoProd" name="descricao" rows="3"></textarea>
                             </div>
                             <div class="col-md-6">
@@ -590,19 +590,19 @@ $counters = $stmtCounters->fetch();
         </div>
     </div>
 
-    <!-- Scripts adicionais para editar / preview -->
+    
     <script>
         async function editarProduto(id) {
             try {
                 const resp = await fetch(`get_produto.php?id=${id}`);
-                if (!resp.ok) throw new Error('Falha na requisição');
+                if (!resp.ok) throw new Error('Falha na requisiÃƒÂ§ÃƒÂ£o');
                 const produto = await resp.json();
                 if (produto.error) {
                     alert(produto.error);
                     return;
                 }
 
-                // Preencher campos do modal (usar IDs do modal)
+                
                 document.getElementById('produtoId').value = produto.id ?? '';
                 document.getElementById('nomeProd').value = produto.nome ?? '';
                 document.getElementById('descricaoProd').value = produto.descricao ?? '';
@@ -611,24 +611,24 @@ $counters = $stmtCounters->fetch();
                 document.getElementById('ativoProd').checked = parseInt(produto.ativo) === 1;
                 document.getElementById('imagemAtual').value = produto.imagem ?? '';
 
-                // Preview da imagem atual
+                
                 const preview = document.getElementById('previewImagem');
                 if (produto.imagem) {
                     preview.innerHTML = `<div class="d-flex flex-column">
                         <img src="${produto.imagem}" alt="Imagem atual" class="img-fluid rounded" style="max-height:180px;">
-                        <small class="text-muted mt-1">Imagem atual (será substituída se enviar novo arquivo)</small>
+                        <small class="text-muted mt-1">Imagem atual (serÃƒÂ¡ substituÃƒÂ­da se enviar novo arquivo)</small>
                     </div>`;
                 } else {
                     preview.innerHTML = '<small class="text-muted">Sem imagem</small>';
                 }
 
-                // Ajustar modal para edição
+                
                 document.getElementById('modalProdutoLabel').textContent = 'Editar Produto';
                 const btn = document.getElementById('btnSubmit');
                 btn.name = 'editar_produto';
                 btn.innerHTML = '<i class="fas fa-save"></i> Atualizar Produto';
 
-                // Abrir modal
+                
                 const modalEl = document.getElementById('modalProduto');
                 const modal = new bootstrap.Modal(modalEl);
                 modal.show();
@@ -638,7 +638,7 @@ $counters = $stmtCounters->fetch();
             }
         }
 
-        // Preview ao selecionar arquivo (apenas um listener)
+        
         document.addEventListener('change', function(e) {
             if (e.target && e.target.id === 'imagem') {
                 const file = e.target.files[0];
@@ -656,7 +656,7 @@ $counters = $stmtCounters->fetch();
             }
         });
 
-        // Confirmar exclusão (mantém comportamento anterior)
+        
         function confirmarExclusao(id, nome) {
             document.getElementById('deleteProdutoNome').textContent = nome;
             const btn = document.getElementById('confirmDeleteBtn');
@@ -669,7 +669,7 @@ $counters = $stmtCounters->fetch();
             window.location.href = `${base}?excluir=${id}`;
         });
 
-        // Resetar modal ao fechar
+        
         document.getElementById('modalProduto').addEventListener('hidden.bs.modal', function () {
             const form = document.getElementById('formProduto');
             form.reset();
@@ -683,14 +683,14 @@ $counters = $stmtCounters->fetch();
         });
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https:
     <script>
-        // Menu toggle
+        
         document.getElementById('menuToggle').addEventListener('click', function () {
             document.getElementById('sidebar').classList.toggle('open');
         });
 
-        // Busca em tempo real
+        
         document.getElementById('searchInput').addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
             const produtos = document.querySelectorAll('.produto-item');
@@ -701,7 +701,7 @@ $counters = $stmtCounters->fetch();
             });
         });
 
-        // Preview da imagem
+        
         document.getElementById('imagem').addEventListener('change', function(e) {
             const file = e.target.files[0];
             const preview = document.getElementById('previewImagem');
@@ -717,7 +717,7 @@ $counters = $stmtCounters->fetch();
             }
         });
 
-        // Função para editar produto
+        
         function editarProduto(id) {
             fetch(`get_produto.php?id=${id}`)
                 .then(response => response.json())
@@ -730,7 +730,7 @@ $counters = $stmtCounters->fetch();
                     document.getElementById('ativo').checked = produto.ativo == 1;
                     document.getElementById('imagemAtual').value = produto.imagem;
                     
-                    // Atualizar preview da imagem
+                    
                     const preview = document.getElementById('previewImagem');
                     if (produto.imagem) {
                         preview.innerHTML = `<img src="${produto.imagem}" class="img-thumbnail" style="max-height: 200px;">
@@ -758,14 +758,14 @@ $counters = $stmtCounters->fetch();
             new bootstrap.Modal(document.getElementById('confirmDeleteModal')).show();
         }
 
-        // Ação do botão de confirmação no modal
+        
         document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
             const id = this.dataset.id;
             const base = window.location.pathname.split('/').pop();
             window.location.href = `${base}?excluir=${id}`;
         });
 
-        // Resetar modal ao fechar
+        
         document.getElementById('modalProduto').addEventListener('hidden.bs.modal', function () {
             document.getElementById('formProduto').reset();
             document.getElementById('previewImagem').innerHTML = '';
@@ -776,7 +776,7 @@ $counters = $stmtCounters->fetch();
             document.getElementById('imagemAtual').value = '';
         });
 
-        // Fechar sidebar ao clicar fora (mobile)
+        
         document.addEventListener('click', function (event) {
             const sidebar = document.getElementById('sidebar');
             const menuToggle = document.getElementById('menuToggle');

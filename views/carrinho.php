@@ -2,7 +2,6 @@
 session_start();
 require_once "../includes/connect.php";
 
-// Verifica se o usuário está logado
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("Location: login.php");
     exit;
@@ -11,12 +10,10 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 $usuario_id = $_SESSION['id'];
 
 
-// Inicializa o carrinho se não existir
 if (!isset($_SESSION['carrinho'])) {
     $_SESSION['carrinho'] = [];
 }
 
-// Processar atualização de quantidade
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['atualizar_carrinho'])) {
     foreach ($_POST['quantidade'] as $produto_id => $quantidade) {
         $quantidade = (int)$quantidade;
@@ -30,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['atualizar_carrinho'])
     exit;
 }
 
-// Aplicar cupom, se existir
 $cupom_aplicado = $_SESSION['cupom'] ?? null;
 $desconto = 0;
 $codigo_cupom = '';
@@ -48,7 +44,6 @@ if ($cupom_aplicado) {
 $taxa_entrega = 8.00;
 $subtotal = 0;
 
-// Busca informações dos produtos do carrinho
 $produtos = [];
 if (!empty($_SESSION['carrinho'])) {
     $ids = array_keys($_SESSION['carrinho']);
@@ -110,7 +105,6 @@ if ($desconto > 0) {
     letter-spacing: 1px;
 }
 
-/* Layout Principal */
 .carrinho {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -118,7 +112,6 @@ if ($desconto > 0) {
     margin-top: 20px;
 }
 
-/* Itens do Carrinho */
 .itens-carrinho {
     background: white;
     border-radius: 10px;
@@ -236,7 +229,6 @@ if ($desconto > 0) {
     transform: translateY(-2px);
 }
 
-/* Ações do Carrinho */
 .carrinho-acoes {
     display: flex;
     gap: 15px;
@@ -267,7 +259,6 @@ if ($desconto > 0) {
     transform: translateY(-2px);
 }
 
-/* Resumo do Pedido */
 .resumo-pedido {
     background: white;
     border-radius: 10px;
@@ -309,7 +300,6 @@ if ($desconto > 0) {
 }
 
 
-/* Botão Finalizar */
 .btn-finalizar {
     width: 100%;
     padding: 18px;
@@ -336,7 +326,6 @@ if ($desconto > 0) {
     box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
 }
 
-/* Seções Adicionais */
 .secao-entrega, .secao-observacoes, .secao-informacoes {
     background: white;
     border-radius: 10px;
@@ -404,7 +393,6 @@ if ($desconto > 0) {
     font-style: italic;
 }
 
-/* Informações */
 .lista-informacoes {
     list-style: none;
     padding: 0;
@@ -426,7 +414,6 @@ if ($desconto > 0) {
     color: #333;
 }
 
-/* Carrinho Vazio */
 .carrinho-vazio {
     text-align: center;
     padding: 60px 20px;
@@ -473,7 +460,6 @@ if ($desconto > 0) {
     text-decoration: none;
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
     .carrinho {
         grid-template-columns: 1fr;
@@ -522,7 +508,6 @@ if ($desconto > 0) {
     }
 }
 
-/* Estados de Loading */
 .btn-finalizar.loading {
     background: #6c757d;
     cursor: not-allowed;
@@ -544,7 +529,6 @@ if ($desconto > 0) {
     100% { transform: rotate(360deg); }
 }
 
-/* Preços em destaque */
 .preco-destaque {
     color: var(--vermelho);
     font-weight: bold;
@@ -565,7 +549,6 @@ if ($desconto > 0) {
 <body>
 
 <?php
-// No início do carrinho.php, após a abertura do body
 if (isset($_SESSION['erro_pedido'])) {
     echo '<div class="alert alert-danger" style="background: #f8d7da; color: #721c24; padding: 15px; margin: 20px; border-radius: 5px; border: 1px solid #f5c6cb;">
             <strong>Erro:</strong> ' . $_SESSION['erro_pedido'] . '
@@ -663,7 +646,6 @@ if (isset($_SESSION['erro_pedido'])) {
     <h4>Endereço de Entrega</h4>
     
     <?php
-    // Buscar endereços do usuário
     require_once "../includes/connect.php";
     $sqlEnderecos = "SELECT * FROM enderecos WHERE usuario_id = ? ORDER BY principal DESC, id DESC";
     $stmtEnderecos = $pdo->prepare($sqlEnderecos);
@@ -678,7 +660,6 @@ if (isset($_SESSION['erro_pedido'])) {
         }
     }
     
-    // Se não tem principal, usa o primeiro
     if (!$endereco_principal && count($enderecos) > 0) {
         $endereco_principal = $enderecos[0];
     }
@@ -787,14 +768,12 @@ if (isset($_SESSION['erro_pedido'])) {
     <?php include '../includes/footer.php'; ?>
 
     <script>
-        // Atualizar quantidade em tempo real
         document.querySelectorAll('input[name^="quantidade"]').forEach(input => {
             input.addEventListener('change', function() {
                 this.form.submit();
             });
         });
 
-        // Confirmar antes de remover item
         document.querySelectorAll('.btn-remover').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 if (!confirm('Tem certeza que deseja remover este item do carrinho?')) {
@@ -813,15 +792,13 @@ if (isset($_SESSION['erro_pedido'])) {
 });
 
 <script>
-// Debug: Verificar se o formulário está sendo enviado
-document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
     const formFinalizar = document.getElementById('formFinalizarPedido');
     const btnFinalizar = document.getElementById('btnFinalizar');
     const enderecoIdForm = document.getElementById('endereco_entrega_id_form');
     const observacoesInput = document.getElementById('observacoes_input');
     const textareaObservacoes = document.querySelector('.textarea-observacoes');
     
-    // Sincronizar campos de endereço
     const seletorEndereco = document.getElementById('selecionar-endereco');
     const enderecoIdHidden = document.getElementById('endereco_entrega_id');
     
@@ -834,28 +811,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Sincronizar inicialmente
     if (enderecoIdHidden && enderecoIdForm) {
         enderecoIdForm.value = enderecoIdHidden.value;
         console.log('Endereço inicial:', enderecoIdHidden.value);
     }
     
-    // Sincronizar observações
-// No JavaScript, atualize a parte das observações:
 const textareaObservacoes = document.getElementById('observacoes_text');
 const observacoesInput = document.getElementById('observacoes_input');
 
 if (textareaObservacoes && observacoesInput) {
-    // Sincronizar quando o usuário digitar
     textareaObservacoes.addEventListener('input', function() {
         observacoesInput.value = this.value;
         console.log('Observações atualizadas:', this.value);
     });
     
-    // Sincronizar inicialmente
     observacoesInput.value = textareaObservacoes.value;
 }
-    // Validar formulário de finalização
     if (formFinalizar && btnFinalizar) {
         formFinalizar.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -870,11 +841,9 @@ if (textareaObservacoes && observacoesInput) {
                 return false;
             }
             
-            // Mostrar loading
             btnFinalizar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
             btnFinalizar.disabled = true;
             
-            // Enviar formulário após um pequeno delay para visualização do loading
             setTimeout(() => {
                 this.submit();
             }, 500);
@@ -886,10 +855,8 @@ function atualizarEnderecoSelecionado(option) {
     const enderecoDiv = document.getElementById('enderecoSelecionado');
     const enderecoIdInput = document.getElementById('endereco_entrega_id');
     
-    // Atualizar ID do endereço
     enderecoIdInput.value = option.value;
     
-    // Atualizar visualização do endereço
     const titulo = option.getAttribute('data-titulo');
     const logradouro = option.getAttribute('data-logradouro');
     const numero = option.getAttribute('data-numero');
@@ -931,7 +898,6 @@ function mostrarMensagemEndereco(mensagem) {
     }, 3000);
 }
 
-// CSS para a mensagem
 const estiloMensagem = `
 .mensagem-endereco {
     background: #d4edda;
@@ -962,7 +928,6 @@ const estiloMensagem = `
 }
 `;
 
-// Adicionar estilo ao documento
 const styleSheet = document.createElement('style');
 styleSheet.textContent = estiloMensagem;
 document.head.appendChild(styleSheet);

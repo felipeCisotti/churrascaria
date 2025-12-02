@@ -22,7 +22,7 @@ try {
 } catch (Exception $e) {
     error_log("DB connect error: " . $e->getMessage());
     if (php_sapi_name() !== 'cli') {
-        echo "Erro de conexão com o banco. Verifique logs.";
+        echo "Erro de conexÃ£o com o banco. Verifique logs.";
     }
     exit;
 }

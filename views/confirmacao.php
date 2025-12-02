@@ -17,7 +17,7 @@ if (!$pedido_id) {
     exit;
 }
 
-// Buscar informações do pedido
+
 $sqlPedido = "SELECT p.*, e.logradouro, e.numero, e.complemento, e.bairro, e.cidade, e.estado, e.cep 
               FROM pedidos p 
               LEFT JOIN enderecos e ON p.endereco_entrega_id = e.id 
@@ -31,7 +31,7 @@ if (!$pedido) {
     exit;
 }
 
-// Buscar itens do pedido
+
 $sqlItens = "SELECT ip.*, pr.nome, pr.descricao, pr.imagem 
              FROM itens_pedido ip 
              JOIN produtos pr ON ip.produto_id = pr.id 
@@ -174,7 +174,7 @@ $itens = $stmtItens->fetchAll();
             </div>
             
             <h1>Pedido Confirmado!</h1>
-            <p>Seu pedido foi recebido e está sendo preparado.</p>
+            <p>Seu pedido foi recebido e estÃ¡ sendo preparado.</p>
             
             <div class="numero-pedido">
                 Pedido #<?php echo $pedido_id; ?>
@@ -214,7 +214,7 @@ $itens = $stmtItens->fetchAll();
                 
                 <?php if ($pedido['logradouro']): ?>
                     <div class="endereco-entrega">
-                        <h4>Endereço de Entrega</h4>
+                        <h4>EndereÃ§o de Entrega</h4>
                         <p><?php echo htmlspecialchars($pedido['logradouro']); ?>, <?php echo htmlspecialchars($pedido['numero']); ?></p>
                         <?php if (!empty($pedido['complemento'])): ?>
                             <p>Complemento: <?php echo htmlspecialchars($pedido['complemento']); ?></p>
@@ -225,7 +225,7 @@ $itens = $stmtItens->fetchAll();
                 
                 <?php if (!empty($pedido['observacoes'])): ?>
                     <div class="observacoes-pedido">
-                        <h4>Observações</h4>
+                        <h4>ObservaÃ§Ãµes</h4>
                         <p><?php echo htmlspecialchars($pedido['observacoes']); ?></p>
                     </div>
                 <?php endif; ?>
@@ -235,7 +235,7 @@ $itens = $stmtItens->fetchAll();
             
             <div class="acoes-confirmacao">
                 <a href="index.php" class="btn-voltar">
-                    <i class="fas fa-home"></i> Voltar ao Início
+                    <i class="fas fa-home"></i> Voltar ao InÃ­cio
                 </a>
                 <a href="perfil.php?tab=pedidos" class="btn-acompanhar">
                     <i class="fas fa-clipboard-list"></i> Acompanhar Pedido

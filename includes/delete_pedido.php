@@ -16,7 +16,7 @@
     }
     try {
         if (!isset($pdo) || !$pdo) {
-            throw new Exception('Conexão com o banco não encontrada (variável $pdo ausente).');
+            throw new Exception('ConexÃ£o com o banco nÃ£o encontrada (variÃ¡vel $pdo ausente).');
         }
 
         $sql = "DELETE FROM pedidos WHERE id = :id";

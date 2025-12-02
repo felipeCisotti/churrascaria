@@ -180,16 +180,16 @@ color: white;
     gap: 18px;
 }
 
-/* Label vermelha fininha */
+
 .reserva-form label {
     font-size: 13px;
-    color: #b62a17; /* tom de vermelho igual ao da imagem */
+    color: #b62a17; 
     font-weight: 600;
     margin-bottom: 6px;
     display: block;
 }
 
-/* Agrupamentos */
+
 .form-row {
     display: flex;
     gap: 15px;
@@ -202,7 +202,7 @@ color: white;
 }
 
 
-/* Inputs e selects iguais ao print */
+
 .reserva-form input,
 .reserva-form select {
     background: #ffffff;
@@ -221,15 +221,15 @@ color: white;
     
 }
 
-/* seta do select igual */
+
 .reserva-form select {
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='%23b62a17' viewBox='0 0 24 24'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http:
     background-repeat: no-repeat;
     background-position: right 14px center;
     background-size: 16px;
 }
 
-/* botão vermelho grande */
+
 .btn-reservar {
     margin-top: 5px;
     width: 100%;

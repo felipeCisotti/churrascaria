@@ -2,11 +2,11 @@
 session_start();
 require_once "../includes/connect.php";
 
-// Debug
+
 error_log("=== INICIANDO FINALIZAR PEDIDO ===");
 
 if (!isset($_SESSION['id'])) {
-    error_log("Usuário não logado - redirecionando para login");
+    error_log("UsuÃ¡rio nÃ£o logado - redirecionando para login");
     header("Location: login.php");
     exit;
 }
@@ -16,19 +16,19 @@ $endereco_entrega_id = $_POST['endereco_entrega_id'] ?? null;
 $observacoes = $_POST['observacoes'] ?? '';
 
 error_log("Dados recebidos:");
-error_log("Usuário ID: " . $usuario_id);
-error_log("Endereço ID: " . ($endereco_entrega_id ?: 'NULL'));
-error_log("Observações: " . $observacoes);
+error_log("UsuÃ¡rio ID: " . $usuario_id);
+error_log("EndereÃ§o ID: " . ($endereco_entrega_id ?: 'NULL'));
+error_log("ObservaÃ§Ãµes: " . $observacoes);
 
-// Verificar se tem endereço
+
 if (!$endereco_entrega_id) {
-    error_log("ERRO: Endereço não selecionado");
-    $_SESSION['erro_pedido'] = "Selecione um endereço de entrega";
+    error_log("ERRO: EndereÃ§o nÃ£o selecionado");
+    $_SESSION['erro_pedido'] = "Selecione um endereÃ§o de entrega";
     header("Location: carrinho.php");
     exit;
 }
 
-// Verificar se o endereço pertence ao usuário
+
 try {
     $sqlEndereco = "SELECT * FROM enderecos WHERE id = ? AND usuario_id = ?";
     $stmtEndereco = $pdo->prepare($sqlEndereco);
@@ -36,24 +36,24 @@ try {
     $endereco = $stmtEndereco->fetch();
 
     if (!$endereco) {
-        error_log("ERRO: Endereço inválido - ID: $endereco_entrega_id, Usuário: $usuario_id");
-        $_SESSION['erro_pedido'] = "Endereço inválido";
+        error_log("ERRO: EndereÃ§o invÃ¡lido - ID: $endereco_entrega_id, UsuÃ¡rio: $usuario_id");
+        $_SESSION['erro_pedido'] = "EndereÃ§o invÃ¡lido";
         header("Location: carrinho.php");
         exit;
     }
     
-    error_log("Endereço válido: " . $endereco['titulo']);
+    error_log("EndereÃ§o vÃ¡lido: " . $endereco['titulo']);
 } catch (Exception $e) {
-    error_log("ERRO ao verificar endereço: " . $e->getMessage());
-    $_SESSION['erro_pedido'] = "Erro ao verificar endereço";
+    error_log("ERRO ao verificar endereÃ§o: " . $e->getMessage());
+    $_SESSION['erro_pedido'] = "Erro ao verificar endereÃ§o";
     header("Location: carrinho.php");
     exit;
 }
 
-// Verificar se carrinho existe e tem itens
+
 if (!isset($_SESSION['carrinho']) || empty($_SESSION['carrinho'])) {
     error_log("ERRO: Carrinho vazio");
-    $_SESSION['erro_pedido'] = "Seu carrinho está vazio";
+    $_SESSION['erro_pedido'] = "Seu carrinho estÃ¡ vazio";
     header("Location: carrinho.php");
     exit;
 }
@@ -63,7 +63,7 @@ error_log("Itens no carrinho: " . count($_SESSION['carrinho']));
 $taxa_entrega = 8.00;
 $subtotal = 0;
 
-// Buscar informações dos produtos
+
 $ids = array_keys($_SESSION['carrinho']);
 
 try {
@@ -89,7 +89,7 @@ error_log("Subtotal: $subtotal");
 $total = $subtotal + $taxa_entrega;
 error_log("Total com taxa: $total");
 
-// Aplicar cupom
+
 if (isset($_SESSION['cupom'])) {
     $cupom = $_SESSION['cupom'];
     error_log("Verificando cupom: $cupom");
@@ -105,32 +105,32 @@ if (isset($_SESSION['cupom'])) {
             $total = $total - ($total * ($desconto / 100));
             error_log("Cupom aplicado: $desconto%, Novo total: $total");
         } else {
-            error_log("Cupom inválido ou expirado");
+            error_log("Cupom invÃ¡lido ou expirado");
         }
     } catch (Exception $e) {
         error_log("ERRO ao verificar cupom: " . $e->getMessage());
-        // Continua sem cupom em caso de erro
+        
     }
 }
 
-// Criar pedido
+
 try {
     $pdo->beginTransaction();
     
-    // Primeiro, verificar a estrutura da tabela pedidos
+    
     $sqlCheckColumns = "SHOW COLUMNS FROM pedidos";
     $stmtCheck = $pdo->query($sqlCheckColumns);
     $columns = $stmtCheck->fetchAll(PDO::FETCH_COLUMN);
     error_log("Colunas da tabela pedidos: " . implode(', ', $columns));
     
-    // Inserir pedido - versão segura que verifica se a coluna existe
+    
     if (in_array('observacoes', $columns)) {
-        // Se a coluna observacoes existe, usar ela
+        
         $sqlPedido = "INSERT INTO pedidos (usuario_id, total, status, endereco_entrega_id, observacoes) VALUES (?, ?, 'pendente', ?, ?)";
         $stmtPedido = $pdo->prepare($sqlPedido);
         $stmtPedido->execute([$usuario_id, $total, $endereco_entrega_id, $observacoes]);
     } else {
-        // Se não existe, inserir sem observacoes
+        
         $sqlPedido = "INSERT INTO pedidos (usuario_id, total, status, endereco_entrega_id) VALUES (?, ?, 'pendente', ?)";
         $stmtPedido = $pdo->prepare($sqlPedido);
         $stmtPedido->execute([$usuario_id, $total, $endereco_entrega_id]);
@@ -139,7 +139,7 @@ try {
     $pedido_id = $pdo->lastInsertId();
     error_log("Pedido criado com ID: $pedido_id");
     
-    // Inserir itens do pedido
+    
     foreach ($_SESSION['carrinho'] as $id => $qtd) {
         try {
             $sqlProduto = "SELECT preco FROM produtos WHERE id = ?";
@@ -152,8 +152,8 @@ try {
                 $stmtItem->execute([$pedido_id, $id, $qtd, $produto['preco']]);
                 error_log("Item adicionado: Produto $id, Quantidade $qtd");
             } else {
-                error_log("ERRO: Produto $id não encontrado");
-                throw new Exception("Produto $id não encontrado");
+                error_log("ERRO: Produto $id nÃ£o encontrado");
+                throw new Exception("Produto $id nÃ£o encontrado");
             }
         } catch (Exception $e) {
             error_log("ERRO ao inserir item $id: " . $e->getMessage());
@@ -164,11 +164,11 @@ try {
     $pdo->commit();
     error_log("Pedido finalizado com sucesso! ID: $pedido_id");
     
-    // Limpar carrinho e cupom
+    
     unset($_SESSION['carrinho']);
     unset($_SESSION['cupom']);
     
-    // Redirecionar para confirmação
+    
     header("Location: confirmacao.php?pedido=$pedido_id");
     exit;
     

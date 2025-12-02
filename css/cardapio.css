@@ -45,7 +45,7 @@
 }
 
 .car {
-    position: relative; /* necessário para posicionar os botões */
+    position: relative; 
 }
 
 
@@ -65,7 +65,7 @@
     flex: 0 0 calc(33.333% - 14px);
     min-width: 0;
     display: flex;
-    justify-content: center; /* centraliza o conteúdo do slide */
+    justify-content: center; 
 }
 
 .produto-card {
@@ -81,7 +81,7 @@
     flex-direction: column;
 }
 
-/* Limita a largura dos cards para não esticar e fica centralizado pelo .slide */
+
 .produto-card {
     width: 100%;
     max-width: 420px;
@@ -98,7 +98,7 @@
     border-radius: 8px;
     margin-bottom: 15px;
     height: auto;
-    max-height: 380px; /* limite para telas grandes */
+    max-height: 380px; 
 }
 
 .produto-card h3 {
@@ -261,9 +261,9 @@
     color: #666;
 }
 
-/* Responsividade adicional: desktop large -> tablet -> mobile -> very-small */
+
 @media (max-width: 1024px) {
-    /* duas colunas em telas menores de desktop / laptops */
+    
     .slide {
         flex: 0 0 calc(50% - 14px);
     }
@@ -316,7 +316,7 @@
 }
 
 @media (max-width: 400px) {
-    /* very small phones: reduzir paddings e imagens */
+    
     .produto-card {
         padding: 12px;
     }

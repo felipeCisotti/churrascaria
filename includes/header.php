@@ -6,9 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https:
+    <link rel="stylesheet" href="https:
+    <link rel="stylesheet" href="https:
 
 
     <link rel="stylesheet" href="../css/style.css">
@@ -30,10 +30,10 @@
     </div>
 
     <nav class="nav-menu">
-      <a href="index.php"><i class="fa fa-home"></i> Início</a>
-      <a href="cardapio.php "><i class="fa fa-book"></i> Cardápio</a>
+      <a href="index.php"><i class="fa fa-home"></i> InÃƒÂ­cio</a>
+      <a href="cardapio.php "><i class="fa fa-book"></i> CardÃƒÂ¡pio</a>
       <a href="reserva.php"><i class="fa fa-map-marker-alt"></i> Restaurantes</a>
-      <a href="#valores"><i class="fa fa-info-circle"></i> Sobre Nós</a>
+      <a href="#valores"><i class="fa fa-info-circle"></i> Sobre NÃƒÂ³s</a>
       <a href="perfil.php"><i class="fa fa-user"></i> Perfil</a>
       <a href="carrinho.php" class="carrinho-link">
     <i class="fa fa-shopping-cart"></i> Carrinho
@@ -64,14 +64,14 @@
   
 
     <!-- <nav class="nav-menu">
-      <a href="index.php"><i class="fa fa-home"></i> Início</a>
-      <a href="cardapio.php "><i class="fa fa-book"></i> Cardápio</a>
+      <a href="index.php"><i class="fa fa-home"></i> InÃƒÂ­cio</a>
+      <a href="cardapio.php "><i class="fa fa-book"></i> CardÃƒÂ¡pio</a>
       <a href="reserva.php"><i class="fa fa-map-marker-alt"></i> Restaurantes</a>
-      <a href="#valores"><i class="fa fa-info-circle"></i> Sobre Nós</a>
+      <a href="#valores"><i class="fa fa-info-circle"></i> Sobre NÃƒÂ³s</a>
       <a href="perfil.php"><i class="fa fa-user"></i> Perfil</a>
       <a href="carrinho.php" class="carrinho-link">
     <i class="fa fa-shopping-cart"></i> Carrinho-->
-     <!-- #region --><!--
+     <!--
 </a>
     </nav>-->
   </div>
@@ -98,7 +98,7 @@
   
               if (data.total_itens > 0) {
                   if (!contador) {
-                      // Criar contador se não existir
+                      
                       const novoContador = document.createElement('span');
                       novoContador.className = 'carrinho-count';
                       novoContador.textContent = data.total_itens;
@@ -112,7 +112,7 @@
           });
   }
   
-  // Chamar ao carregar a página
+  
   document.addEventListener('DOMContentLoaded', function() {
       atualizarContadorCarrinho();
   });
