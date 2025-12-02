@@ -104,6 +104,9 @@ color: white;
   background-color: #b41605;
   border-radius: 20px;
   padding: 3px 10px;
+    height: 40px;
+
+
 }
 
 .search-box input {
@@ -197,6 +200,7 @@ color: white;
     display: flex;
     flex-direction: column;
 }
+
 
 /* Inputs e selects iguais ao print */
 .reserva-form input,

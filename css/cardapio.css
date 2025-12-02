@@ -15,6 +15,39 @@
     color: var(--marrom);
     margin-bottom: 18px;
 }
+.btn-prev,
+.btn-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #ffffffdd;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 10;
+    backdrop-filter: blur(5px);
+    margin:0px 20px;
+}
+
+.btn-prev:hover,
+.btn-next:hover {
+    background: #fff;
+}
+
+.btn-prev {
+    left: -10px;
+}
+
+.btn-next {
+    right: -10px;
+}
+
+.car {
+    position: relative; /* necessário para posicionar os botões */
+}
+
 
 .carousel {
     position: relative;

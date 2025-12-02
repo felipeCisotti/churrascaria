@@ -16,7 +16,7 @@ include '../includes/header.php';
 }
 </style>
 <a href="carrinho.php" class="btn-carrinho-flutuante">
-    🛒
+      <i class="fa fa-shopping-cart"></i> 
 </a>
 
 <section class="carousel-desktop">
@@ -169,7 +169,7 @@ include '../includes/header.php';
 
 <script>
 const slides = document.getElementById('slides');
-const slideItems = document.querySelectorAll('.slide');
+const slideItems = document.querySelectorAll('.slidets');
 const next = document.getElementById('next');
 const prev = document.getElementById('prev');
 const dotsContainer = document.getElementById('dots');

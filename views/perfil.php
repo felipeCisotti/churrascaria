@@ -61,7 +61,7 @@ $reservas = $stmtReservas->fetchAll(PDO::FETCH_ASSOC);
     .container {
         width: 90%;
         max-width: 1200px;
-        margin: 30px auto;
+        margin: 90px auto;
         padding: 20px;
         display: flex;
         gap: 30px;

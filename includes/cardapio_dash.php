@@ -202,7 +202,7 @@ $counters = $stmtCounters->fetch();
 
         /* Variantes */
         .app-btn-primary, .btn-primary {
-            background: linear-gradient(90deg,#2563eb,#1e40af);
+            background-color: #b90000ff;
             color: #fff;
             border-color: transparent;
         }
@@ -266,7 +266,7 @@ $counters = $stmtCounters->fetch();
 
         /* Badges e categoria */
         .categoria-badge {
-            background: linear-gradient(90deg,#ff9a76,#ff6a6a);
+            background-color: #c50000ff;
             color:#fff;
             padding:6px 10px;
             border-radius: 999px;

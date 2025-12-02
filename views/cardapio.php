@@ -18,7 +18,7 @@ $categorias = $stmtCategorias->fetchAll(PDO::FETCH_COLUMN);
         <img src="../assets/img/subheader.png" alt="">
     </div>
     <a href="carrinho.php" class="btn-carrinho-flutuante">
-    🛒
+    <i class="fa fa-shopping-cart"></i> 
 </a>
 
     <?php foreach ($categorias as $categoria): ?>
@@ -73,6 +73,15 @@ $categorias = $stmtCategorias->fetchAll(PDO::FETCH_COLUMN);
                     
 
                 </div>
+
+                <button class="btn-prev" id="prev-<?php echo $catID; ?>">
+    <i class="fa-solid fa-chevron-left"></i>
+</button>
+
+<button class="btn-next" id="next-<?php echo $catID; ?>">
+    <i class="fa-solid fa-chevron-right"></i>
+</button>
+
 
                 <div class="dots" id="dots-<?php echo $catID; ?>"></div>
             </div>

@@ -171,38 +171,38 @@ if ($filtro_status !== 'todos') {
                     <div class="d-flex flex-wrap gap-2">
                         <span
                             class="badge filter-badge <?php echo $filtro_status === 'todos' ? 'bg-primary active' : 'bg-light text-dark'; ?>"
-                            onclick="window.location.href='pedidos.php'">
+onclick="window.location.href='pedidos_dash.php?status=todos'">
                             Todos <span class="badge bg-secondary"><?php echo $counters['total']; ?></span>
                         </span>
                         <span
                             class="badge filter-badge <?php echo $filtro_status === 'pendente' ? 'bg-primary active' : 'bg-light text-dark'; ?>"
-                            onclick="window.location.href='pedidos.php?status=pendente'">
+onclick="window.location.href='pedidos_dash.php?status=pendente'">
                             Pendente <span class="badge bg-warning"><?php echo $counters['pendentes']; ?></span>
                         </span>
                         <span
                             class="badge filter-badge <?php echo $filtro_status === 'confirmado' ? 'bg-primary active' : 'bg-light text-dark'; ?>"
-                            onclick="window.location.href='pedidos.php?status=confirmado'">
-                            Confirmado <span class="badge bg-info"><?php echo $counters['confirmados']; ?></span>
+onclick="window.location.href='pedidos_dash.php?status=confirmado'"
+>                            Confirmado <span class="badge bg-info"><?php echo $counters['confirmados']; ?></span>
                         </span>
                         <span
                             class="badge filter-badge <?php echo $filtro_status === 'em_preparo' ? 'bg-primary active' : 'bg-light text-dark'; ?>"
-                            onclick="window.location.href='pedidos.php?status=em_preparo'">
-                            Em Preparo <span class="badge bg-warning"><?php echo $counters['em_preparo']; ?></span>
+onclick="window.location.href='pedidos_dash.php?status=em_preparo'"
+>                            Em Preparo <span class="badge bg-warning"><?php echo $counters['em_preparo']; ?></span>
                         </span>
                         <span
                             class="badge filter-badge <?php echo $filtro_status === 'a_caminho' ? 'bg-primary active' : 'bg-light text-dark'; ?>"
-                            onclick="window.location.href='pedidos.php?status=a_caminho'">
-                            A Caminho <span class="badge bg-primary"><?php echo $counters['a_caminho']; ?></span>
+onclick="window.location.href='pedidos_dash.php?status=a_caminho'"
+>                            A Caminho <span class="badge bg-primary"><?php echo $counters['a_caminho']; ?></span>
                         </span>
                         <span
                             class="badge filter-badge <?php echo $filtro_status === 'entregue' ? 'bg-primary active' : 'bg-light text-dark'; ?>"
-                            onclick="window.location.href='pedidos.php?status=entregue'">
-                            Entregue <span class="badge bg-success"><?php echo $counters['entregues']; ?></span>
+onclick="window.location.href='pedidos_dash.php?status=entregue'"
+>                            Entregue <span class="badge bg-success"><?php echo $counters['entregues']; ?></span>
                         </span>
                         <span
                             class="badge filter-badge <?php echo $filtro_status === 'cancelado' ? 'bg-primary active' : 'bg-light text-dark'; ?>"
-                            onclick="window.location.href='pedidos.php?status=cancelado'">
-                            Cancelado <span class="badge bg-danger"><?php echo $counters['cancelados']; ?></span>
+onclick="window.location.href='pedidos_dash.php?status=cancelado'"
+>                            Cancelado <span class="badge bg-danger"><?php echo $counters['cancelados']; ?></span>
                         </span>
                     </div>
                 </div>

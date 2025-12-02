@@ -58,7 +58,7 @@ $restaurantes = $stmtRestaurantes->fetchAll();
 <body>
 
 <a href="carrinho.php" class="btn-carrinho-flutuante">
-    🛒
+    <i class="fa fa-shopping-cart"></i> 
 </a>
     <?php include '../includes/header.php'; ?>
     <link rel="stylesheet" href="../css/reserva.css">
